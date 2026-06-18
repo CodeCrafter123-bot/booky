@@ -16,4 +16,12 @@ public class UserController {
     public User register(@RequestBody User user) {
         return userRepository.save(user);
     }
+
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return userRepository.findByEmailAndPassword(
+                user.getEmail(),
+                user.getPassword()
+        );
+    }
 }
