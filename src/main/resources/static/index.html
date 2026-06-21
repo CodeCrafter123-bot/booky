@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Booky — book and manage appointments in one place.">
+    <meta name="author" content="Hussein Zeidan">
+
+    <title>Booky - Smart Appointment Booking</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+
+<body>
+
+<!-- ============== NAV ============== -->
+<header class="site-header">
+    <div class="site-header__inner">
+        <a href="index.html" class="wordmark wordmark--dark">
+            <span class="wordmark__mark">B</span>
+            <span class="wordmark__text">Booky</span>
+        </a>
+
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="#how-it-works">How it works</a>
+            <a href="#features">Features</a>
+            <a href="#for-business">For business</a>
+        </nav>
+
+        <div class="site-header__actions">
+            <a href="login.html" class="btn-text">Log in</a>
+            <a href="register.html" class="btn-primary btn-primary--sm">Get started</a>
+        </div>
+    </div>
+</header>
+
+<main>
+
+    <!-- ============== HERO ============== -->
+    <section class="hero">
+        <div class="hero__copy">
+            <span class="eyebrow">Appointment booking, simplified</span>
+            <h1 class="hero__headline">Booking should feel<br>as easy as <span class="hero__accent">showing up.</span></h1>
+            <p class="hero__sub">Booky keeps every appointment, client, and calendar in one tidy place — so you spend less time scheduling and more time doing the work that matters.</p>
+
+            <div class="hero__cta">
+                <a href="register.html" class="btn-primary">Create your account</a>
+                <a href="#how-it-works" class="btn-secondary">See how it works</a>
+            </div>
+
+            <div class="hero__proof">
+                <span><strong>4.9/5</strong> average rating</span>
+                <span class="dot">•</span>
+                <span>Trusted by <strong>2,400+</strong> businesses</span>
+            </div>
+        </div>
+
+        <div class="hero__visual" aria-hidden="true">
+            <div class="hero-board">
+                <div class="hero-board__row">
+                    <span class="hero-board__day">Mon</span>
+                    <span class="hero-board__date">21</span>
+                </div>
+
+                <div class="hero-slot hero-slot--filled" style="--offset: 0;">
+                    <span class="hero-slot__time">09:00</span>
+                    <span class="hero-slot__title">Studio Visit — Lina K.</span>
+                </div>
+                <div class="hero-slot" style="--offset: 1;">
+                    <span class="hero-slot__time">10:30</span>
+                </div>
+                <div class="hero-slot hero-slot--filled hero-slot--accent" style="--offset: 2;">
+                    <span class="hero-slot__time">11:00</span>
+                    <span class="hero-slot__title">Consultation — Omar R.</span>
+                </div>
+                <div class="hero-slot" style="--offset: 3;">
+                    <span class="hero-slot__time">13:00</span>
+                </div>
+                <div class="hero-slot hero-slot--filled" style="--offset: 4;">
+                    <span class="hero-slot__time">15:30</span>
+                    <span class="hero-slot__title">Hair Appointment — Maya S.</span>
+                </div>
+            </div>
+
+            <div class="hero-toast">
+                <span class="hero-toast__dot"></span>
+                New booking confirmed
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== HOW IT WORKS ============== -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-head">
+            <span class="eyebrow">How it works</span>
+            <h2>Three steps from idea to appointment.</h2>
+        </div>
+
+        <ol class="steps">
+            <li class="step">
+                <span class="step__index">01</span>
+                <h3>Create your calendar</h3>
+                <p>Set your availability, services, and working hours once — Booky handles the rest.</p>
+            </li>
+            <li class="step">
+                <span class="step__index">02</span>
+                <h3>Share your booking link</h3>
+                <p>Send clients a link or let them find you, then watch requests land automatically.</p>
+            </li>
+            <li class="step">
+                <span class="step__index">03</span>
+                <h3>Show up, confirmed</h3>
+                <p>Clients get reminders, you get a synced schedule. No double-bookings, no back-and-forth.</p>
+            </li>
+        </ol>
+    </section>
+
+    <!-- ============== FEATURES ============== -->
+    <section class="features" id="features">
+        <div class="section-head">
+            <span class="eyebrow">Built for both sides of the booking</span>
+            <h2>Everything a schedule needs, nothing it doesn't.</h2>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-card__icon" aria-hidden="true">⏱</div>
+                <h3>Real-time availability</h3>
+                <p>Slots update instantly across every device, so no one ever books a time that's already taken.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card__icon" aria-hidden="true">🔔</div>
+                <h3>Automatic reminders</h3>
+                <p>Clients get a nudge before their appointment. Fewer no-shows, less manual chasing.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card__icon" aria-hidden="true">📊</div>
+                <h3>One dashboard</h3>
+                <p>See every booking, client, and time slot in a single view, built for business owners.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-card__icon" aria-hidden="true">🔒</div>
+                <h3>Secure by default</h3>
+                <p>Accounts, bookings, and client details are protected, so you can focus on the work.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== FOR BUSINESS STRIP ============== -->
+    <section class="for-business" id="for-business">
+        <div class="for-business__copy">
+            <span class="eyebrow">For business owners</span>
+            <h2>Run your bookings like a business, not a group chat.</h2>
+            <p>Manage staff, services, and client history in one ledger. Booky replaces the scattered messages and sticky notes with a schedule you can actually trust.</p>
+            <a href="register.html" class="btn-primary">Set up your business</a>
+        </div>
+        <div class="for-business__visual" aria-hidden="true">
+            <div class="ledger-card ledger-card--front" style="position: relative; top: 0; left: 0;">
+                <span class="ledger-card__status">Confirmed</span>
+                <span class="ledger-card__time">4:15</span>
+                <span class="ledger-card__label">Hair Appointment</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============== FINAL CTA ============== -->
+    <section class="final-cta">
+        <h2>Start booking smarter today.</h2>
+        <p>Free to set up. No credit card required.</p>
+        <a href="register.html" class="btn-primary btn-primary--lg">Create your account</a>
+    </section>
+
+</main>
+
+<!-- ============== FOOTER ============== -->
+<footer class="site-footer">
+    <div class="site-footer__inner">
+        <div class="wordmark wordmark--dark">
+            <span class="wordmark__mark">B</span>
+            <span class="wordmark__text">Booky</span>
+        </div>
+        <p>&copy; 2026 Booky. All rights reserved.</p>
+        <div class="site-footer__links">
+            <a href="login.html">Log in</a>
+            <a href="register.html">Sign up</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+
+</html>

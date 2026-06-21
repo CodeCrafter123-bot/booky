@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Booky Appointment Booking Platform">
+    <meta name="author" content="Hussein Zeidan">
+
+    <title>Booky - Register</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<div class="auth-shell">
+
+    <!-- Left panel: brand / signature -->
+    <aside class="auth-panel">
+        <div class="auth-panel__content">
+            <div class="wordmark">
+                <span class="wordmark__mark">B</span>
+                <span class="wordmark__text">Booky</span>
+            </div>
+
+            <h2 class="auth-panel__headline">Every booking,<br>kept in order.</h2>
+            <p class="auth-panel__sub">Create an account to start scheduling appointments, managing your calendar, or running your business — all in one place.</p>
+
+            <!-- Signature element: stacked appointment cards -->
+            <div class="ledger" aria-hidden="true">
+                <div class="ledger-card ledger-card--back">
+                    <span class="ledger-card__time">9:00</span>
+                    <span class="ledger-card__label">Studio Visit</span>
+                </div>
+                <div class="ledger-card ledger-card--mid">
+                    <span class="ledger-card__time">2:30</span>
+                    <span class="ledger-card__label">Consultation</span>
+                </div>
+                <div class="ledger-card ledger-card--front">
+                    <span class="ledger-card__status">Confirmed</span>
+                    <span class="ledger-card__time">4:15</span>
+                    <span class="ledger-card__label">Hair Appointment</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Right panel: form -->
+    <main class="auth-panel auth-panel--form">
+        <div class="card">
+
+            <div class="card__header">
+                <h1>Create your account</h1>
+                <p>Join Booky in a few quick steps.</p>
+            </div>
+
+            <form id="registerForm" novalidate>
+
+                <div class="form-group">
+                    <label for="fullName">Full name</label>
+                    <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Jane Doe"
+                            autocomplete="name"
+                            required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input
+                            type="email"
+                            id="email"
+                            placeholder="jane@example.com"
+                            autocomplete="email"
+                            required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-action">
+                        <input
+                                type="password"
+                                id="password"
+                                placeholder="At least 8 characters"
+                                autocomplete="new-password"
+                                minlength="8"
+                                required>
+                        <button type="button" class="input-action" id="togglePassword" aria-label="Show password">Show</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone number</label>
+                    <input
+                            type="tel"
+                            id="phone"
+                            placeholder="+961 70 000 000"
+                            autocomplete="tel"
+                            required>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Account type</label>
+                    <select id="role">
+                        <option value="CLIENT">Client — I want to book appointments</option>
+                        <option value="OWNER">Business owner — I want to manage bookings</option>
+                    </select>
+                </div>
+
+                <button
+                        type="button"
+                        class="btn-primary"
+                        id="registerBtn"
+                        onclick="registerUser()">
+                    Create account
+                </button>
+
+                <p id="message" class="form-message" role="status"></p>
+
+            </form>
+
+            <div class="bottom-text">
+                Already have an account? <a href="login.html">Log in</a>
+            </div>
+        </div>
+    </main>
+
+</div>
+
+<script src="js/register.js"></script>
+
+</body>
+
+</html>
