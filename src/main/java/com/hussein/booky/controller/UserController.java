@@ -1,7 +1,9 @@
 package com.hussein.booky.controller;
 
-import com.hussein.booky.entity.User;
-import com.hussein.booky.repository.UserRepository;
+import com.hussein.booky.dto.LoginRequest;
+import com.hussein.booky.dto.RegisterRequest;
+import com.hussein.booky.dto.UserResponse;
+import com.hussein.booky.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,18 +12,15 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @PostMapping("/register")
-    public User register(@RequestBody User user) {
-        return userRepository.save(user);
+    public UserResponse register(@RequestBody RegisterRequest request) {
+        return userService.register(request);
     }
 
     @PostMapping("/login")
-    public User login(@RequestBody User user) {
-        return userRepository.findByEmailAndPassword(
-                user.getEmail(),
-                user.getPassword()
-        );
+    public UserResponse login(@RequestBody LoginRequest request) {
+        return userService.login(request);
     }
 }
