@@ -47,5 +47,39 @@ public class BookingService {
                 savedBooking.getService().getId(),
                 savedBooking.getService().getName()
         );
+        
     }
+    public java.util.List<BookingResponse> getBookingsByUser(Integer userId) {
+    return bookingRepository.findByUserId(userId)
+            .stream()
+            .map(booking -> new BookingResponse(
+                    booking.getId(),
+                    booking.getAppointmentTime(),
+                    booking.getStatus(),
+                    booking.getUser().getId(),
+                    booking.getService().getId(),
+                    booking.getService().getName()
+            ))
+            .toList();
+}
+
+public BookingResponse cancelBooking(Integer bookingId) {
+    Booking booking = bookingRepository.findById(bookingId).orElse(null);
+
+    if (booking == null) {
+        return null;
+    }
+
+    booking.setStatus("CANCELLED");
+    Booking savedBooking = bookingRepository.save(booking);
+
+    return new BookingResponse(
+            savedBooking.getId(),
+            savedBooking.getAppointmentTime(),
+            savedBooking.getStatus(),
+            savedBooking.getUser().getId(),
+            savedBooking.getService().getId(),
+            savedBooking.getService().getName()
+    );
+}
 }
