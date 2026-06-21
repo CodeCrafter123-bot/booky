@@ -1,0 +1,241 @@
+/* =========================================================
+   Booky — Dashboard
+   Builds on tokens defined in style.css
+   ========================================================= */
+
+body {
+    background: var(--color-paper);
+}
+
+.eyebrow {
+    display: inline-block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 12px;
+}
+
+/* =========================================================
+   Top bar
+   ========================================================= */
+.dash-header {
+    background: var(--color-white);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.dash-header__inner {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.wordmark--dark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-ink);
+}
+
+.dash-header__user {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.user-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-chip__avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: var(--color-ink);
+    color: var(--color-white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+}
+
+.user-chip__info {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.25;
+}
+
+.user-chip__name {
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: var(--color-ink);
+}
+
+.user-chip__role {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.btn-logout {
+    padding: 9px 16px;
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-logout:hover {
+    border-color: #D14343;
+    color: #D14343;
+}
+
+/* =========================================================
+   Main / Welcome strip
+   ========================================================= */
+.dash-main {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 48px 32px 96px;
+}
+
+.welcome-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    margin-bottom: 56px;
+}
+
+.welcome-strip__copy h1 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 2.1rem;
+    color: var(--color-ink);
+    margin-bottom: 8px;
+}
+
+.welcome-strip__copy p {
+    color: var(--color-text-muted);
+    font-size: 1rem;
+}
+
+.welcome-strip__visual {
+    flex-shrink: 0;
+}
+
+.ledger-card--static {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 220px;
+}
+
+/* =========================================================
+   Quick actions
+   ========================================================= */
+.section-head--left {
+    text-align: left;
+    margin: 0 0 20px;
+}
+
+.section-head--left h2 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 1.4rem;
+    color: var(--color-ink);
+}
+
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.action-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 26px 22px;
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.12s ease;
+}
+
+.action-card:hover {
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-soft);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+.action-card__icon {
+    font-size: 1.5rem;
+}
+
+.action-card__title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.action-card__desc {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+}
+
+/* =========================================================
+   Responsive
+   ========================================================= */
+@media (max-width: 900px) {
+    .action-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .welcome-strip {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .dash-header__inner {
+        padding: 14px 20px;
+    }
+
+    .user-chip__info {
+        display: none;
+    }
+
+    .dash-main {
+        padding: 32px 20px 64px;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .welcome-strip__visual {
+        display: none;
+    }
+}
