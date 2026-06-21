@@ -6,6 +6,7 @@ import com.hussein.booky.dto.UserResponse;
 import com.hussein.booky.entity.User;
 import com.hussein.booky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,11 +15,16 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public UserResponse register(RegisterRequest request) {
+        String encryptedPassword = passwordEncoder.encode(request.getPassword());
+
         User user = new User(
                 request.getFullName(),
                 request.getEmail(),
-                request.getPassword(),
+                encryptedPassword,
                 request.getPhone(),
                 request.getRole()
         );
@@ -35,12 +41,18 @@ public class UserService {
     }
 
     public UserResponse login(LoginRequest request) {
-        User user = userRepository.findByEmailAndPassword(
-                request.getEmail(),
-                request.getPassword()
-        );
+        User user = userRepository.findByEmail(request.getEmail());
 
         if (user == null) {
+            return null;
+        }
+
+        boolean passwordMatches = passwordEncoder.matches(
+                request.getPassword(),
+                user.getPassword()
+        );
+
+        if (!passwordMatches) {
             return null;
         }
 
