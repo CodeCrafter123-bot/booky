@@ -1,54 +1,65 @@
-// Booky — Register page logic
-
-const API_BASE_URL = "http://localhost:8080/api"; // adjust to your backend's actual base URL
+const API_BASE_URL = "http://localhost:8080";
 
 document.addEventListener("DOMContentLoaded", () => {
     const toggleBtn = document.getElementById("togglePassword");
     const passwordInput = document.getElementById("password");
+    const registerForm = document.getElementById("registerForm");
 
-    toggleBtn.addEventListener("click", () => {
-        const isHidden = passwordInput.type === "password";
-        passwordInput.type = isHidden ? "text" : "password";
-        toggleBtn.textContent = isHidden ? "Hide" : "Show";
-        toggleBtn.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
-    });
+    if (toggleBtn && passwordInput) {
+        toggleBtn.addEventListener("click", () => {
+            const isHidden = passwordInput.type === "password";
+            passwordInput.type = isHidden ? "text" : "password";
+            toggleBtn.textContent = isHidden ? "Hide" : "Show";
+        });
+    }
 
-    // Allow submitting with Enter from any field
-    document.getElementById("registerForm").addEventListener("keydown", (e) => {
-        if (e.key === "Enter") {
-            e.preventDefault();
-            registerUser();
-        }
-    });
+    if (registerForm) {
+        registerForm.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                registerUser();
+            }
+        });
+    }
 });
 
 function showMessage(text, type) {
     const messageEl = document.getElementById("message");
+
     messageEl.textContent = text;
     messageEl.classList.remove("is-error", "is-success");
-    messageEl.classList.add(type === "success" ? "is-success" : "is-error");
+
+    if (type) {
+        messageEl.classList.add(type === "success" ? "is-success" : "is-error");
+    }
 }
 
 function setLoading(isLoading) {
     const btn = document.getElementById("registerBtn");
+
     btn.disabled = isLoading;
     btn.textContent = isLoading ? "Creating account..." : "Create account";
 }
 
-function validateForm({ fullName, email, password, phone }) {
+function validateRegisterForm({ fullName, email, password, phone }) {
     if (!fullName || fullName.trim().length < 2) {
         return "Please enter your full name.";
     }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailPattern.test(email)) {
         return "Please enter a valid email address.";
     }
-    if (!password || password.length < 8) {
-        return "Password must be at least 8 characters.";
+
+    if (!password || password.length < 6) {
+        return "Password must be at least 6 characters.";
     }
+
     if (!phone || phone.trim().length < 6) {
         return "Please enter a valid phone number.";
     }
+
     return null;
 }
 
@@ -59,25 +70,33 @@ async function registerUser() {
     const phone = document.getElementById("phone").value;
     const role = document.getElementById("role").value;
 
-    const validationError = validateForm({ fullName, email, password, phone });
+    const validationError = validateRegisterForm({
+        fullName,
+        email,
+        password,
+        phone
+    });
+
     if (validationError) {
         showMessage(validationError, "error");
         return;
     }
 
     setLoading(true);
-    showMessage("", "success");
+    showMessage("", null);
 
     try {
-        const response = await fetch(`${API_BASE_URL}/auth/register`, {
+        const response = await fetch(`${API_BASE_URL}/users/register`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+                "Content-Type": "application/json"
+            },
             body: JSON.stringify({
                 fullName: fullName.trim(),
                 email: email.trim(),
-                password,
+                password: password,
                 phone: phone.trim(),
-                role
+                role: role
             })
         });
 
@@ -87,14 +106,14 @@ async function registerUser() {
             throw new Error(data.message || "Registration failed. Please try again.");
         }
 
-        showMessage("Account created! Redirecting to login...", "success");
+        showMessage("Account created successfully! Redirecting to login...", "success");
 
         setTimeout(() => {
             window.location.href = "login.html";
         }, 1200);
 
-    } catch (err) {
-        showMessage(err.message || "Something went wrong. Please try again.", "error");
+    } catch (error) {
+        showMessage(error.message || "Something went wrong. Please try again.", "error");
     } finally {
         setLoading(false);
     }
