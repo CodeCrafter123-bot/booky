@@ -1,38 +1,20 @@
 package com.hussein.booky.controller;
 
-import com.hussein.booky.entity.Booking;
-import com.hussein.booky.repository.BookingRepository;
+import com.hussein.booky.dto.BookingRequest;
+import com.hussein.booky.dto.BookingResponse;
+import com.hussein.booky.service.BookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/bookings")
 public class BookingController {
 
     @Autowired
-    private BookingRepository bookingRepository;
+    private BookingService bookingService;
 
     @PostMapping("/create")
-    public Booking createBooking(@RequestBody Booking booking) {
-        booking.setStatus("PENDING");
-        return bookingRepository.save(booking);
+    public BookingResponse createBooking(@RequestBody BookingRequest request) {
+        return bookingService.createBooking(request);
     }
-
-    @GetMapping("/user/{userId}")
-    public List<Booking> getUserBookings(@PathVariable Integer userId) {
-        return bookingRepository.findByUserId(userId);
-    }
-    @PutMapping("/cancel/{id}")
-public Booking cancelBooking(@PathVariable Integer id) {
-    Booking booking = bookingRepository.findById(id).orElse(null);
-
-    if (booking != null) {
-        booking.setStatus("CANCELLED");
-        return bookingRepository.save(booking);
-    }
-
-    return null;
-}
 }
