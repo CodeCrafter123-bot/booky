@@ -24,4 +24,15 @@ public class BookingController {
     public List<Booking> getUserBookings(@PathVariable Integer userId) {
         return bookingRepository.findByUserId(userId);
     }
+    @PutMapping("/cancel/{id}")
+public Booking cancelBooking(@PathVariable Integer id) {
+    Booking booking = bookingRepository.findById(id).orElse(null);
+
+    if (booking != null) {
+        booking.setStatus("CANCELLED");
+        return bookingRepository.save(booking);
+    }
+
+    return null;
+}
 }
