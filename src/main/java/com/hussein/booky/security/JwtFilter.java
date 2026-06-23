@@ -24,12 +24,9 @@ public class JwtFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
 
         String path = httpRequest.getRequestURI();
+        String method = httpRequest.getMethod();
 
-        if (path.startsWith("/users/login")
-                || path.startsWith("/users/register")
-                || path.endsWith(".html")
-                || path.startsWith("/css/")
-                || path.startsWith("/js/")) {
+        if (isPublicPath(path)) {
             chain.doFilter(request, response);
             return;
         }
@@ -50,6 +47,26 @@ public class JwtFilter implements Filter {
             return;
         }
 
+        String role = jwtService.extractRole(token);
+
+        if (method.equals("POST") &&
+                (path.equals("/businesses/add") || path.equals("/services/add"))) {
+
+            if (!role.equals("OWNER") && !role.equals("ADMIN")) {
+                httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                httpResponse.getWriter().write("Access denied: OWNER or ADMIN only");
+                return;
+            }
+        }
+
         chain.doFilter(request, response);
+    }
+
+    private boolean isPublicPath(String path) {
+        return path.startsWith("/users/login")
+                || path.startsWith("/users/register")
+                || path.endsWith(".html")
+                || path.startsWith("/css/")
+                || path.startsWith("/js/");
     }
 }

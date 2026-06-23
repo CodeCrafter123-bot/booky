@@ -71,7 +71,7 @@ public class UserService {
 
         System.out.println("USER FOUND: " + user.getEmail());
 
-String token = jwtService.generateToken(user.getEmail());
+String token = jwtService.generateToken(user);
 
 System.out.println("TOKEN: " + token);
 
