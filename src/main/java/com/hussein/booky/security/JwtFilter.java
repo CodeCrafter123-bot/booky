@@ -69,4 +69,4 @@ public class JwtFilter implements Filter {
                 || path.startsWith("/css/")
                 || path.startsWith("/js/");
     }
-}
+} 
