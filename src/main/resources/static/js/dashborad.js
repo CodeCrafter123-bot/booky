@@ -1,136 +1,49 @@
-const API_BASE_URL = "http://localhost:8080";
+const user = JSON.parse(localStorage.getItem("booky_user"));
+const token = localStorage.getItem("booky_token");
 
-const CLIENT_ACTIONS = [
-    {
-        icon: "📅",
-        title: "Book an appointment",
-        desc: "Find a time that works and reserve your slot.",
-        href: "book.html"
-    },
-    {
-        icon: "🗂",
-        title: "My bookings",
-        desc: "View, reschedule, or cancel upcoming appointments.",
-        href: "my-bookings.html"
-    },
-    {
-        icon: "🔍",
-        title: "Find a business",
-        desc: "Browse businesses and services available on Booky.",
-        href: "browse.html"
-    },
-    {
-        icon: "👤",
-        title: "Edit profile",
-        desc: "Update your name, phone number, or password.",
-        href: "profile.html"
-    }
-];
-
-const OWNER_ACTIONS = [
-    {
-        icon: "🕒",
-        title: "Manage availability",
-        desc: "Set your working hours and open time slots.",
-        href: "availability.html"
-    },
-    {
-        icon: "📋",
-        title: "View bookings",
-        desc: "See every upcoming and past appointment.",
-        href: "bookings.html"
-    },
-    {
-        icon: "🧾",
-        title: "Manage services",
-        desc: "Add, edit, or remove the services you offer.",
-        href: "services.html"
-    },
-    {
-        icon: "👤",
-        title: "Edit profile",
-        desc: "Update your business details or password.",
-        href: "profile.html"
-    }
-];
-
-document.addEventListener("DOMContentLoaded", () => {
-    const user = getStoredUser();
-
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
-
-    renderUser(user);
-    renderActions(user.role);
-    setTodayDate();
-
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (logoutBtn) {
-        logoutBtn.addEventListener("click", logout);
-    }
-});
-
-function getStoredUser() {
-    const raw = localStorage.getItem("booky_user");
-    if (!raw) return null;
-
-    try {
-        const parsed = JSON.parse(raw);
-        if (!parsed || !parsed.fullName || !parsed.role) return null;
-        return parsed;
-    } catch {
-        return null;
-    }
-}
-
-function renderUser(user) {
-    const nameEl = document.getElementById("userName");
-    const roleEl = document.getElementById("userRole");
-    const avatarEl = document.getElementById("userAvatar");
-    const headlineEl = document.getElementById("welcomeHeadline");
-    const subEl = document.getElementById("welcomeSub");
-
-    const firstName = user.fullName.trim().split(" ")[0];
-    const roleLabel = user.role === "OWNER" ? "Business owner" : "Client";
-
-    nameEl.textContent = user.fullName;
-    roleEl.textContent = roleLabel;
-    avatarEl.textContent = user.fullName.trim().charAt(0).toUpperCase();
-
-    headlineEl.textContent = `Welcome back, ${firstName}.`;
-    subEl.textContent = user.role === "OWNER"
-        ? "Here's a quick look at your business today."
-        : "Here's a quick look at your appointments today.";
-}
-
-function renderActions(role) {
-    const grid = document.getElementById("actionGrid");
-    const actions = role === "OWNER" ? OWNER_ACTIONS : CLIENT_ACTIONS;
-
-    grid.innerHTML = actions.map(action => `
-        <a class="action-card" href="${action.href}">
-            <span class="action-card__icon" aria-hidden="true">${action.icon}</span>
-            <span class="action-card__title">${action.title}</span>
-            <span class="action-card__desc">${action.desc}</span>
-        </a>
-    `).join("");
-}
-
-function setTodayDate() {
-    const el = document.getElementById("todayDate");
-    if (!el) return;
-
-    const today = new Date();
-    el.textContent = today.toLocaleDateString(undefined, {
-        weekday: "short",
-        month: "short",
-        day: "numeric"
-    });
-}
+if (!user || !token) location.href = "login.html";
 
 function logout() {
-    localStorage.removeItem("booky_user");
-    window.location.href = "login.html";
+  localStorage.removeItem("booky_user");
+  localStorage.removeItem("booky_token");
+  localStorage.removeItem("selected_business_id");
+  localStorage.removeItem("selected_service_id");
+  location.href = "login.html";
 }
+
+const actionsByRole = {
+  CLIENT: [
+    ["Book an appointment", "Choose a service and reserve your time.", "book.html"],
+    ["My bookings", "View and cancel pending bookings.", "my-bookings.html"],
+    ["Browse businesses", "Find clinics, barbers, gyms, tutors, and more.", "browse.html"],
+    ["Edit profile", "View your account details.", "profile.html"]
+  ],
+  OWNER: [
+    ["Manage services", "Add and view services for your business.", "services.html"],
+    ["View bookings", "Track client appointments.", "my-bookings.html"],
+    ["Manage business", "Business page placeholder.", "business.html"],
+    ["Edit profile", "View your account details.", "profile.html"]
+  ],
+  ADMIN: [
+    ["Manage users", "Admin users page placeholder.", "admin-users.html"],
+    ["Manage businesses", "Admin businesses page placeholder.", "admin-businesses.html"],
+    ["All bookings", "Admin bookings page placeholder.", "admin-bookings.html"],
+    ["Reports", "Reports page placeholder.", "admin-reports.html"]
+  ]
+};
+
+document.getElementById("userName").textContent = user.fullName || "Booky User";
+document.getElementById("userRole").textContent = user.role || "CLIENT";
+document.getElementById("roleBadge").textContent = user.role || "CLIENT";
+document.getElementById("avatar").textContent = (user.fullName || "U")[0].toUpperCase();
+document.getElementById("welcomeText").textContent = `Welcome back, ${user.fullName || "Booky User"}. Choose an action to continue.`;
+document.getElementById("logoutBtn").addEventListener("click", logout);
+
+const grid = document.getElementById("actionsGrid");
+const actions = actionsByRole[user.role] || actionsByRole.CLIENT;
+grid.innerHTML = actions.map(([title, desc, link]) => `
+  <article class="item-card action-card">
+    <div><span class="badge">${user.role || "CLIENT"}</span><h3>${title}</h3><p>${desc}</p></div>
+    <a class="btn btn-primary" href="${link}">Open</a>
+  </article>
+`).join("");

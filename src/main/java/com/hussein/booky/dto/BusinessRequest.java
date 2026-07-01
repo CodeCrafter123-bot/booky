@@ -1,0 +1,42 @@
+package com.hussein.booky.dto;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+public class BusinessRequest {
+
+    @NotBlank(message = "Business name is required")
+    private String name;
+
+    @NotBlank(message = "Business type is required")
+    private String type;
+
+    @NotBlank(message = "Location is required")
+    private String location;
+
+    @NotBlank(message = "Description is required")
+    private String description;
+
+    @NotNull(message = "Owner id is required")
+    private Integer ownerId;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public Integer getOwnerId() {
+        return ownerId;
+    }
+}

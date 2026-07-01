@@ -1,8 +1,10 @@
 package com.hussein.booky.controller;
 
-import com.hussein.booky.entity.Business;
-import com.hussein.booky.repository.BusinessRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.hussein.booky.dto.BusinessRequest;
+import com.hussein.booky.dto.BusinessResponse;
+import com.hussein.booky.service.BusinessService;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,16 +13,19 @@ import java.util.List;
 @RequestMapping("/businesses")
 public class BusinessController {
 
-    @Autowired
-    private BusinessRepository businessRepository;
+    private final BusinessService businessService;
+
+    public BusinessController(BusinessService businessService) {
+        this.businessService = businessService;
+    }
 
     @PostMapping("/add")
-    public Business addBusiness(@RequestBody Business business) {
-        return businessRepository.save(business);
+    public ResponseEntity<BusinessResponse> addBusiness(@Valid @RequestBody BusinessRequest request) {
+        return ResponseEntity.ok(businessService.addBusiness(request));
     }
 
     @GetMapping
-    public List<Business> getAllBusinesses() {
-        return businessRepository.findAll();
+    public ResponseEntity<List<BusinessResponse>> getAllBusinesses() {
+        return ResponseEntity.ok(businessService.getAllBusinesses());
     }
 }
