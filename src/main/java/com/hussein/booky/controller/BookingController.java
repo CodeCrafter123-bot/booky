@@ -47,7 +47,13 @@ public ResponseEntity<List<BookingResponse>> getMyBookings(
     return ResponseEntity.ok(bookingService.getBookingsByUser(userId));
 }
     @PutMapping("/cancel/{bookingId}")
-    public ResponseEntity<BookingResponse> cancelBooking(@PathVariable Integer bookingId) {
-        return ResponseEntity.ok(bookingService.cancelBooking(bookingId));
-    }
+public ResponseEntity<BookingResponse> cancelBooking(
+        @PathVariable Integer bookingId,
+        @RequestHeader("Authorization") String authHeader
+) {
+    String token = authHeader.substring(7);
+    Integer userId = jwtService.extractUserId(token);
+
+    return ResponseEntity.ok(bookingService.cancelBooking(bookingId, userId));
+}
 }

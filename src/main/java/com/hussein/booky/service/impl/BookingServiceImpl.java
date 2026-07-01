@@ -56,16 +56,20 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse cancelBooking(Integer bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new RuntimeException("Booking not found"));
+public BookingResponse cancelBooking(Integer bookingId, Integer userId) {
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found"));
 
-        booking.setStatus("CANCELLED");
-
-        Booking updatedBooking = bookingRepository.save(booking);
-
-        return mapToResponse(updatedBooking);
+    if (booking.getUser() == null || !booking.getUser().getId().equals(userId)) {
+        throw new RuntimeException("You are not allowed to cancel this booking");
     }
+
+    booking.setStatus("CANCELLED");
+
+    Booking updatedBooking = bookingRepository.save(booking);
+
+    return mapToResponse(updatedBooking);
+}
 
     private BookingResponse mapToResponse(Booking booking) {
         return new BookingResponse(

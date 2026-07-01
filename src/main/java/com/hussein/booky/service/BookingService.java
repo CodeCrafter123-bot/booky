@@ -11,5 +11,5 @@ public interface BookingService {
 
     List<BookingResponse> getBookingsByUser(Integer userId);
 
-    BookingResponse cancelBooking(Integer bookingId);
+    BookingResponse cancelBooking(Integer bookingId, Integer userId);
 }
