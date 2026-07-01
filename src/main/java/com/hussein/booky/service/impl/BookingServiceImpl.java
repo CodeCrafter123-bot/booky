@@ -29,9 +29,8 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public BookingResponse createBooking(BookingRequest request) {
-
-        User user = userRepository.findById(request.getUserId())
+    public BookingResponse createBooking(BookingRequest request, Integer userId) {
+        User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         BookyService service = bookyServiceRepository.findById(request.getServiceId())

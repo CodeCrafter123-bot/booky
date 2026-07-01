@@ -2,8 +2,10 @@ package com.hussein.booky.controller;
 
 import com.hussein.booky.dto.BookingRequest;
 import com.hussein.booky.dto.BookingResponse;
+import com.hussein.booky.security.JwtService;
 import com.hussein.booky.service.BookingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,21 +14,40 @@ import java.util.List;
 @RequestMapping("/bookings")
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
+    private final BookingService bookingService;
+    private final JwtService jwtService;
+
+    public BookingController(BookingService bookingService, JwtService jwtService) {
+        this.bookingService = bookingService;
+        this.jwtService = jwtService;
+    }
 
     @PostMapping("/create")
-    public BookingResponse createBooking(@RequestBody BookingRequest request) {
-        return bookingService.createBooking(request);
-    }
+public ResponseEntity<BookingResponse> createBooking(
+        @Valid @RequestBody BookingRequest request,
+        @RequestHeader("Authorization") String authHeader
+) {
+    String token = authHeader.substring(7);
 
-    @GetMapping("/user/{userId}")
-    public List<BookingResponse> getBookingsByUser(@PathVariable Integer userId) {
-        return bookingService.getBookingsByUser(userId);
-    }
+    System.out.println("TOKEN = " + token);
 
+    Integer userId = jwtService.extractUserId(token);
+
+    System.out.println("USER ID = " + userId);
+
+    return ResponseEntity.ok(bookingService.createBooking(request, userId));
+}
+@GetMapping("/my")
+public ResponseEntity<List<BookingResponse>> getMyBookings(
+        @RequestHeader("Authorization") String authHeader
+) {
+    String token = authHeader.substring(7);
+    Integer userId = jwtService.extractUserId(token);
+
+    return ResponseEntity.ok(bookingService.getBookingsByUser(userId));
+}
     @PutMapping("/cancel/{bookingId}")
-    public BookingResponse cancelBooking(@PathVariable Integer bookingId) {
-        return bookingService.cancelBooking(bookingId);
+    public ResponseEntity<BookingResponse> cancelBooking(@PathVariable Integer bookingId) {
+        return ResponseEntity.ok(bookingService.cancelBooking(bookingId));
     }
 }
