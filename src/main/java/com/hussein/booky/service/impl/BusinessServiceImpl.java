@@ -24,8 +24,8 @@ public class BusinessServiceImpl implements BusinessService {
     }
 
     @Override
-    public BusinessResponse addBusiness(BusinessRequest request) {
-        User owner = userRepository.findById(request.getOwnerId())
+public BusinessResponse addBusiness(BusinessRequest request, Integer ownerId) {
+        User owner = userRepository.findById(ownerId)
                 .orElseThrow(() -> new RuntimeException("Owner not found"));
 
         Business business = new Business();

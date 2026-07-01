@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BusinessService {
 
-    BusinessResponse addBusiness(BusinessRequest request);
+    BusinessResponse addBusiness(BusinessRequest request, Integer ownerId);
 
     List<BusinessResponse> getAllBusinesses();
 }

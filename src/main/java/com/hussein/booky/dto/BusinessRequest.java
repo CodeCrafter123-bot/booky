@@ -1,7 +1,6 @@
 package com.hussein.booky.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
 public class BusinessRequest {
 
@@ -17,9 +16,6 @@ public class BusinessRequest {
     @NotBlank(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Owner id is required")
-    private Integer ownerId;
-
     public String getName() {
         return name;
     }
@@ -34,9 +30,5 @@ public class BusinessRequest {
 
     public String getDescription() {
         return description;
-    }
-
-    public Integer getOwnerId() {
-        return ownerId;
     }
 }
