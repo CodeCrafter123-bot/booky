@@ -1,12 +1,27 @@
+const API_URL = "http://localhost:8080";
 const token = localStorage.getItem("booky_token");
-const user = JSON.parse(localStorage.getItem("booky_user"));
-const grid = document.getElementById("bookingsGrid");
-const message = document.getElementById("message");
 
-if (!token || !user) location.href = "login.html";
+const bookingsGrid = document.getElementById("bookingsGrid");
+const message = document.getElementById("message");
+const logoutBtn = document.getElementById("logoutBtn");
+
+if (!token) {
+  location.href = "login.html";
+}
+
+logoutBtn.addEventListener("click", () => {
+  localStorage.removeItem("booky_token");
+  localStorage.removeItem("booky_user");
+  localStorage.removeItem("selected_business_id");
+  localStorage.removeItem("selected_service_id");
+  location.href = "login.html";
+});
 
 function getAuthHeaders() {
-  return { "Content-Type": "application/json", "Authorization": "Bearer " + localStorage.getItem("booky_token") };
+  return {
+    "Content-Type": "application/json",
+    "Authorization": "Bearer " + token
+  };
 }
 
 function showMessage(text, type = "error") {
@@ -14,60 +29,140 @@ function showMessage(text, type = "error") {
   message.className = `message ${type}`;
 }
 
-function formatDate(value) {
-  if (!value) return "Not specified";
-  return new Date(value).toLocaleString([], { dateStyle: "medium", timeStyle: "short" });
+function formatDateTime(dateTime) {
+  if (!dateTime) return "No date";
+
+  const date = new Date(dateTime);
+
+  return date.toLocaleString("en-US", {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
 }
 
-function render(bookings) {
-  if (!bookings.length) {
-    grid.innerHTML = `<div class="empty">No bookings yet.</div>`;
+function getServiceName(booking) {
+  return (
+    booking.service?.name ||
+    booking.serviceName ||
+    "Service"
+  );
+}
+
+function renderBookings(bookings) {
+  if (!bookings || bookings.length === 0) {
+    bookingsGrid.innerHTML = `
+      <div class="empty">
+        No bookings found.
+      </div>
+    `;
     return;
   }
 
-  grid.innerHTML = bookings.map(b => {
-    const status = String(b.status || "PENDING").toLowerCase();
+  bookingsGrid.innerHTML = bookings.map(booking => {
+    const serviceName = getServiceName(booking);
+    const appointmentTime = formatDateTime(booking.appointmentTime);
+    const status = booking.status || "PENDING";
+
+    const statusClass = status.toLowerCase();
+
+    const cancelButton = status !== "CANCELLED"
+      ? `
+        <button class="btn btn-danger booking-cancel-btn" onclick="cancelBooking(${booking.id})">
+          Cancel Booking
+        </button>
+      `
+      : "";
+
     return `
-      <article class="item-card">
-        <span class="badge ${status}">${b.status || "PENDING"}</span>
-        <h3>${b.serviceName || `Service #${b.serviceId}`}</h3>
-        <p><strong>Appointment:</strong><br>${formatDate(b.appointmentTime)}</p>
-        <p class="muted">Booking ID: ${b.id}</p>
-        ${b.status === "PENDING" ? `<button class="btn btn-danger" onclick="cancelBooking(${b.id})">Cancel</button>` : ""}
+      <article class="item-card booking-card">
+        <div class="booking-card-header">
+          <span class="badge status-${statusClass}">${status}</span>
+        </div>
+
+        <h3>${serviceName}</h3>
+
+        <p>
+          <strong>Appointment:</strong>
+          ${appointmentTime}
+        </p>
+
+        <p>
+          <strong>Status:</strong>
+          ${status}
+        </p>
+
+        <div class="booking-actions">
+          ${cancelButton}
+        </div>
       </article>
     `;
   }).join("");
 }
-
 async function loadBookings() {
   showMessage("Loading bookings...", "success");
+
   try {
-    const response = await fetch("http://localhost:8080/bookings/my", { headers: getAuthHeaders() });
-    if (!response.ok) throw new Error("Could not load bookings.");
+    const response = await fetch(`${API_URL}/bookings/my`, {
+      method: "GET",
+      headers: getAuthHeaders()
+    });
+
+    if (response.status === 401 || response.status === 403) {
+      showMessage("Session expired or access denied. Please login again.");
+      localStorage.clear();
+      setTimeout(() => {
+        location.href = "login.html";
+      }, 1000);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Could not load bookings.");
+    }
+
     const bookings = await response.json();
+
     showMessage("");
-    render(bookings);
+    renderBookings(bookings);
+
   } catch (error) {
     showMessage(error.message || "Could not load bookings.");
-    grid.innerHTML = "";
+    bookingsGrid.innerHTML = "";
   }
 }
 
 async function cancelBooking(bookingId) {
-  showMessage("Cancelling booking...", "success");
+  const confirmCancel = confirm("Are you sure you want to cancel this booking?");
+
+  if (!confirmCancel) return;
+
   try {
-    const response = await fetch(`http://localhost:8080/bookings/cancel/${bookingId}`, {
+    showMessage("Cancelling booking...", "success");
+
+    const response = await fetch(`${API_URL}/bookings/cancel/${bookingId}`, {
       method: "PUT",
       headers: getAuthHeaders()
     });
-    const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(data.message || data.error || "Could not cancel booking.");
+
+    if (response.status === 401 || response.status === 403) {
+      showMessage("Session expired or access denied. Please login again.");
+      localStorage.clear();
+      setTimeout(() => {
+        location.href = "login.html";
+      }, 1000);
+      return;
+    }
+
+    if (!response.ok) {
+      throw new Error("Could not cancel booking.");
+    }
+
     showMessage("Booking cancelled successfully.", "success");
     loadBookings();
+
   } catch (error) {
     showMessage(error.message || "Could not cancel booking.");
   }
 }
 
-document.getElementById("refreshBtn").addEventListener("click", loadBookings);
 loadBookings();

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Bookings - Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <header class="dashboard-header">
+    <div class="logo">Booky</div>
+
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </header>
+
+  <main class="dashboard-container">
+    <section class="welcome-section">
+      <h1>My Bookings</h1>
+      <p>View and manage your appointments.</p>
+    </section>
+
+    <div id="message" class="message"></div>
+
+    <section id="bookingsGrid" class="items-grid">
+      <!-- bookings will load here -->
+    </section>
+  </main>
+
+  <script src="js/my-bookings.js"></script>
+</body>
+</html>
