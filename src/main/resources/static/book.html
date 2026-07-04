@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment — Booky</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="dashboard.html" class="logo"><span class="logo-mark">📅</span> Booky</a>
+    <a href="services.html" class="btn btn-ghost btn-sm">← Back</a>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head">
+    <span class="eyebrow">Booking</span>
+    <h2>Book Appointment</h2>
+    <p>Select your appointment date and time.</p>
+  </div>
+
+  <div class="glass-card auth-card">
+    <div id="message"></div>
+
+    <form id="bookingForm">
+      <div class="form-group">
+        <label class="form-label" for="appointmentTime">Appointment Time</label>
+        <input type="datetime-local" id="appointmentTime" class="form-input" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn-block">
+        Confirm Booking
+      </button>
+    </form>
+  </div>
+</main>
+
+<script src="js/common.js"></script>
+<script src="js/book.js"></script>
+</body>
+</html>

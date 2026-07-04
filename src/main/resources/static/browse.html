@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browse Businesses — Booky</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="dashboard.html" class="logo"><span class="logo-mark">📅</span> Booky</a>
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head">
+    <span class="eyebrow">Browse</span>
+    <h2>Available Businesses</h2>
+    <p>Search businesses and choose one to view services.</p>
+  </div>
+
+  <div style="display:flex; gap:12px; margin-bottom:20px;">
+    <input
+      type="text"
+      id="searchInput"
+      class="form-input"
+      placeholder="Search by name, type, or location..."
+    >
+    <button id="refreshBtn" class="btn btn-ghost">Refresh</button>
+  </div>
+
+  <div id="message"></div>
+
+  <div id="businessGrid" class="feature-grid"></div>
+</main>
+
+
+<script src="js/browse.js"></script>
+</body>
+</html>

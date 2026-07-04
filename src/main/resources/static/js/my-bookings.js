@@ -42,7 +42,7 @@ function render(bookings) {
 async function loadBookings() {
   showMessage("Loading bookings...", "success");
   try {
-    const response = await fetch(`http://localhost:8080/bookings/user/${user.id}`, { headers: getAuthHeaders() });
+    const response = await fetch("http://localhost:8080/bookings/my", { headers: getAuthHeaders() });
     if (!response.ok) throw new Error("Could not load bookings.");
     const bookings = await response.json();
     showMessage("");

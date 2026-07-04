@@ -26,6 +26,11 @@ public class JwtFilter implements Filter {
         String path = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
 
+        if (method.equals("OPTIONS")) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         if (isPublicPath(path)) {
             chain.doFilter(request, response);
             return;
@@ -69,4 +74,4 @@ public class JwtFilter implements Filter {
                 || path.startsWith("/css/")
                 || path.startsWith("/js/");
     }
-} 
+}
