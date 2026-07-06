@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <a href="dashboard.html" class="logo">
+          <span class="logo-mark">📅</span> Booky
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="ico">🏠</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="admin.html" class="sidebar-link active">
+          <span class="ico">🛡️</span>
+          <span>Admin Panel</span>
+        </a>
+
+        <a href="browse.html" class="sidebar-link">
+          <span class="ico">🏢</span>
+          <span>Businesses</span>
+        </a>
+
+        <a href="profile.html" class="sidebar-link">
+          <span class="ico">👤</span>
+          <span>Profile</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-chip">
+          <div class="avatar" id="avatarInitial">A</div>
+          <div class="user-chip-info">
+            <div class="user-chip-name" id="userName">Admin</div>
+            <div class="user-chip-role" id="userRole">ADMIN</div>
+          </div>
+        </div>
+
+        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Admin Panel 🛡️</h1>
+          <p>Monitor Booky platform activity using the currently available backend APIs.</p>
+        </div>
+      </div>
+
+      <section class="stat-grid">
+        <div class="glass-card stat-card">
+          <div class="stat-label">Total Businesses</div>
+          <div class="stat-value accent" id="totalBusinesses">0</div>
+        </div>
+
+        <div class="glass-card stat-card">
+          <div class="stat-label">Connected API</div>
+          <div class="stat-value" id="apiStatus">Checking...</div>
+        </div>
+
+        <div class="glass-card stat-card">
+          <div class="stat-label">Current Role</div>
+          <div class="stat-value" id="currentRole">ADMIN</div>
+        </div>
+      </section>
+
+      <section class="glass-card admin-section">
+        <div class="admin-section-header">
+          <div>
+            <h2>Recent Businesses</h2>
+            <p>Loaded from <code>GET /businesses</code></p>
+          </div>
+
+          <button class="btn btn-primary btn-sm" id="refreshBtn">
+            Refresh
+          </button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <div id="businessList" class="admin-list">
+          <!-- Businesses load here -->
+        </div>
+      </section>
+
+      <section class="action-grid admin-actions">
+        <div class="glass-card action-card disabled-card">
+          <div class="action-card-top">
+            <div class="action-icon">👥</div>
+            <span class="action-arrow">→</span>
+          </div>
+          <div>
+            <h3>Users Management</h3>
+            <p>Needs backend endpoint: GET /users.</p>
+          </div>
+        </div>
+
+        <div class="glass-card action-card disabled-card">
+          <div class="action-card-top">
+            <div class="action-icon">📅</div>
+            <span class="action-arrow">→</span>
+          </div>
+          <div>
+            <h3>All Bookings</h3>
+            <p>Needs backend endpoint: GET /bookings/admin.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

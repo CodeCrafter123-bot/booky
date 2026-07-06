@@ -1,55 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Services | Booky</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booky - Services</title>
 
-    <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
-
 <body>
 
-    <header class="navbar">
-        <div class="navbar-inner">
+  <header class="dashboard-header">
+    <div class="logo">Booky</div>
 
-            <a href="dashboard.html" class="logo">
-                📅 Booky
-            </a>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="browse.html">Browse</a>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+  </header>
 
-            <nav>
-                <a href="browse.html" class="btn btn-secondary">
-                    ← Back
-                </a>
-            </nav>
+  <main class="dashboard-container">
+  <section class="welcome-section">
+    <h1>Available Services</h1>
+    <p>Select a service and book your appointment.</p>
+  </section>
 
-        </div>
-    </header>
+  <div id="message" class="message"></div>
 
-    <main class="container">
+  <section id="servicesGrid" class="items-grid">
+  </section>
+</main>
 
-        <section class="page-header">
-
-            <h1>Available Services</h1>
-
-            <p>
-                Choose a service to continue booking.
-            </p>
-
-        </section>
-
-        <div id="message"></div>
-
-        <div id="servicesGrid" class="cards-grid">
-
-        </div>
-
-    </main>
-
-    <script src="js/common.js"></script>
-    <script src="js/services.js"></script>
-
+  <script src="js/services.js"></script>
 </body>
-
 </html>

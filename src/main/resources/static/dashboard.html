@@ -1,59 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — Booky</title>
-<link rel="stylesheet" href="css/style.css">
-<link rel="stylesheet" href="css/dashboard.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Dashboard — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 <body>
 
   <div class="mobile-topbar">
-    <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">☰</button>
-    <a href="dashboard.html" class="logo"><span class="logo-mark">📅</span> Booky</a>
-    <div style="width: 38px;"></div>
+    <button class="mobile-menu-btn" id="mobileMenuBtn">☰</button>
+
+    <a href="dashboard.html" class="logo">
+      <span class="logo-mark">📅</span>
+      Booky
+    </a>
+
+    <div style="width:38px;"></div>
   </div>
 
   <div class="app-shell">
+
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-logo">
-        <a href="dashboard.html" class="logo"><span class="logo-mark">📅</span> Booky</a>
+        <a href="dashboard.html" class="logo">
+          <span class="logo-mark">📅</span>
+          Booky
+        </a>
       </div>
 
-      <nav class="sidebar-nav" id="sidebarNav">
-        <!-- Populated by dashboard.js based on role -->
-      </nav>
+      <nav class="sidebar-nav" id="sidebarNav"></nav>
 
       <div class="sidebar-footer">
         <div class="user-chip">
           <div class="avatar" id="avatarInitial">?</div>
+
           <div class="user-chip-info">
-            <div class="user-chip-name" id="userName">—</div>
-            <div class="user-chip-role" id="userRole">—</div>
+            <div class="user-chip-name" id="userName">User</div>
+            <div class="user-chip-role" id="userRole">CLIENT</div>
           </div>
         </div>
-        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">Log out</button>
+
+        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+          Log out
+        </button>
       </div>
     </aside>
 
     <main class="main-content">
-      <div class="page-header">
-        <div>
-          <h1 id="welcomeHeading">Welcome back 👋</h1>
-          <p id="welcomeSub">Here's what's happening with your account.</p>
-        </div>
-      </div>
 
-      <div class="action-grid" id="actionGrid">
-        <!-- Populated by dashboard.js based on role -->
-      </div>
+      <section class="dashboard-hero">
+        <div>
+          <span class="role-pill" id="rolePill">CLIENT</span>
+          <h1 id="welcomeHeading">Welcome back 👋</h1>
+          <p id="welcomeSub">
+            Manage your Booky account from one clean dashboard.
+          </p>
+        </div>
+
+        <div class="hero-actions">
+          <a href="browse.html" class="btn btn-primary">Browse Businesses</a>
+          <a href="profile.html" class="btn btn-ghost">Profile</a>
+        </div>
+      </section>
+
+      <section class="stat-grid" id="statGrid"></section>
+
+      <section class="dashboard-section">
+        <div class="section-heading">
+          <div>
+            <h2 id="actionsTitle">Quick Actions</h2>
+            <p id="actionsSubtitle">Choose what you want to manage next.</p>
+          </div>
+        </div>
+
+        <div class="action-grid" id="actionGrid"></div>
+      </section>
+
     </main>
   </div>
 
-  <div class="toast" id="toast"></div>
-
-  <script src="js/common.js"></script>
   <script src="js/dashboard.js"></script>
 </body>
 </html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Business — Booky Admin</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <a href="dashboard.html" class="logo">
+          <span class="logo-mark">📅</span> Booky
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="sidebar-link">
+          <span class="ico">🏠</span>
+          <span>Dashboard</span>
+        </a>
+
+        <a href="admin.html" class="sidebar-link">
+          <span class="ico">🛡️</span>
+          <span>Admin Panel</span>
+        </a>
+
+        <a href="admin-add-business.html" class="sidebar-link active">
+          <span class="ico">➕</span>
+          <span>Add Business</span>
+        </a>
+
+        <a href="browse.html" class="sidebar-link">
+          <span class="ico">🏢</span>
+          <span>Businesses</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+          Log out
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <div class="page-header">
+        <div>
+          <h1>Add New Business</h1>
+          <p>Create a new business as an admin.</p>
+        </div>
+      </div>
+
+      <section class="glass-card admin-form-card">
+        <div id="message" class="message"></div>
+
+        <form id="businessForm">
+          <div class="form-group">
+            <label class="form-label" for="name">Business Name</label>
+            <input class="form-input" type="text" id="name" required placeholder="Example: Booky Barber">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="type">Business Type</label>
+            <input class="form-input" type="text" id="type" required placeholder="Barber, Clinic, Gym...">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="location">Location</label>
+            <input class="form-input" type="text" id="location" required placeholder="Beirut, Lebanon">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="description">Description</label>
+            <textarea class="form-input" id="description" rows="4" required placeholder="Write a short description..."></textarea>
+          </div>
+
+          <button class="btn btn-primary" type="submit">
+            Add Business
+          </button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <script src="js/admin-add-business.js"></script>
+</body>
+</html>

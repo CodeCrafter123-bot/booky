@@ -81,4 +81,10 @@ public BookingResponse cancelBooking(Integer bookingId, Integer userId) {
                 booking.getService() != null ? booking.getService().getName() : null
         );
     }
+
+    @Override
+    public List<BookingResponse> getBookingsByOwner(Integer ownerId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getBookingsByOwner'");
+    }
 }

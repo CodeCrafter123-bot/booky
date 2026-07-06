@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booky | Profile</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+<header class="dashboard-header">
+    <div class="logo">Booky</div>
+
+    <nav>
+        <a href="dashboard.html">Dashboard</a>
+        <a href="browse.html">Browse</a>
+        <a href="my-bookings.html">My Bookings</a>
+        <button id="logoutBtn" class="logout-btn">Logout</button>
+    </nav>
+</header>
+
+<main class="dashboard-container">
+
+    <section class="welcome-section">
+        <h1>My Profile</h1>
+        <p>Your account information</p>
+    </section>
+
+    <div id="message" class="message"></div>
+
+    <section class="cards-container">
+
+        <div class="dashboard-card">
+
+            <h2>Account Information</h2>
+
+            <div class="profile-info">
+
+                <div class="profile-row">
+                    <strong>Full Name</strong>
+                    <span id="fullName">Loading...</span>
+                </div>
+
+                <div class="profile-row">
+                    <strong>Email</strong>
+                    <span id="email">Loading...</span>
+                </div>
+
+                <div class="profile-row">
+                    <strong>Role</strong>
+                    <span id="role">Loading...</span>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="dashboard-card">
+
+            <h2>Quick Actions</h2>
+
+            <button class="btn btn-primary" onclick="location.href='browse.html'">
+                Browse Businesses
+            </button>
+
+            <br><br>
+
+            <button class="btn btn-primary" onclick="location.href='my-bookings.html'">
+                My Bookings
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+<script src="js/profile.js"></script>
+
+</body>
+
+</html>
