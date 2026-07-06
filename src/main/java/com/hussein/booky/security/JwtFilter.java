@@ -53,7 +53,10 @@ public class JwtFilter implements Filter {
         }
 
         String role = jwtService.extractRole(token);
+        System.out.println("PATH = " + path);
+System.out.println("ROLE = " + role);
 
+        // OWNER or ADMIN only
         if (method.equals("POST") &&
                 (path.equals("/businesses/add") || path.equals("/services/add"))) {
 
@@ -64,7 +67,22 @@ public class JwtFilter implements Filter {
             }
         }
 
+        // ADMIN only
+        if (isAdminBookingPath(path)) {
+            if (!role.equals("ADMIN")) {
+                httpResponse.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                httpResponse.getWriter().write("Access denied: ADMIN only");
+                return;
+            }
+        }
+
         chain.doFilter(request, response);
+    }
+
+    private boolean isAdminBookingPath(String path) {
+        return path.equals("/bookings/admin")
+                || path.startsWith("/bookings/accept/")
+                || path.startsWith("/bookings/decline/");
     }
 
     private boolean isPublicPath(String path) {

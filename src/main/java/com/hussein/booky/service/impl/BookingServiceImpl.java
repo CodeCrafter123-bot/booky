@@ -70,6 +70,37 @@ public BookingResponse cancelBooking(Integer bookingId, Integer userId) {
 
     return mapToResponse(updatedBooking);
 }
+@Override
+public List<BookingResponse> getAllBookings() {
+    return bookingRepository.findAll()
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
+}
+
+@Override
+public BookingResponse acceptBooking(Integer bookingId) {
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+    booking.setStatus("CONFIRMED");
+
+    Booking updatedBooking = bookingRepository.save(booking);
+
+    return mapToResponse(updatedBooking);
+}
+
+@Override
+public BookingResponse declineBooking(Integer bookingId) {
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new RuntimeException("Booking not found"));
+
+    booking.setStatus("CANCELLED");
+
+    Booking updatedBooking = bookingRepository.save(booking);
+
+    return mapToResponse(updatedBooking);
+}
 
     private BookingResponse mapToResponse(Booking booking) {
         return new BookingResponse(
@@ -82,9 +113,8 @@ public BookingResponse cancelBooking(Integer bookingId, Integer userId) {
         );
     }
 
-    @Override
-    public List<BookingResponse> getBookingsByOwner(Integer ownerId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBookingsByOwner'");
-    }
+   @Override
+public List<BookingResponse> getBookingsByOwner(Integer ownerId) {
+    return List.of();
+}
 }

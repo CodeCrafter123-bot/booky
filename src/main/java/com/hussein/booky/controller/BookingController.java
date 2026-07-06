@@ -56,4 +56,22 @@ public ResponseEntity<BookingResponse> cancelBooking(
 
     return ResponseEntity.ok(bookingService.cancelBooking(bookingId, userId));
 }
+@GetMapping("/admin")
+public ResponseEntity<List<BookingResponse>> getAllBookings() {
+    return ResponseEntity.ok(bookingService.getAllBookings());
+}
+
+@PutMapping("/accept/{bookingId}")
+public ResponseEntity<BookingResponse> acceptBooking(
+        @PathVariable Integer bookingId
+) {
+    return ResponseEntity.ok(bookingService.acceptBooking(bookingId));
+}
+
+@PutMapping("/decline/{bookingId}")
+public ResponseEntity<BookingResponse> declineBooking(
+        @PathVariable Integer bookingId
+) {
+    return ResponseEntity.ok(bookingService.declineBooking(bookingId));
+}
 }

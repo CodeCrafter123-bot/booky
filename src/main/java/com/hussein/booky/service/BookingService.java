@@ -12,4 +12,14 @@ public interface BookingService {
     List<BookingResponse> getBookingsByUser(Integer userId);
 
     BookingResponse cancelBooking(Integer bookingId, Integer userId);
+
+    List<BookingResponse> getBookingsByOwner(Integer ownerId);
+
+    // ===== Admin =====
+
+    List<BookingResponse> getAllBookings();
+
+    BookingResponse acceptBooking(Integer bookingId);
+
+    BookingResponse declineBooking(Integer bookingId);
 }
