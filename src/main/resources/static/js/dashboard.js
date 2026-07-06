@@ -24,15 +24,8 @@ const logoutBtn = document.getElementById("logoutBtn");
 const mobileMenuBtn = document.getElementById("mobileMenuBtn");
 const sidebar = document.getElementById("sidebar");
 
-const fullName = user.fullName || user.name || "User";
-const role = user.role || "CLIENT";
-
-userName.textContent = fullName;
-userRole.textContent = role;
-avatarInitial.textContent = fullName.charAt(0).toUpperCase();
-
-rolePill.textContent = role;
-welcomeHeading.textContent = `Welcome back, ${fullName} 👋`;
+const fullName = user.fullName || user.name || user.username || "User";
+const role = (user.role || "CLIENT").toUpperCase();
 
 const dashboardConfig = {
   CLIENT: {
@@ -161,59 +154,102 @@ const dashboardConfig = {
 
 const config = dashboardConfig[role] || dashboardConfig.CLIENT;
 
-welcomeSub.textContent = config.subtitle;
-actionsTitle.textContent = config.actionsTitle;
-actionsSubtitle.textContent = config.actionsSubtitle;
+renderUserInfo();
+renderDashboard();
 
-sidebarNav.innerHTML = config.links.map(link => `
-  <a href="${link.href}" class="sidebar-link ${link.href === "#" ? "disabled-link" : ""}">
-    <span class="ico">${link.icon}</span>
-    <span>${link.title}</span>
-  </a>
-`).join("");
+logoutBtn?.addEventListener("click", logout);
 
-statGrid.innerHTML = config.stats.map(stat => `
-  <div class="glass-card stat-card professional-stat">
-    <div class="stat-icon">${stat.icon}</div>
-    <div>
-      <div class="stat-label">${stat.label}</div>
-      <div class="stat-value">${stat.value}</div>
-    </div>
-  </div>
-`).join("");
-
-actionGrid.innerHTML = config.links.map(link => `
-  <a href="${link.href}" class="glass-card hoverable action-card professional-action ${link.href === "#" ? "disabled-card" : ""}">
-    <div class="action-card-top">
-      <div class="action-icon">${link.icon}</div>
-      <span class="action-arrow">→</span>
-    </div>
-
-    <div>
-      <h3>${link.title}</h3>
-      <p>${link.description}</p>
-    </div>
-  </a>
-`).join("");
-
-document.querySelectorAll(".disabled-card, .disabled-link").forEach(item => {
-  item.addEventListener("click", event => {
-    event.preventDefault();
-    alert("This feature needs backend support first.");
-  });
+mobileMenuBtn?.addEventListener("click", () => {
+  sidebar?.classList.toggle("mobile-open");
 });
 
-logoutBtn.addEventListener("click", () => {
+document.addEventListener("click", (event) => {
+  if (!sidebar?.classList.contains("mobile-open")) return;
+
+  const clickedInsideSidebar = sidebar.contains(event.target);
+  const clickedMenuButton = mobileMenuBtn?.contains(event.target);
+
+  if (!clickedInsideSidebar && !clickedMenuButton) {
+    sidebar.classList.remove("mobile-open");
+  }
+});
+
+function renderUserInfo() {
+  if (userName) userName.textContent = fullName;
+  if (userRole) userRole.textContent = role;
+  if (avatarInitial) avatarInitial.textContent = fullName.charAt(0).toUpperCase();
+
+  if (rolePill) rolePill.textContent = role;
+  if (welcomeHeading) welcomeHeading.textContent = `Welcome back, ${fullName} 👋`;
+  if (welcomeSub) welcomeSub.textContent = config.subtitle;
+
+  if (actionsTitle) actionsTitle.textContent = config.actionsTitle;
+  if (actionsSubtitle) actionsSubtitle.textContent = config.actionsSubtitle;
+}
+
+function renderDashboard() {
+  if (sidebarNav) {
+    sidebarNav.innerHTML = config.links.map(renderSidebarLink).join("");
+  }
+
+  if (statGrid) {
+    statGrid.innerHTML = config.stats.map(renderStatCard).join("");
+  }
+
+  if (actionGrid) {
+    actionGrid.innerHTML = config.links.map(renderActionCard).join("");
+  }
+
+  document.querySelectorAll(".disabled-card, .disabled-link").forEach((item) => {
+    item.addEventListener("click", (event) => {
+      event.preventDefault();
+      alert("This feature needs backend support first.");
+    });
+  });
+}
+
+function renderSidebarLink(link) {
+  return `
+    <a href="${link.href}" class="sidebar-link ${link.href === "#" ? "disabled-link" : ""}">
+      <span class="ico">${link.icon}</span>
+      <span>${link.title}</span>
+    </a>
+  `;
+}
+
+function renderStatCard(stat) {
+  return `
+    <div class="glass-card stat-card professional-stat">
+      <div class="stat-icon">${stat.icon}</div>
+      <div>
+        <div class="stat-label">${stat.label}</div>
+        <div class="stat-value">${stat.value}</div>
+      </div>
+    </div>
+  `;
+}
+
+function renderActionCard(link) {
+  return `
+    <a href="${link.href}" class="glass-card hoverable action-card professional-action ${link.href === "#" ? "disabled-card" : ""}">
+      <div class="action-card-top">
+        <div class="action-icon">${link.icon}</div>
+        <span class="action-arrow">→</span>
+      </div>
+
+      <div>
+        <h3>${link.title}</h3>
+        <p>${link.description}</p>
+      </div>
+    </a>
+  `;
+}
+
+function logout() {
   localStorage.removeItem("booky_token");
   localStorage.removeItem("booky_user");
   localStorage.removeItem("selected_business_id");
   localStorage.removeItem("selected_service_id");
 
   window.location.href = "login.html";
-});
-
-if (mobileMenuBtn) {
-  mobileMenuBtn.addEventListener("click", () => {
-    sidebar.classList.toggle("mobile-open");
-  });
 }

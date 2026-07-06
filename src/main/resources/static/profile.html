@@ -1,86 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booky | Profile</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
+  <title>Profile — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
 </head>
-
 <body>
 
-<header class="dashboard-header">
-    <div class="logo">Booky</div>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
 
-    <nav>
-        <a href="dashboard.html">Dashboard</a>
-        <a href="browse.html">Browse</a>
-        <a href="my-bookings.html">My Bookings</a>
-        <button id="logoutBtn" class="logout-btn">Logout</button>
-    </nav>
-</header>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+        <a href="browse.html" class="btn btn-ghost btn-sm">Browse</a>
+        <a href="my-bookings.html" class="btn btn-ghost btn-sm">My Bookings</a>
+        <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+      </nav>
+    </div>
+  </header>
 
-<main class="dashboard-container">
-
-    <section class="welcome-section">
-        <h1>My Profile</h1>
-        <p>Your account information</p>
-    </section>
+  <main class="container section">
+    <div class="section-head">
+      <span class="eyebrow">Account</span>
+      <h2>My Profile</h2>
+      <p>View your Booky account information and quick actions.</p>
+    </div>
 
     <div id="message" class="message"></div>
 
-    <section class="cards-container">
-
-        <div class="dashboard-card">
-
-            <h2>Account Information</h2>
-
-            <div class="profile-info">
-
-                <div class="profile-row">
-                    <strong>Full Name</strong>
-                    <span id="fullName">Loading...</span>
-                </div>
-
-                <div class="profile-row">
-                    <strong>Email</strong>
-                    <span id="email">Loading...</span>
-                </div>
-
-                <div class="profile-row">
-                    <strong>Role</strong>
-                    <span id="role">Loading...</span>
-                </div>
-
-            </div>
-
+    <section class="profile-layout">
+      <div class="glass-card profile-card">
+        <div class="card-header">
+          <div>
+            <h3>Account Information</h3>
+            <p>Your saved user details.</p>
+          </div>
         </div>
 
-        <div class="dashboard-card">
+        <div class="profile-info">
+          <div class="profile-row">
+            <strong>Full Name</strong>
+            <span id="fullName">Loading...</span>
+          </div>
 
-            <h2>Quick Actions</h2>
+          <div class="profile-row">
+            <strong>Email</strong>
+            <span id="email">Loading...</span>
+          </div>
 
-            <button class="btn btn-primary" onclick="location.href='browse.html'">
-                Browse Businesses
-            </button>
+          <div class="profile-row">
+            <strong>Role</strong>
+            <span id="role">Loading...</span>
+          </div>
+        </div>
+      </div>
 
-            <br><br>
-
-            <button class="btn btn-primary" onclick="location.href='my-bookings.html'">
-                My Bookings
-            </button>
-
+      <div class="glass-card profile-card">
+        <div class="card-header">
+          <div>
+            <h3>Quick Actions</h3>
+            <p>Move quickly to the most used pages.</p>
+          </div>
         </div>
 
+        <div class="profile-actions">
+          <button class="btn btn-primary btn-block" onclick="location.href='browse.html'">
+            Browse Businesses
+          </button>
+
+          <button class="btn btn-ghost btn-block" onclick="location.href='my-bookings.html'">
+            My Bookings
+          </button>
+        </div>
+      </div>
     </section>
+  </main>
 
-</main>
-
-<script src="js/profile.js"></script>
-
+  <script src="js/profile.js"></script>
 </body>
-
 </html>

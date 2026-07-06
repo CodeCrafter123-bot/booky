@@ -1,43 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Browse Businesses — Booky</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<header class="navbar">
-  <div class="navbar-inner">
-    <a href="dashboard.html" class="logo"><span class="logo-mark">📅</span> Booky</a>
-    <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-  </div>
-</header>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
 
-<main class="container section">
-  <div class="section-head">
-    <span class="eyebrow">Browse</span>
-    <h2>Available Businesses</h2>
-    <p>Search businesses and choose one to view services.</p>
-  </div>
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+    </div>
+  </header>
 
-  <div style="display:flex; gap:12px; margin-bottom:20px;">
-    <input
-      type="text"
-      id="searchInput"
-      class="form-input"
-      placeholder="Search by name, type, or location..."
-    >
-    <button id="refreshBtn" class="btn btn-ghost">Refresh</button>
-  </div>
+  <main class="container section">
+    <div class="section-head">
+      <span class="eyebrow">Browse</span>
+      <h2>Available Businesses</h2>
+      <p>Search businesses and choose one to view its services.</p>
+    </div>
 
-  <div id="message"></div>
+    <section class="glass-card browse-toolbar">
+      <div class="search-row">
+        <input
+          type="text"
+          id="searchInput"
+          class="form-input"
+          placeholder="Search by name, type, or location..."
+        >
 
-  <div id="businessGrid" class="feature-grid"></div>
-</main>
+        <button id="refreshBtn" class="btn btn-ghost">
+          Refresh
+        </button>
+      </div>
+    </section>
 
+    <div id="message" class="message"></div>
 
-<script src="js/browse.js"></script>
+    <div id="businessGrid" class="feature-grid"></div>
+  </main>
+
+  <script src="js/browse.js"></script>
 </body>
 </html>

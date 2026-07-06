@@ -7,7 +7,7 @@ if (!token || !user) {
   location.href = "login.html";
 }
 
-if (user.role !== "ADMIN") {
+if (user?.role !== "ADMIN") {
   alert("Access denied. Admins only.");
   location.href = "dashboard.html";
 }
@@ -25,36 +25,58 @@ const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
 const avatarInitial = document.getElementById("avatarInitial");
 
-userName.textContent = user.fullName || user.name || "Admin";
-userRole.textContent = user.role || "ADMIN";
-avatarInitial.textContent = (user.fullName || user.name || "A").charAt(0).toUpperCase();
-currentRole.textContent = user.role || "ADMIN";
+const displayName = user.fullName || user.name || "Admin";
 
-logoutBtn.addEventListener("click", () => {
+if (userName) userName.textContent = displayName;
+if (userRole) userRole.textContent = user.role || "ADMIN";
+if (avatarInitial) avatarInitial.textContent = displayName.charAt(0).toUpperCase();
+if (currentRole) currentRole.textContent = user.role || "ADMIN";
+
+logoutBtn?.addEventListener("click", logout);
+refreshBtn?.addEventListener("click", loadBusinesses);
+
+document.querySelectorAll(".disabled-card").forEach((card) => {
+  card.addEventListener("click", () => {
+    alert("This admin feature needs backend support first.");
+  });
+});
+
+loadBusinesses();
+
+function logout() {
   localStorage.removeItem("booky_token");
   localStorage.removeItem("booky_user");
   localStorage.removeItem("selected_business_id");
   localStorage.removeItem("selected_service_id");
   location.href = "login.html";
-});
-
-refreshBtn.addEventListener("click", loadBusinesses);
+}
 
 function getAuthHeaders() {
   return {
     "Content-Type": "application/json",
-    "Authorization": "Bearer " + token
+    Authorization: `Bearer ${token}`
   };
 }
 
 function showMessage(text, type = "error") {
+  if (!message) return;
+
   message.textContent = text;
-  message.className = `message ${type}`;
+  message.className = text ? `message ${type}` : "message";
+}
+
+function escapeHTML(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
 }
 
 function renderBusinesses(businesses) {
-  totalBusinesses.textContent = businesses.length;
-  apiStatus.textContent = "Online";
+  if (totalBusinesses) totalBusinesses.textContent = businesses.length;
+  if (apiStatus) apiStatus.textContent = "Online";
 
   if (!businesses.length) {
     businessList.innerHTML = `
@@ -67,23 +89,28 @@ function renderBusinesses(businesses) {
     return;
   }
 
-  businessList.innerHTML = businesses.map(business => `
-    <article class="admin-list-item">
-      <div>
-        <h3>${business.name}</h3>
-        <p>${business.description || "No description available."}</p>
-        <div class="item-meta">
-          <span>🏷️ ${business.type || "N/A"}</span>
-          <span>📍 ${business.location || "N/A"}</span>
-          <span>#${business.id}</span>
-        </div>
-      </div>
+  businessList.innerHTML = businesses.map((business) => {
+    const id = Number(business.id);
 
-      <button class="btn btn-ghost btn-sm" onclick="viewServices(${business.id})">
-        View Services
-      </button>
-    </article>
-  `).join("");
+    return `
+      <article class="admin-list-item">
+        <div>
+          <h3>${escapeHTML(business.name || business.businessName || "Unnamed Business")}</h3>
+          <p>${escapeHTML(business.description || "No description available.")}</p>
+
+          <div class="item-meta">
+            <span>🏷️ ${escapeHTML(business.type || "N/A")}</span>
+            <span>📍 ${escapeHTML(business.location || "N/A")}</span>
+            <span>#${escapeHTML(id || "N/A")}</span>
+          </div>
+        </div>
+
+        <button class="btn btn-ghost btn-sm" onclick="viewServices(${id})">
+          View Services
+        </button>
+      </article>
+    `;
+  }).join("");
 }
 
 function viewServices(businessId) {
@@ -100,36 +127,27 @@ async function loadBusinesses() {
       headers: getAuthHeaders()
     });
 
+    const data = await response.json().catch(() => []);
+
     if (response.status === 401 || response.status === 403) {
       showMessage("Session expired or access denied.");
       localStorage.clear();
 
       setTimeout(() => {
         location.href = "login.html";
-      }, 1000);
+      }, 900);
 
       return;
     }
 
     if (!response.ok) {
-      throw new Error("Could not load businesses.");
+      throw new Error(data.message || "Could not load businesses.");
     }
 
-    const businesses = await response.json();
-
     showMessage("");
-    renderBusinesses(businesses);
-
+    renderBusinesses(Array.isArray(data) ? data : []);
   } catch (error) {
-    apiStatus.textContent = "Offline";
+    if (apiStatus) apiStatus.textContent = "Offline";
     showMessage(error.message || "Could not connect to backend.");
   }
 }
-
-document.querySelectorAll(".disabled-card").forEach(card => {
-  card.addEventListener("click", () => {
-    alert("This admin feature needs backend support first.");
-  });
-});
-
-loadBusinesses();

@@ -1,47 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login — Booky</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Login — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <div class="auth-page">
+  <main class="auth-page">
     <div class="auth-shell">
       <a href="index.html" class="auth-back">← Back to home</a>
 
-      <div class="glass-card auth-card">
+      <section class="glass-card auth-card">
         <div class="auth-logo">
           <a href="index.html" class="logo">
-            <span class="logo-mark">📅</span> Booky
+            <span class="logo-mark">📅</span>
+            <span>Booky</span>
           </a>
         </div>
-        <h1 class="auth-title">Welcome back</h1>
-        <p class="auth-subtitle">Log in to manage your appointments.</p>
+
+        <div class="auth-heading">
+          <span class="eyebrow">Welcome Back</span>
+          <h1 class="auth-title">Log in to your account</h1>
+          <p class="auth-subtitle">Continue managing appointments, services, and bookings.</p>
+        </div>
 
         <div id="formAlert" class="alert alert-error"></div>
 
-        <form id="loginForm" novalidate>
+        <form id="loginForm" class="form-stack" novalidate>
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
-            <input type="email" id="email" class="form-input" placeholder="you@example.com" autocomplete="email">
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
             <div class="field-error-msg" id="emailError">Enter a valid email address.</div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="password">Password</label>
+
             <div class="password-field">
-              <input type="password" id="password" class="form-input" placeholder="Your password" autocomplete="current-password">
+              <input
+                type="password"
+                id="password"
+                class="form-input"
+                placeholder="Your password"
+                autocomplete="current-password"
+              />
               <button type="button" class="password-toggle" data-target="password">SHOW</button>
             </div>
+
             <div class="field-error-msg" id="passwordError">Password is required.</div>
           </div>
 
-          <div class="form-group" style="display:flex; justify-content: space-between; align-items: center;">
+          <div class="form-row-between">
             <label class="checkbox-row" for="rememberMe">
-              <input type="checkbox" id="rememberMe">
+              <input type="checkbox" id="rememberMe" />
               Remember me
             </label>
           </div>
@@ -52,10 +73,13 @@
           </button>
         </form>
 
-        <p class="auth-footer-text">Don't have an account? <a href="register.html">Create one</a></p>
-      </div>
+        <p class="auth-footer-text">
+          Don't have an account?
+          <a href="register.html">Create one</a>
+        </p>
+      </section>
     </div>
-  </div>
+  </main>
 
   <div class="toast" id="toast"></div>
 

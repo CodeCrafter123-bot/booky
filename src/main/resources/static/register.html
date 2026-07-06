@@ -1,81 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Register — Booky</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Register — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-  <div class="auth-page">
+  <main class="auth-page">
     <div class="auth-shell">
       <a href="index.html" class="auth-back">← Back to home</a>
 
-      <div class="glass-card auth-card">
+      <section class="glass-card auth-card">
         <div class="auth-logo">
           <a href="index.html" class="logo">
-            <span class="logo-mark">📅</span> Booky
+            <span class="logo-mark">📅</span>
+            <span>Booky</span>
           </a>
         </div>
-        <h1 class="auth-title">Create your account</h1>
-        <p class="auth-subtitle">Join Booky as a client or a business owner.</p>
+
+        <div class="auth-heading">
+          <span class="eyebrow">Create Account</span>
+          <h1 class="auth-title">Join Booky today</h1>
+          <p class="auth-subtitle">Create your client or business owner account.</p>
+        </div>
 
         <div id="formAlert" class="alert alert-error"></div>
 
-        <form id="registerForm" novalidate>
+        <form id="registerForm" class="form-stack" novalidate>
           <div class="form-group">
             <label class="form-label" for="fullName">Full name</label>
-            <input type="text" id="fullName" class="form-input" placeholder="Jane Doe" autocomplete="name">
+            <input
+              type="text"
+              id="fullName"
+              class="form-input"
+              placeholder="Jane Doe"
+              autocomplete="name"
+            />
             <div class="field-error-msg" id="fullNameError">Full name is required.</div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="email">Email</label>
-            <input type="email" id="email" class="form-input" placeholder="you@example.com" autocomplete="email">
+            <input
+              type="email"
+              id="email"
+              class="form-input"
+              placeholder="you@example.com"
+              autocomplete="email"
+            />
             <div class="field-error-msg" id="emailError">Enter a valid email address.</div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="password">Password</label>
+
             <div class="password-field">
-              <input type="password" id="password" class="form-input" placeholder="At least 6 characters" autocomplete="new-password">
+              <input
+                type="password"
+                id="password"
+                class="form-input"
+                placeholder="At least 6 characters"
+                autocomplete="new-password"
+              />
               <button type="button" class="password-toggle" data-target="password">SHOW</button>
             </div>
+
             <div class="field-error-msg" id="passwordError">Password must be at least 6 characters.</div>
           </div>
 
           <div class="form-group">
             <label class="form-label" for="phone">Phone</label>
-            <input type="tel" id="phone" class="form-input" placeholder="70123456" autocomplete="tel">
+            <input
+              type="tel"
+              id="phone"
+              class="form-input"
+              placeholder="70123456"
+              autocomplete="tel"
+            />
             <div class="field-error-msg" id="phoneError">Phone number is required.</div>
           </div>
 
           <div class="form-group">
             <label class="form-label">I am a...</label>
+
             <div class="role-select-grid">
               <div class="role-option">
-                <input type="radio" name="role" id="roleClient" value="CLIENT" checked>
-                <label for="roleClient"><span class="role-icon">🙋</span>Client</label>
+                <input type="radio" name="role" id="roleClient" value="CLIENT" checked />
+                <label for="roleClient">
+                  <span class="role-icon">🙋</span>
+                  <span>Client</span>
+                </label>
               </div>
+
               <div class="role-option">
-                <input type="radio" name="role" id="roleOwner" value="OWNER">
-                <label for="roleOwner"><span class="role-icon">🏢</span>Business Owner</label>
+                <input type="radio" name="role" id="roleOwner" value="OWNER" />
+                <label for="roleOwner">
+                  <span class="role-icon">🏢</span>
+                  <span>Business Owner</span>
+                </label>
               </div>
             </div>
+
             <div class="field-error-msg" id="roleError">Please select a role.</div>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block" id="submitBtn" style="margin-top: 8px;">
+          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
             <span class="spinner"></span>
             <span class="btn-label">Create account</span>
           </button>
         </form>
 
-        <p class="auth-footer-text">Already have an account? <a href="login.html">Log in</a></p>
-      </div>
+        <p class="auth-footer-text">
+          Already have an account?
+          <a href="login.html">Log in</a>
+        </p>
+      </section>
     </div>
-  </div>
+  </main>
 
   <div class="toast" id="toast"></div>
 

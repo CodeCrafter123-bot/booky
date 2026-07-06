@@ -3,28 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Bookings - Booky</title>
+
+  <title>My Bookings — Booky</title>
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 <body>
 
-  <header class="dashboard-header">
-    <div class="logo">Booky</div>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
 
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="browse.html">Browse</a>
-      <button id="logoutBtn" class="logout-btn">Logout</button>
-    </nav>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+        <a href="browse.html" class="btn btn-ghost btn-sm">Browse</a>
+        <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+      </nav>
+    </div>
   </header>
 
-  <main class="dashboard-container">
-    <section class="welcome-section">
-      <h1>My Bookings</h1>
-      <p>View and manage your appointments.</p>
-    </section>
+  <main class="container section">
+    <div class="section-head">
+      <span class="eyebrow">Appointments</span>
+      <h2>My Bookings</h2>
+      <p>View your upcoming appointments and manage your booking status.</p>
+    </div>
 
     <div id="message" class="message"></div>
 

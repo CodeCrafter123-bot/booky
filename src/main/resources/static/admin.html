@@ -14,7 +14,8 @@
     <aside class="sidebar">
       <div class="sidebar-logo">
         <a href="dashboard.html" class="logo">
-          <span class="logo-mark">📅</span> Booky
+          <span class="logo-mark">📅</span>
+          <span>Booky</span>
         </a>
       </div>
 
@@ -27,6 +28,11 @@
         <a href="admin.html" class="sidebar-link active">
           <span class="ico">🛡️</span>
           <span>Admin Panel</span>
+        </a>
+
+        <a href="admin-add-business.html" class="sidebar-link">
+          <span class="ico">➕</span>
+          <span>Add Business</span>
         </a>
 
         <a href="browse.html" class="sidebar-link">
@@ -58,9 +64,14 @@
     <main class="main-content">
       <div class="page-header">
         <div>
+          <span class="eyebrow">Booky Control Center</span>
           <h1>Admin Panel 🛡️</h1>
-          <p>Monitor Booky platform activity using the currently available backend APIs.</p>
+          <p>Monitor businesses and platform activity using your current backend APIs.</p>
         </div>
+
+        <a href="admin-add-business.html" class="btn btn-primary btn-sm">
+          + Add Business
+        </a>
       </div>
 
       <section class="stat-grid">
@@ -87,7 +98,7 @@
             <p>Loaded from <code>GET /businesses</code></p>
           </div>
 
-          <button class="btn btn-primary btn-sm" id="refreshBtn">
+          <button class="btn btn-ghost btn-sm" id="refreshBtn">
             Refresh
           </button>
         </div>

@@ -3,34 +3,42 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Booky - Services</title>
+
+  <title>Services — Booky</title>
 
   <link rel="stylesheet" href="css/style.css" />
   <link rel="stylesheet" href="css/dashboard.css" />
 </head>
 <body>
 
-  <header class="dashboard-header">
-    <div class="logo">Booky</div>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
 
-    <nav>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="browse.html">Browse</a>
-      <button id="logoutBtn" class="logout-btn">Logout</button>
-    </nav>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+        <a href="browse.html" class="btn btn-ghost btn-sm">Browse</a>
+        <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+      </nav>
+    </div>
   </header>
 
-  <main class="dashboard-container">
-  <section class="welcome-section">
-    <h1>Available Services</h1>
-    <p>Select a service and book your appointment.</p>
-  </section>
+  <main class="container section">
+    <div class="section-head">
+      <span class="eyebrow">Services</span>
+      <h2>Available Services</h2>
+      <p>Select a service and continue to book your appointment.</p>
+    </div>
 
-  <div id="message" class="message"></div>
+    <div id="message" class="message"></div>
 
-  <section id="servicesGrid" class="items-grid">
-  </section>
-</main>
+    <section id="servicesGrid" class="items-grid">
+      <!-- services will load here -->
+    </section>
+  </main>
 
   <script src="js/services.js"></script>
 </body>

@@ -1,44 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Book Appointment — Booky</title>
-  <link rel="stylesheet" href="css/style.css">
+
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
-<header class="navbar">
-  <div class="navbar-inner">
-    <a href="dashboard.html" class="logo"><span class="logo-mark">📅</span> Booky</a>
-    <a href="services.html" class="btn btn-ghost btn-sm">← Back</a>
-  </div>
-</header>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
 
-<main class="container section">
-  <div class="section-head">
-    <span class="eyebrow">Booking</span>
-    <h2>Book Appointment</h2>
-    <p>Select your appointment date and time.</p>
-  </div>
+      <a href="services.html" class="btn btn-ghost btn-sm">← Back</a>
+    </div>
+  </header>
 
-  <div class="glass-card auth-card">
-    <div id="message"></div>
+  <main class="container section">
+    <div class="section-head center">
+      <span class="eyebrow">Booking</span>
+      <h2>Book Appointment</h2>
+      <p>Select your preferred appointment date and time.</p>
+    </div>
 
-    <form id="bookingForm">
-      <div class="form-group">
-        <label class="form-label" for="appointmentTime">Appointment Time</label>
-        <input type="datetime-local" id="appointmentTime" class="form-input" required>
+    <section class="glass-card auth-card">
+      <div class="card-header">
+        <div>
+          <h3>Appointment Details</h3>
+          <p>Choose a future time that works best for you.</p>
+        </div>
       </div>
 
-      <button type="submit" class="btn btn-primary btn-block">
-        Confirm Booking
-      </button>
-    </form>
-  </div>
-</main>
+      <div id="message" class="message"></div>
 
-<script src="js/common.js"></script>
-<script src="js/book.js"></script>
+      <form id="bookingForm" class="form-stack">
+        <div class="form-group">
+          <label class="form-label" for="appointmentTime">Appointment Time</label>
+          <input type="datetime-local" id="appointmentTime" class="form-input" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">
+          Confirm Booking
+        </button>
+      </form>
+    </section>
+  </main>
+
+  <script src="js/common.js"></script>
+  <script src="js/book.js"></script>
 </body>
 </html>

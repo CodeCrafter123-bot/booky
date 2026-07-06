@@ -4,82 +4,153 @@ const form = document.getElementById("registerForm");
 const alertBox = document.getElementById("formAlert");
 const button = document.getElementById("submitBtn");
 
+const fullNameInput = document.getElementById("fullName");
+const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
-const toggleButton = document.querySelector(".password-toggle");
+const phoneInput = document.getElementById("phone");
 
-toggleButton.addEventListener("click", () => {
-    const target = document.getElementById(toggleButton.dataset.target);
+const fullNameError = document.getElementById("fullNameError");
+const emailError = document.getElementById("emailError");
+const passwordError = document.getElementById("passwordError");
+const phoneError = document.getElementById("phoneError");
+const roleError = document.getElementById("roleError");
 
-    if (target.type === "password") {
-        target.type = "text";
-        toggleButton.textContent = "HIDE";
-    } else {
-        target.type = "password";
-        toggleButton.textContent = "SHOW";
-    }
+document.querySelectorAll(".password-toggle").forEach((toggleButton) => {
+  toggleButton.addEventListener("click", () => {
+    const input = document.getElementById(toggleButton.dataset.target);
+
+    if (!input) return;
+
+    const isPassword = input.type === "password";
+    input.type = isPassword ? "text" : "password";
+    toggleButton.textContent = isPassword ? "HIDE" : "SHOW";
+  });
 });
+
+form?.addEventListener("submit", register);
 
 function showMessage(text, type = "error") {
-    alertBox.textContent = text;
-    alertBox.style.display = text ? "block" : "none";
+  if (!alertBox) return;
 
-    if (type === "success") {
-        alertBox.className = "alert alert-success";
-    } else {
-        alertBox.className = "alert alert-error";
-    }
+  alertBox.textContent = text;
+  alertBox.className = type === "success"
+    ? "alert alert-success show"
+    : "alert alert-error show";
+
+  if (!text) {
+    alertBox.className = "alert alert-error";
+  }
 }
 
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+function setFieldError(input, errorElement, message) {
+  if (!input || !errorElement) return;
 
-    const fullName = document.getElementById("fullName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("password").value;
-    const phone = document.getElementById("phone").value.trim();
+  input.classList.toggle("field-error", Boolean(message));
+  errorElement.textContent = message;
+  errorElement.classList.toggle("show", Boolean(message));
+}
 
-    const role = document.querySelector('input[name="role"]:checked')?.value;
+function validateForm(data) {
+  let isValid = true;
 
-    if (!fullName || !email || !password || !phone || !role) {
-        showMessage("Please fill in all fields.");
-        return;
+  setFieldError(fullNameInput, fullNameError, "");
+  setFieldError(emailInput, emailError, "");
+  setFieldError(passwordInput, passwordError, "");
+  setFieldError(phoneInput, phoneError, "");
+
+  if (roleError) {
+    roleError.textContent = "";
+    roleError.classList.remove("show");
+  }
+
+  showMessage("");
+
+  if (!data.fullName) {
+    setFieldError(fullNameInput, fullNameError, "Full name is required.");
+    isValid = false;
+  }
+
+  if (!data.email) {
+    setFieldError(emailInput, emailError, "Email is required.");
+    isValid = false;
+  } else if (!/^\S+@\S+\.\S+$/.test(data.email)) {
+    setFieldError(emailInput, emailError, "Enter a valid email address.");
+    isValid = false;
+  }
+
+  if (!data.password) {
+    setFieldError(passwordInput, passwordError, "Password is required.");
+    isValid = false;
+  } else if (data.password.length < 6) {
+    setFieldError(passwordInput, passwordError, "Password must be at least 6 characters.");
+    isValid = false;
+  }
+
+  if (!data.phone) {
+    setFieldError(phoneInput, phoneError, "Phone number is required.");
+    isValid = false;
+  }
+
+  if (!data.role) {
+    if (roleError) {
+      roleError.textContent = "Please select a role.";
+      roleError.classList.add("show");
     }
 
-    button.disabled = true;
-    button.querySelector(".btn-label").textContent = "Creating account...";
+    isValid = false;
+  }
 
-    try {
+  return isValid;
+}
 
-        const response = await fetch(API_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                fullName,
-                email,
-                password,
-                phone,
-                role
-            })
-        });
+function setLoading(isLoading) {
+  if (!button) return;
 
-        const data = await response.json().catch(() => ({}));
+  button.disabled = isLoading;
+  button.classList.toggle("is-loading", isLoading);
 
-        if (!response.ok) {
-            throw new Error(data.message || "Registration failed.");
-        }
+  const label = button.querySelector(".btn-label");
+  if (label) label.textContent = isLoading ? "Creating account..." : "Create account";
+}
 
-        showMessage("Account created successfully! Redirecting...", "success");
+async function register(event) {
+  event.preventDefault();
 
-        setTimeout(() => {
-            window.location.href = "login.html";
-        }, 1500);
+  const data = {
+    fullName: fullNameInput.value.trim(),
+    email: emailInput.value.trim(),
+    password: passwordInput.value,
+    phone: phoneInput.value.trim(),
+    role: document.querySelector('input[name="role"]:checked')?.value
+  };
 
-    } catch (err) {
-        showMessage(err.message || "Registration failed.");
-    } finally {
-        button.disabled = false;
-        button.querySelector(".btn-label").textContent = "Create account";
+  if (!validateForm(data)) return;
+
+  setLoading(true);
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data)
+    });
+
+    const responseData = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      throw new Error(responseData.message || "Registration failed.");
     }
-});
+
+    showMessage("Account created successfully! Redirecting...", "success");
+
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 1200);
+  } catch (error) {
+    showMessage(error.message || "Registration failed.");
+  } finally {
+    setLoading(false);
+  }
+}

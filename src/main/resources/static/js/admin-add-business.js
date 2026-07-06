@@ -7,7 +7,7 @@ if (!token || !user) {
   location.href = "login.html";
 }
 
-if (user.role !== "ADMIN") {
+if (user?.role !== "ADMIN") {
   alert("Access denied. Admins only.");
   location.href = "dashboard.html";
 }
@@ -16,32 +16,60 @@ const businessForm = document.getElementById("businessForm");
 const message = document.getElementById("message");
 const logoutBtn = document.getElementById("logoutBtn");
 
-logoutBtn.addEventListener("click", () => {
-  localStorage.clear();
-  location.href = "login.html";
-});
+logoutBtn?.addEventListener("click", logout);
 
-function showMessage(text, type = "error") {
-  message.textContent = text;
-  message.className = `message ${type}`;
+businessForm?.addEventListener("submit", addBusiness);
+
+function logout() {
+  localStorage.removeItem("booky_token");
+  localStorage.removeItem("booky_user");
+  localStorage.removeItem("selected_business_id");
+  localStorage.removeItem("selected_service_id");
+  location.href = "login.html";
 }
 
 function getAuthHeaders() {
   return {
     "Content-Type": "application/json",
-    "Authorization": "Bearer " + token
+    Authorization: `Bearer ${token}`
   };
 }
 
-businessForm.addEventListener("submit", async (event) => {
+function showMessage(text, type = "error") {
+  if (!message) return;
+
+  message.textContent = text;
+  message.className = text ? `message ${type}` : "message";
+}
+
+function getInputValue(id) {
+  return document.getElementById(id)?.value.trim() || "";
+}
+
+function validateBusiness(data) {
+  if (!data.name) return "Business name is required.";
+  if (!data.type) return "Business type is required.";
+  if (!data.location) return "Location is required.";
+  if (!data.description) return "Description is required.";
+  return "";
+}
+
+async function addBusiness(event) {
   event.preventDefault();
 
   const businessData = {
-    name: document.getElementById("name").value.trim(),
-    type: document.getElementById("type").value.trim(),
-    location: document.getElementById("location").value.trim(),
-    description: document.getElementById("description").value.trim()
+    name: getInputValue("name"),
+    type: getInputValue("type"),
+    location: getInputValue("location"),
+    description: getInputValue("description")
   };
+
+  const validationError = validateBusiness(businessData);
+
+  if (validationError) {
+    showMessage(validationError);
+    return;
+  }
 
   try {
     showMessage("Adding business...", "success");
@@ -52,12 +80,14 @@ businessForm.addEventListener("submit", async (event) => {
       body: JSON.stringify(businessData)
     });
 
-    if (response.status === 403) {
-      throw new Error("Admin is not allowed to add businesses yet. Backend permission must be updated.");
+    const data = await response.json().catch(() => ({}));
+
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(data.message || "Access denied. Please log in again as admin.");
     }
 
     if (!response.ok) {
-      throw new Error("Could not add business.");
+      throw new Error(data.message || "Could not add business.");
     }
 
     showMessage("Business added successfully!", "success");
@@ -65,9 +95,8 @@ businessForm.addEventListener("submit", async (event) => {
 
     setTimeout(() => {
       location.href = "admin.html";
-    }, 1000);
-
+    }, 900);
   } catch (error) {
     showMessage(error.message || "Could not add business.");
   }
-});
+}

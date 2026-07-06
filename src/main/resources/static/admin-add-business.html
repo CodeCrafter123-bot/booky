@@ -14,7 +14,8 @@
     <aside class="sidebar">
       <div class="sidebar-logo">
         <a href="dashboard.html" class="logo">
-          <span class="logo-mark">📅</span> Booky
+          <span class="logo-mark">📅</span>
+          <span>Booky</span>
         </a>
       </div>
 
@@ -50,15 +51,25 @@
     <main class="main-content">
       <div class="page-header">
         <div>
+          <span class="eyebrow">Admin Action</span>
           <h1>Add New Business</h1>
-          <p>Create a new business as an admin.</p>
+          <p>Create and publish a new business on the Booky platform.</p>
         </div>
+
+        <a href="admin.html" class="btn btn-ghost btn-sm">← Back to Admin</a>
       </div>
 
       <section class="glass-card admin-form-card">
+        <div class="card-header">
+          <div>
+            <h2>Business Information</h2>
+            <p>Fill in the details below. All fields are required.</p>
+          </div>
+        </div>
+
         <div id="message" class="message"></div>
 
-        <form id="businessForm">
+        <form id="businessForm" class="form-stack">
           <div class="form-group">
             <label class="form-label" for="name">Business Name</label>
             <input class="form-input" type="text" id="name" required placeholder="Example: Booky Barber">
@@ -76,10 +87,10 @@
 
           <div class="form-group">
             <label class="form-label" for="description">Description</label>
-            <textarea class="form-input" id="description" rows="4" required placeholder="Write a short description..."></textarea>
+            <textarea class="form-input" id="description" rows="5" required placeholder="Write a short description about this business..."></textarea>
           </div>
 
-          <button class="btn btn-primary" type="submit">
+          <button class="btn btn-primary btn-block" type="submit">
             Add Business
           </button>
         </form>
