@@ -125,11 +125,11 @@ const dashboardConfig = {
         href: "browse.html"
       },
       {
-        title: "All Bookings",
-        description: "Coming soon after backend admin booking endpoints.",
-        icon: "📅",
-        href: "#"
-      },
+  title: "All Bookings",
+  description: "Review, approve and decline client bookings.",
+  icon: "📅",
+  href: "admin-bookings.html"
+},
       {
         title: "Users Management",
         description: "Coming soon after backend users endpoint.",
