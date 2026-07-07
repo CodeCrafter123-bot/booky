@@ -76,17 +76,29 @@ const dashboardConfig = {
         href: "browse.html"
       },
       {
+  title: "Add Service",
+  description: "Create services for your business.",
+  icon: "🛠️",
+  href: "owner-add-service.html"
+},
+      {
+  title: "Add Business",
+  description: "Create your own business profile on Booky.",
+  icon: "➕",
+  href: "admin-add-business.html"
+},
+      {
         title: "Manage Services",
         description: "View services after selecting a business.",
         icon: "🛠️",
         href: "services.html"
       },
       {
-        title: "Booking Activity",
-        description: "View your current appointment activity.",
-        icon: "📅",
-        href: "my-bookings.html"
-      },
+    title: "Booking Activity",
+    description: "View bookings for your businesses.",
+    icon: "📅",
+    href: "owner-bookings.html"
+},
       {
         title: "Profile",
         description: "View your owner account information.",

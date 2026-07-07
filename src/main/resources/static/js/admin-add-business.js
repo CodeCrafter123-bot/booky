@@ -7,8 +7,8 @@ if (!token || !user) {
   location.href = "login.html";
 }
 
-if (user?.role !== "ADMIN") {
-  alert("Access denied. Admins only.");
+if (user?.role !== "ADMIN" && user?.role !== "OWNER") {
+  alert("Access denied. Owners or Admins only.");
   location.href = "dashboard.html";
 }
 
@@ -83,7 +83,7 @@ async function addBusiness(event) {
     const data = await response.json().catch(() => ({}));
 
     if (response.status === 401 || response.status === 403) {
-      throw new Error(data.message || "Access denied. Please log in again as admin.");
+      throw new Error(data.message ||"Access denied. Please log in again as owner or admin.");
     }
 
     if (!response.ok) {
@@ -94,7 +94,7 @@ async function addBusiness(event) {
     businessForm.reset();
 
     setTimeout(() => {
-      location.href = "admin.html";
+      location.href = user.role === "ADMIN" ? "admin.html" : "dashboard.html";
     }, 900);
   } catch (error) {
     showMessage(error.message || "Could not add business.");

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Add Service — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <span class="ico">🏠</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="admin-add-business.html" class="sidebar-link">
+        <span class="ico">➕</span>
+        <span>Add Business</span>
+      </a>
+
+      <a href="owner-add-service.html" class="sidebar-link active">
+        <span class="ico">🛠️</span>
+        <span>Add Service</span>
+      </a>
+
+      <a href="owner-bookings.html" class="sidebar-link">
+        <span class="ico">📅</span>
+        <span>Booking Activity</span>
+      </a>
+
+      <a href="browse.html" class="sidebar-link">
+        <span class="ico">🏢</span>
+        <span>Businesses</span>
+      </a>
+
+      <a href="profile.html" class="sidebar-link">
+        <span class="ico">👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar" id="avatarInitial">O</div>
+        <div class="user-chip-info">
+          <div class="user-chip-name" id="userName">Owner</div>
+          <div class="user-chip-role" id="userRole">OWNER</div>
+        </div>
+      </div>
+
+      <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Owner Workspace</span>
+        <h1>Add Service 🛠️</h1>
+        <p>Create services for your business so clients can book appointments.</p>
+      </div>
+    </div>
+
+    <section class="glass-card admin-section">
+      <div class="admin-section-header">
+        <div>
+          <h2>New Service</h2>
+          <p>Select one of your businesses and add a bookable service.</p>
+        </div>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <form id="serviceForm" class="form-grid">
+
+        <div class="form-group">
+          <label for="businessId">Business</label>
+          <select id="businessId" required>
+            <option value="">Loading your businesses...</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="name">Service Name</label>
+          <input type="text" id="name" placeholder="Example: Haircut" required />
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="Describe the service..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="durationMinutes">Duration Minutes</label>
+          <input type="number" id="durationMinutes" placeholder="30" min="1" required />
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <input type="number" id="price" placeholder="10" min="1" step="0.01" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          Add Service
+        </button>
+
+      </form>
+    </section>
+  </main>
+
+</div>
+
+<script src="js/owner-add-service.js"></script>
+
+</body>
+</html>

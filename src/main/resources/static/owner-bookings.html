@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Owner Bookings — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<div class="app-shell">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <a href="dashboard.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a href="dashboard.html" class="sidebar-link">
+        <span class="ico">🏠</span>
+        <span>Dashboard</span>
+      </a>
+
+      <a href="browse.html" class="sidebar-link">
+        <span class="ico">🏢</span>
+        <span>Businesses</span>
+      </a>
+
+      <a href="owner-bookings.html" class="sidebar-link active">
+        <span class="ico">📅</span>
+        <span>Booking Activity</span>
+      </a>
+
+      <a href="profile.html" class="sidebar-link">
+        <span class="ico">👤</span>
+        <span>Profile</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="avatar" id="avatarInitial">O</div>
+        <div class="user-chip-info">
+          <div class="user-chip-name" id="userName">Owner</div>
+          <div class="user-chip-role" id="userRole">OWNER</div>
+        </div>
+      </div>
+
+      <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+        Log out
+      </button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="page-header">
+      <div>
+        <span class="eyebrow">Owner Workspace</span>
+        <h1>Booking Activity 📅</h1>
+        <p>View client bookings for your businesses and services.</p>
+      </div>
+
+      <button class="btn btn-ghost btn-sm" id="refreshBtn">
+        Refresh
+      </button>
+    </div>
+
+    <section class="glass-card admin-section">
+      <div class="admin-section-header">
+        <div>
+          <h2>Your Business Bookings</h2>
+          <p>Loaded from <code>GET /bookings/owner</code></p>
+        </div>
+      </div>
+
+      <div id="message" class="message"></div>
+
+      <div id="bookingsContainer" class="admin-list">
+        <!-- Owner bookings load here -->
+      </div>
+    </section>
+  </main>
+
+</div>
+
+<script src="js/owner-bookings.js"></script>
+
+</body>
+</html>
