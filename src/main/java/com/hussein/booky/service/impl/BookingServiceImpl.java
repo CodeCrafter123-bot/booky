@@ -103,18 +103,33 @@ public BookingResponse declineBooking(Integer bookingId) {
 }
 
     private BookingResponse mapToResponse(Booking booking) {
-        return new BookingResponse(
-                booking.getId(),
-                booking.getAppointmentTime(),
-                booking.getStatus(),
-                booking.getUser() != null ? booking.getUser().getId() : null,
-                booking.getService() != null ? booking.getService().getId() : null,
-                booking.getService() != null ? booking.getService().getName() : null
-        );
-    }
 
+    BookyService service = booking.getService();
+
+    return new BookingResponse(
+            booking.getId(),
+            booking.getAppointmentTime(),
+            booking.getStatus(),
+
+            booking.getUser() != null ? booking.getUser().getId() : null,
+            booking.getUser() != null ? booking.getUser().getFullName() : null,
+            booking.getUser() != null ? booking.getUser().getEmail() : null,
+
+            service != null ? service.getId() : null,
+            service != null ? service.getName() : null,
+            service != null ? service.getPrice() : null,
+            service != null ? service.getDurationMinutes() : null,
+
+            service != null && service.getBusiness() != null ? service.getBusiness().getId() : null,
+            service != null && service.getBusiness() != null ? service.getBusiness().getName() : null,
+            service != null && service.getBusiness() != null ? service.getBusiness().getLocation() : null
+    );
+}
    @Override
 public List<BookingResponse> getBookingsByOwner(Integer ownerId) {
-    return List.of();
+    return bookingRepository.findBookingsByOwnerId(ownerId)
+            .stream()
+            .map(this::mapToResponse)
+            .toList();
 }
 }

@@ -72,43 +72,49 @@ async function loadBookings() {
 
         bookings.forEach((booking) => {
             const isPending = booking.status === "PENDING";
+bookingsContainer.innerHTML += `
+    <div class="glass-card admin-item">
+        <div class="admin-item-header">
+            <div>
+                <h3>${booking.serviceName || "Service"}</h3>
+                <p>Booking #${booking.id}</p>
+            </div>
 
-            bookingsContainer.innerHTML += `
-                <div class="glass-card admin-item">
-                    <div class="admin-item-header">
-                        <div>
-                            <h3>${booking.serviceName || "Service"}</h3>
-                            <p>Booking #${booking.id}</p>
-                        </div>
+            <span class="booking-status ${getStatusClass(booking.status)}">
+                ${booking.status}
+            </span>
+        </div>
 
-                        <span class="booking-status ${getStatusClass(booking.status)}">
-                            ${booking.status}
-                        </span>
-                    </div>
+        <div class="booking-details">
+            <p><strong>👤 Client:</strong> ${booking.clientName || "N/A"}</p>
+            <p><strong>📧 Email:</strong> ${booking.clientEmail || "N/A"}</p>
 
-                    <div class="booking-details">
-                        <p><strong>Appointment:</strong> ${formatDate(booking.appointmentTime)}</p>
-                        <p><strong>User ID:</strong> ${booking.userId || "N/A"}</p>
-                        <p><strong>Service ID:</strong> ${booking.serviceId || "N/A"}</p>
-                    </div>
+            <p><strong>🏢 Business:</strong> ${booking.businessName || "N/A"}</p>
+            <p><strong>📍 Location:</strong> ${booking.businessLocation || "N/A"}</p>
 
-                    <div class="admin-item-actions">
-                        <button
-                            class="btn btn-primary btn-sm"
-                            onclick="acceptBooking(${booking.id})"
-                            ${!isPending ? "disabled" : ""}>
-                            ✓ Accept
-                        </button>
+            <p><strong>💰 Price:</strong> $${booking.servicePrice ?? "N/A"}</p>
+            <p><strong>⏱ Duration:</strong> ${booking.serviceDuration || "N/A"} minutes</p>
 
-                        <button
-                            class="btn btn-danger btn-sm"
-                            onclick="declineBooking(${booking.id})"
-                            ${!isPending ? "disabled" : ""}>
-                            ✕ Decline
-                        </button>
-                    </div>
-                </div>
-            `;
+            <p><strong>📅 Appointment:</strong> ${formatDate(booking.appointmentTime)}</p>
+        </div>
+
+        <div class="admin-item-actions">
+            <button
+                class="btn btn-primary btn-sm"
+                onclick="acceptBooking(${booking.id})"
+                ${!isPending ? "disabled" : ""}>
+                ✓ Accept
+            </button>
+
+            <button
+                class="btn btn-danger btn-sm"
+                onclick="declineBooking(${booking.id})"
+                ${!isPending ? "disabled" : ""}>
+                ✕ Decline
+            </button>
+        </div>
+    </div>
+`;
         });
 
     } catch (error) {

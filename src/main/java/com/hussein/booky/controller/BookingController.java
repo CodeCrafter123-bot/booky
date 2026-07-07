@@ -74,4 +74,13 @@ public ResponseEntity<BookingResponse> declineBooking(
 ) {
     return ResponseEntity.ok(bookingService.declineBooking(bookingId));
 }
+@GetMapping("/owner")
+public ResponseEntity<List<BookingResponse>> getOwnerBookings(
+        @RequestHeader("Authorization") String authHeader
+) {
+    String token = authHeader.substring(7);
+    Integer ownerId = jwtService.extractUserId(token);
+
+    return ResponseEntity.ok(bookingService.getBookingsByOwner(ownerId));
+}
 }

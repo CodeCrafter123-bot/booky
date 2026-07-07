@@ -23,25 +23,30 @@ public class BookyServiceServiceImpl implements BookyServiceService {
         this.businessRepository = businessRepository;
     }
 
-    @Override
-    public BookyServiceResponse addService(BookyServiceRequest request) {
+   @Override
+public BookyServiceResponse addService(BookyServiceRequest request, Integer userId, String role) {
 
-        Business business = businessRepository.findById(request.getBusinessId())
-                .orElseThrow(() -> new RuntimeException("Business not found"));
+    Business business = businessRepository.findById(request.getBusinessId())
+            .orElseThrow(() -> new RuntimeException("Business not found"));
 
-        BookyService service = new BookyService();
-        service.setName(request.getName());
-        service.setDescription(request.getDescription());
-        service.setDurationMinutes(request.getDurationMinutes());
-        service.setPrice(request.getPrice());
-        service.setActive(request.getActive() == null ? true : request.getActive());
-        service.setBusiness(business);
-
-        BookyService savedService = bookyServiceRepository.save(service);
-
-        return mapToResponse(savedService);
+    if (role.equals("OWNER")) {
+        if (business.getOwner() == null || !business.getOwner().getId().equals(userId)) {
+            throw new RuntimeException("You are not allowed to add services to this business");
+        }
     }
 
+    BookyService service = new BookyService();
+    service.setName(request.getName());
+    service.setDescription(request.getDescription());
+    service.setDurationMinutes(request.getDurationMinutes());
+    service.setPrice(request.getPrice());
+    service.setActive(request.getActive() == null ? true : request.getActive());
+    service.setBusiness(business);
+
+    BookyService savedService = bookyServiceRepository.save(service);
+
+    return mapToResponse(savedService);
+}
     @Override
     public List<BookyServiceResponse> getAllServices() {
         return bookyServiceRepository.findAll()

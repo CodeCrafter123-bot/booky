@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface BookyServiceService {
 
-    BookyServiceResponse addService(BookyServiceRequest request);
+   BookyServiceResponse addService(BookyServiceRequest request, Integer userId, String role);
 
     List<BookyServiceResponse> getAllServices();
 
