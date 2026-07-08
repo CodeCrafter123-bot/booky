@@ -24,14 +24,14 @@
     <div class="section-head center">
       <span class="eyebrow">Booking</span>
       <h2>Book Appointment</h2>
-      <p>Select your preferred appointment date and time.</p>
+      <p>Select a date, choose an available slot, and confirm your booking.</p>
     </div>
 
     <section class="glass-card auth-card">
       <div class="card-header">
         <div>
           <h3>Appointment Details</h3>
-          <p>Choose a future time that works best for you.</p>
+          <p>Only available times are shown.</p>
         </div>
       </div>
 
@@ -39,8 +39,17 @@
 
       <form id="bookingForm" class="form-stack">
         <div class="form-group">
-          <label class="form-label" for="appointmentTime">Appointment Time</label>
-          <input type="datetime-local" id="appointmentTime" class="form-input" required>
+          <label class="form-label" for="appointmentDate">Appointment Date</label>
+          <input type="date" id="appointmentDate" class="form-input" required>
+        </div>
+
+        <button type="button" id="loadSlotsBtn" class="btn btn-secondary btn-block">
+          Show Available Times
+        </button>
+
+        <div class="form-group">
+          <label class="form-label">Available Times</label>
+          <div id="slotsContainer" class="slot-grid"></div>
         </div>
 
         <button type="submit" class="btn btn-primary btn-block">
@@ -50,7 +59,7 @@
     </section>
   </main>
 
-  <script src="js/common.js"></script>
+  
   <script src="js/book.js"></script>
 </body>
 </html>

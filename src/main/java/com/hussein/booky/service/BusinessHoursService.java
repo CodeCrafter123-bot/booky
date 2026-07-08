@@ -39,13 +39,10 @@ public class BusinessHoursService {
             if (!request.getOpenTime().isBefore(request.getCloseTime())) {
                 throw new RuntimeException("Open time must be before close time");
             }
-
         }
 
         BusinessHours hours = businessHoursRepository
-                .findByBusinessIdAndDayOfWeek(
-                        request.getBusinessId(),
-                        request.getDayOfWeek())
+                .findByBusinessIdAndDayOfWeek(request.getBusinessId(), request.getDayOfWeek())
                 .orElse(new BusinessHours());
 
         hours.setBusiness(business);

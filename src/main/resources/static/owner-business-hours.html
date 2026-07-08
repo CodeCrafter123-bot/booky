@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Business Hours — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="dashboard.html" class="logo">
+      <span class="logo-mark">📅</span>
+      <span>Booky</span>
+    </a>
+
+    <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head center">
+    <span class="eyebrow">Owner</span>
+    <h2>Business Hours</h2>
+    <p>Set when your business is open or closed.</p>
+  </div>
+
+  <section class="glass-card auth-card">
+    <div class="card-header">
+      <div>
+        <h3>Choose Business</h3>
+        <p>Select one of your businesses and manage its schedule.</p>
+      </div>
+    </div>
+
+    <div id="message" class="message"></div>
+
+    <div class="form-stack">
+      <div class="form-group">
+        <label class="form-label" for="businessSelect">Business</label>
+        <select id="businessSelect" class="form-input">
+          <option value="">Loading businesses...</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="glass-card auth-card" style="margin-top: 24px;">
+    <div class="card-header">
+      <div>
+        <h3>Weekly Schedule</h3>
+        <p>Save opening and closing hours for each day.</p>
+      </div>
+    </div>
+
+    <div id="hoursList" class="form-stack"></div>
+  </section>
+</main>
+
+<script src="js/owner-business-hours.js"></script>
+</body>
+</html>

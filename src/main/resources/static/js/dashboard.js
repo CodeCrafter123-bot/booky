@@ -99,6 +99,12 @@ const dashboardConfig = {
     icon: "📅",
     href: "owner-bookings.html"
 },
+{
+  title: "Business Hours",
+  description: "Set weekly opening and closing times for your business.",
+  icon: "⏰",
+  href: "owner-business-hours.html"
+},
       {
         title: "Profile",
         description: "View your owner account information.",

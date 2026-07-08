@@ -1,11 +1,15 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "http://127.0.0.1:8080";
 
 const token = localStorage.getItem("booky_token");
 const serviceId = localStorage.getItem("selected_service_id");
 
 const form = document.getElementById("bookingForm");
 const message = document.getElementById("message");
-const appointmentTimeInput = document.getElementById("appointmentTime");
+const appointmentDateInput = document.getElementById("appointmentDate");
+const loadSlotsBtn = document.getElementById("loadSlotsBtn");
+const slotsContainer = document.getElementById("slotsContainer");
+
+let selectedSlot = null;
 
 if (!token) {
   location.href = "login.html";
@@ -15,8 +19,9 @@ if (!serviceId) {
   showMessage("No service selected. Please go back and choose a service.");
 }
 
-setMinimumAppointmentTime();
+setMinimumDate();
 
+loadSlotsBtn?.addEventListener("click", loadAvailableSlots);
 form?.addEventListener("submit", createBooking);
 
 function getAuthHeaders() {
@@ -28,34 +33,106 @@ function getAuthHeaders() {
 
 function showMessage(text, type = "error") {
   if (!message) return;
-
   message.textContent = text;
   message.className = text ? `message ${type}` : "message";
 }
 
-function setMinimumAppointmentTime() {
-  if (!appointmentTimeInput) return;
+function setMinimumDate() {
+  if (!appointmentDateInput) return;
 
-  const now = new Date();
-  now.setMinutes(now.getMinutes() - now.getTimezoneOffset() + 5);
+  const today = new Date();
+  today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
 
-  appointmentTimeInput.min = now.toISOString().slice(0, 16);
+  appointmentDateInput.min = today.toISOString().slice(0, 10);
+}
+
+async function loadAvailableSlots() {
+  selectedSlot = null;
+  slotsContainer.innerHTML = "";
+
+  const date = appointmentDateInput.value;
+
+  if (!date) {
+    showMessage("Please choose a date first.");
+    return;
+  }
+
+  try {
+    showMessage("Loading available times...", "success");
+
+    const response = await fetch(
+      `${API_URL}/availability/slots?serviceId=${Number(serviceId)}&date=${date}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+
+    const data = await response.json().catch(() => []);
+
+    if (!response.ok) {
+      throw new Error(data.message || "Could not load available times.");
+    }
+
+    if (!Array.isArray(data) || data.length === 0) {
+      showMessage("No available times for this date.");
+      return;
+    }
+
+    renderSlots(data);
+    showMessage("Choose one of the available times.", "success");
+
+  } catch (error) {
+    showMessage(error.message || "Could not load available times.");
+  }
+}
+
+function renderSlots(slots) {
+  slotsContainer.innerHTML = "";
+
+  slots.forEach((slot) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "slot-btn";
+    button.textContent = slot.slice(0, 5);
+
+    button.addEventListener("click", () => {
+      selectedSlot = slot.slice(0, 5);
+
+      document.querySelectorAll(".slot-btn").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+    });
+
+    slotsContainer.appendChild(button);
+  });
 }
 
 async function createBooking(event) {
   event.preventDefault();
 
-  const appointmentTime = appointmentTimeInput.value;
+  const date = appointmentDateInput.value;
 
   if (!serviceId) {
     showMessage("No service selected. Please choose a service first.");
     return;
   }
 
-  if (!appointmentTime) {
-    showMessage("Please choose an appointment time.");
+  if (!date) {
+    showMessage("Please choose an appointment date.");
     return;
   }
+
+  if (!selectedSlot) {
+    showMessage("Please choose an available time slot.");
+    return;
+  }
+
+  const appointmentTime = `${date}T${selectedSlot}:00`;
 
   try {
     showMessage("Creating booking...", "success");
