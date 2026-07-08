@@ -18,4 +18,11 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
            WHERE b.service.business.owner.id = :ownerId
            """)
     List<Booking> findBookingsByOwnerId(@Param("ownerId") Integer ownerId);
+
+    @Query("""
+           SELECT b FROM Booking b
+           WHERE b.service.business.id = :businessId
+           AND b.status IN ('PENDING', 'CONFIRMED')
+           """)
+    List<Booking> findActiveBookingsByBusinessId(@Param("businessId") Integer businessId);
 }
