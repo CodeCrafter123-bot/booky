@@ -3,6 +3,7 @@ package com.hussein.booky.service;
 import com.hussein.booky.dto.LoginRequest;
 import com.hussein.booky.dto.LoginResponse;
 import com.hussein.booky.dto.RegisterRequest;
+import com.hussein.booky.dto.UpdateProfileRequest;
 import com.hussein.booky.dto.UserResponse;
 import com.hussein.booky.entity.User;
 import com.hussein.booky.repository.UserRepository;
@@ -36,13 +37,7 @@ public class UserService {
 
         User savedUser = userRepository.save(user);
 
-        return new UserResponse(
-                savedUser.getId(),
-                savedUser.getFullName(),
-                savedUser.getEmail(),
-                savedUser.getPhone(),
-                savedUser.getRole()
-        );
+        return toUserResponse(savedUser);
     }
 
     public LoginResponse login(LoginRequest request) {
@@ -61,20 +56,38 @@ public class UserService {
             return null;
         }
 
-        UserResponse userResponse = new UserResponse(
+        UserResponse userResponse = toUserResponse(user);
+
+        String token = jwtService.generateToken(user);
+
+        return new LoginResponse(token, userResponse);
+    }
+
+    public UserResponse updateProfile(Integer userId, UpdateProfileRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        User existingEmailUser = userRepository.findByEmail(request.getEmail());
+
+        if (existingEmailUser != null && !existingEmailUser.getId().equals(userId)) {
+            throw new RuntimeException("Email is already used by another account");
+        }
+
+        user.setFullName(request.getFullName());
+        user.setEmail(request.getEmail());
+
+        User savedUser = userRepository.save(user);
+
+        return toUserResponse(savedUser);
+    }
+
+    private UserResponse toUserResponse(User user) {
+        return new UserResponse(
                 user.getId(),
                 user.getFullName(),
                 user.getEmail(),
                 user.getPhone(),
                 user.getRole()
         );
-
-        System.out.println("USER FOUND: " + user.getEmail());
-
-String token = jwtService.generateToken(user);
-
-System.out.println("TOKEN: " + token);
-
-return new LoginResponse(token, userResponse);
     }
 }
