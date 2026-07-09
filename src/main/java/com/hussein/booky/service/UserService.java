@@ -11,7 +11,8 @@ import com.hussein.booky.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.hussein.booky.dto.AdminUpdateUserRequest;
+import java.util.List;
 @Service
 public class UserService {
 
@@ -90,4 +91,43 @@ public class UserService {
                 user.getRole()
         );
     }
+    public List<UserResponse> getAllUsersForAdmin() {
+    return userRepository.findAll()
+            .stream()
+            .map(this::toUserResponse)
+            .toList();
+}
+
+public UserResponse getUserByIdForAdmin(Integer userId) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    return toUserResponse(user);
+}
+
+public UserResponse updateUserForAdmin(Integer userId, AdminUpdateUserRequest request) {
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    User existingEmailUser = userRepository.findByEmail(request.getEmail());
+
+    if (existingEmailUser != null && !existingEmailUser.getId().equals(userId)) {
+        throw new RuntimeException("Email is already used by another account");
+    }
+
+    String role = request.getRole().toUpperCase();
+
+    if (!role.equals("CLIENT") && !role.equals("OWNER") && !role.equals("ADMIN")) {
+        throw new RuntimeException("Invalid role. Role must be CLIENT, OWNER, or ADMIN");
+    }
+
+    user.setFullName(request.getFullName());
+    user.setEmail(request.getEmail());
+    user.setPhone(request.getPhone());
+    user.setRole(role);
+
+    User savedUser = userRepository.save(user);
+
+    return toUserResponse(savedUser);
+}
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin Users — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="dashboard.html" class="logo">
+      <span class="logo-mark">📅</span>
+      <span>Booky</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+      <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head">
+    <span class="eyebrow">Admin Panel</span>
+    <h2>User Management</h2>
+    <p>View, search, and manage all Booky users.</p>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="glass-card admin-users-card">
+    <div class="admin-users-top">
+      <div>
+        <h3>All Users</h3>
+        <p id="userCount">Loading users...</p>
+      </div>
+
+      <input
+        type="text"
+        id="searchInput"
+        class="admin-search"
+        placeholder="Search by name, email, phone, or role..."
+      />
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="usersTableBody">
+          <tr>
+            <td colspan="6">Loading...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="js/admin-users.js"></script>
+</body>
+</html>

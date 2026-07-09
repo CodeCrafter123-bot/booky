@@ -148,12 +148,12 @@ const dashboardConfig = {
   icon: "📅",
   href: "admin-bookings.html"
 },
-      {
-        title: "Users Management",
-        description: "Coming soon after backend users endpoint.",
-        icon: "👥",
-        href: "#"
-      },
+     {
+  title: "Users Management",
+  description: "View all users, edit profiles, and manage roles.",
+  icon: "👥",
+  href: "admin-users.html"
+},
       {
         title: "Platform Statistics",
         description: "Future analytics and reporting section.",
