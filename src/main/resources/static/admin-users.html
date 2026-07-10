@@ -29,7 +29,7 @@
   <div class="section-head">
     <span class="eyebrow">Admin Panel</span>
     <h2>User Management</h2>
-    <p>View, search, and manage all Booky users.</p>
+    <p>View, search, edit, freeze, and unfreeze Booky accounts.</p>
   </div>
 
   <div id="message" class="message"></div>
@@ -45,7 +45,7 @@
         type="text"
         id="searchInput"
         class="admin-search"
-        placeholder="Search by name, email, phone, or role..."
+        placeholder="Search by name, email, phone, role, or status..."
       />
     </div>
 
@@ -58,19 +58,79 @@
             <th>Email</th>
             <th>Phone</th>
             <th>Role</th>
-            <th>Action</th>
+            <th>Status</th>
+            <th>Freeze Reason</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
         <tbody id="usersTableBody">
           <tr>
-            <td colspan="6">Loading...</td>
+            <td colspan="8">Loading...</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </main>
+
+<!-- Freeze account modal -->
+<div id="freezeModal" class="admin-modal hidden">
+  <div class="admin-modal-backdrop" id="freezeModalBackdrop"></div>
+
+  <section
+    class="admin-modal-content glass-card"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="freezeModalTitle"
+  >
+    <div class="admin-modal-head">
+      <div>
+        <span class="eyebrow">Account Action</span>
+        <h3 id="freezeModalTitle">Freeze Account</h3>
+      </div>
+
+      <button
+        type="button"
+        id="closeFreezeModalBtn"
+        class="modal-close-btn"
+        aria-label="Close"
+      >
+        ×
+      </button>
+    </div>
+
+    <p id="freezeUserText" class="modal-user-text"></p>
+
+    <label for="freezeReason">Reason</label>
+
+    <textarea
+      id="freezeReason"
+      class="admin-textarea"
+      rows="5"
+      maxlength="500"
+      placeholder="Explain why this account is being frozen..."
+    ></textarea>
+
+    <div class="modal-footer">
+      <button
+        type="button"
+        id="cancelFreezeBtn"
+        class="btn btn-ghost"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="button"
+        id="confirmFreezeBtn"
+        class="btn btn-danger"
+      >
+        Freeze Account
+      </button>
+    </div>
+  </section>
+</div>
 
 <script src="js/admin-users.js"></script>
 </body>
