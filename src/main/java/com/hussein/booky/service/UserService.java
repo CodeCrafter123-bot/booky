@@ -13,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.hussein.booky.dto.AdminUpdateUserRequest;
 import java.util.List;
+import com.hussein.booky.exception.FrozenAccountException;
 @Service
 public class UserService {
 
@@ -41,28 +42,38 @@ public class UserService {
         return toUserResponse(savedUser);
     }
 
-    public LoginResponse login(LoginRequest request) {
-        User user = userRepository.findByEmail(request.getEmail());
+   public LoginResponse login(LoginRequest request) {
+    User user = userRepository.findByEmail(request.getEmail());
 
-        if (user == null) {
-            return null;
-        }
-
-        boolean passwordMatches = passwordEncoder.matches(
-                request.getPassword(),
-                user.getPassword()
-        );
-
-        if (!passwordMatches) {
-            return null;
-        }
-
-        UserResponse userResponse = toUserResponse(user);
-
-        String token = jwtService.generateToken(user);
-
-        return new LoginResponse(token, userResponse);
+    if (user == null) {
+        throw new RuntimeException("Invalid email or password");
     }
+
+    boolean passwordMatches = passwordEncoder.matches(
+            request.getPassword(),
+            user.getPassword()
+    );
+
+    if (!passwordMatches) {
+        throw new RuntimeException("Invalid email or password");
+    }
+
+    if (user.isFrozen()) {
+        String reason = user.getFreezeReason();
+
+        if (reason == null || reason.isBlank()) {
+            reason = "Please contact the administrator";
+        }
+
+        throw new FrozenAccountException(reason);
+    }
+
+    UserResponse userResponse = toUserResponse(user);
+
+    String token = jwtService.generateToken(user);
+
+    return new LoginResponse(token, userResponse);
+}
 
     public UserResponse updateProfile(Integer userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
@@ -84,12 +95,15 @@ public class UserService {
 
     private UserResponse toUserResponse(User user) {
         return new UserResponse(
-                user.getId(),
-                user.getFullName(),
-                user.getEmail(),
-                user.getPhone(),
-                user.getRole()
-        );
+        user.getId(),
+        user.getFullName(),
+        user.getEmail(),
+        user.getPhone(),
+        user.getRole(),
+        user.isFrozen(),
+        user.getFreezeReason(),
+        user.getFrozenAt()
+);
     }
     public List<UserResponse> getAllUsersForAdmin() {
     return userRepository.findAll()
@@ -125,6 +139,41 @@ public UserResponse updateUserForAdmin(Integer userId, AdminUpdateUserRequest re
     user.setEmail(request.getEmail());
     user.setPhone(request.getPhone());
     user.setRole(role);
+
+    User savedUser = userRepository.save(user);
+
+    return toUserResponse(savedUser);
+}
+public UserResponse freezeUser(Integer userId, String reason) {
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    if (user.getRole().equals("ADMIN")) {
+        throw new RuntimeException("Administrator accounts cannot be frozen");
+    }
+
+    if (reason == null || reason.trim().isEmpty()) {
+        throw new RuntimeException("Freeze reason is required");
+    }
+
+    user.setFrozen(true);
+    user.setFreezeReason(reason.trim());
+    user.setFrozenAt(java.time.LocalDateTime.now());
+
+    User savedUser = userRepository.save(user);
+
+    return toUserResponse(savedUser);
+}
+
+public UserResponse unfreezeUser(Integer userId) {
+
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new RuntimeException("User not found"));
+
+    user.setFrozen(false);
+    user.setFreezeReason(null);
+    user.setFrozenAt(null);
 
     User savedUser = userRepository.save(user);
 

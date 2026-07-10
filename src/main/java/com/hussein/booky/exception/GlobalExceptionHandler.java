@@ -1,9 +1,18 @@
 package com.hussein.booky.exception;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import com.hussein.booky.exception.FrozenAccountException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -24,4 +33,18 @@ public class GlobalExceptionHandler {
 
         return error;
     }
+    @ExceptionHandler(FrozenAccountException.class)
+public ResponseEntity<Map<String, Object>> handleFrozenAccount(
+        FrozenAccountException exception
+) {
+    Map<String, Object> response = new HashMap<>();
+
+    response.put("message", "Your account has been frozen");
+    response.put("reason", exception.getMessage());
+    response.put("code", "ACCOUNT_FROZEN");
+
+    return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(response);
+}
 }

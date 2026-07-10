@@ -1,5 +1,7 @@
 package com.hussein.booky.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -14,6 +16,13 @@ public class User {
 
     @Column(unique = true)
     private String email;
+    @Column(nullable = false)
+private boolean frozen = false;
+
+@Column(length = 500)
+private String freezeReason;
+
+private LocalDateTime frozenAt;
 
     private String password;
 
@@ -44,6 +53,29 @@ public class User {
     public String getFullName() {
         return fullName;
     }
+    public boolean isFrozen() {
+    return frozen;
+}
+
+public void setFrozen(boolean frozen) {
+    this.frozen = frozen;
+}
+
+public String getFreezeReason() {
+    return freezeReason;
+}
+
+public void setFreezeReason(String freezeReason) {
+    this.freezeReason = freezeReason;
+}
+
+public LocalDateTime getFrozenAt() {
+    return frozenAt;
+}
+
+public void setFrozenAt(LocalDateTime frozenAt) {
+    this.frozenAt = frozenAt;
+}
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
