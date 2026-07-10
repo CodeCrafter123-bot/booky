@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Business Reviews — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="dashboard.html" class="logo">
+      <span class="logo-mark">📅</span>
+      <span>Booky</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">
+        Dashboard
+      </a>
+
+      <a href="owner-bookings.html" class="btn btn-ghost btn-sm">
+        Bookings
+      </a>
+
+      <button id="logoutBtn" class="btn btn-danger btn-sm">
+        Log out
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head">
+    <span class="eyebrow">Owner Panel</span>
+    <h2>Customer Reviews</h2>
+    <p>
+      View ratings and feedback submitted for businesses you own.
+    </p>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="glass-card reviews-summary-card">
+    <div>
+      <span class="eyebrow">Review Summary</span>
+      <h3 id="averageRating">0.0 ★</h3>
+      <p id="reviewCount">Loading reviews...</p>
+    </div>
+
+    <input
+      id="searchInput"
+      type="text"
+      class="admin-search"
+      placeholder="Search by business, client, service, or comment..."
+    />
+  </section>
+
+  <section id="reviewsGrid" class="reviews-grid">
+    <div class="empty-state">
+      <p>Loading reviews...</p>
+    </div>
+  </section>
+</main>
+
+<script src="js/owner-reviews.js"></script>
+</body>
+</html>

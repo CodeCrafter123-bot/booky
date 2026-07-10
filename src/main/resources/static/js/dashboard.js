@@ -93,6 +93,7 @@ const dashboardConfig = {
         icon: "🛠️",
         href: "services.html"
       },
+      
       {
     title: "Booking Activity",
     description: "View bookings for your businesses.",
@@ -105,6 +106,11 @@ const dashboardConfig = {
   icon: "⏰",
   href: "owner-business-hours.html"
 },
+{ title: "Customer Reviews",
+         description: "View ratings and feedback for your businesses.", 
+         href: "owner-reviews.html",
+          icon: "⭐"
+         },
       {
         title: "Profile",
         description: "View your owner account information.",
@@ -130,6 +136,7 @@ const dashboardConfig = {
         icon: "🛡️",
         href: "admin.html"
       },
+     
       {
         title: "Add Business",
         description: "Create a new business from the admin dashboard.",
@@ -160,6 +167,11 @@ const dashboardConfig = {
         icon: "📊",
         href: "#"
       },
+       { title: "Review Management", 
+        description: "View and moderate all customer reviews.", 
+        href: "admin-reviews.html",
+         icon: "⭐" 
+        },
       {
         title: "Profile",
         description: "View your admin account information.",

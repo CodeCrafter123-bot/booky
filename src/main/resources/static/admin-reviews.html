@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Admin Reviews — Booky</title>
+
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<header class="navbar">
+  <div class="navbar-inner">
+    <a href="dashboard.html" class="logo">
+      <span class="logo-mark">📅</span>
+      <span>Booky</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm">
+        Dashboard
+      </a>
+
+      <a href="admin-users.html" class="btn btn-ghost btn-sm">
+        Users
+      </a>
+
+      <button id="logoutBtn" class="btn btn-danger btn-sm">
+        Log out
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main class="container section">
+  <div class="section-head">
+    <span class="eyebrow">Admin Panel</span>
+    <h2>Review Management</h2>
+    <p>
+      View all customer reviews and remove inappropriate content.
+    </p>
+  </div>
+
+  <div id="message" class="message"></div>
+
+  <section class="glass-card admin-users-card">
+    <div class="admin-users-top">
+      <div>
+        <h3>All Reviews</h3>
+        <p id="reviewCount">Loading reviews...</p>
+      </div>
+
+      <input
+        id="searchInput"
+        type="text"
+        class="admin-search"
+        placeholder="Search reviews..."
+      />
+    </div>
+
+    <div class="table-wrap">
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Business</th>
+            <th>Service</th>
+            <th>Client</th>
+            <th>Rating</th>
+            <th>Comment</th>
+            <th>Date</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="reviewsTableBody">
+          <tr>
+            <td colspan="8">Loading reviews...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<script src="js/admin-reviews.js"></script>
+</body>
+</html>

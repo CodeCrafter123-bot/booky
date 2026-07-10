@@ -1298,3 +1298,6 @@
     width: 100%;
   }
 }
+
+.reviews-summary-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px; margin-bottom: 26px; } .reviews-summary-card h3 { margin: 6px 0; font-size: 2rem; } .reviews-grid { display: grid; gap: 20px; } .review-card { padding: 24px; } .review-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; } .review-card-head h3 { margin: 5px 0 0; } .review-business { color: #7c3aed; font-size: 0.85rem; font-weight: 700; } .review-rating { color: #eab308; font-size: 1.25rem; letter-spacing: 2px; white-space: nowrap; } .review-comment { margin: 20px 0; padding: 16px; border-radius: 12px; background: rgba(148, 163, 184, 0.1); line-height: 1.65; } .review-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; color: #64748b; font-size: 0.9rem; } .admin-review-comment { max-width: 280px; white-space: normal; line-height: 1.45; } @media (max-width: 700px) { .reviews-summary-card { align-items: stretch; flex-direction: column; } .review-card-head { flex-direction: column; } .review-meta { grid-template-columns: 1fr; } }
+
