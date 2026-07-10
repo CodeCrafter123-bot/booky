@@ -1,5 +1,5 @@
 package com.hussein.booky.security;
-import tools.jackson.databind.ObjectMapper;
+
 import com.hussein.booky.entity.User;
 import com.hussein.booky.repository.UserRepository;
 
@@ -14,24 +14,19 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Component
 public class JwtFilter implements Filter {
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
-    private final ObjectMapper objectMapper;
 
     public JwtFilter(
             JwtService jwtService,
-            UserRepository userRepository,
-            ObjectMapper objectMapper
+            UserRepository userRepository
     ) {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
-        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -50,13 +45,17 @@ public class JwtFilter implements Filter {
         String path = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
 
-        // Allow browser CORS preflight requests
+        /*
+         * Allow CORS preflight requests.
+         */
         if ("OPTIONS".equals(method)) {
             chain.doFilter(request, response);
             return;
         }
 
-        // Allow login, register, HTML, CSS and JavaScript files
+        /*
+         * Allow login, registration and frontend static files.
+         */
         if (isPublicPath(path)) {
             chain.doFilter(request, response);
             return;
@@ -93,8 +92,23 @@ public class JwtFilter implements Filter {
             return;
         }
 
-        String role = jwtService.extractRole(token);
-        Integer userId = jwtService.extractUserId(token);
+        Integer userId;
+        String tokenRole;
+
+        try {
+            userId = jwtService.extractUserId(token);
+            tokenRole = jwtService.extractRole(token);
+        } catch (Exception exception) {
+            sendJsonError(
+                    httpResponse,
+                    HttpServletResponse.SC_UNAUTHORIZED,
+                    "Could not read authentication token",
+                    null,
+                    "INVALID_TOKEN"
+            );
+
+            return;
+        }
 
         User user = userRepository.findById(userId)
                 .orElse(null);
@@ -112,11 +126,10 @@ public class JwtFilter implements Filter {
         }
 
         /*
-         * This blocks users who were already logged in before
-         * the administrator froze their account.
+         * Block frozen users even when they already have
+         * a previously generated JWT token.
          */
         if (user.isFrozen()) {
-
             String reason = user.getFreezeReason();
 
             if (reason == null || reason.isBlank()) {
@@ -135,19 +148,26 @@ public class JwtFilter implements Filter {
         }
 
         /*
-         * Use the current role from the database instead of relying
-         * only on the role stored in an older JWT.
+         * Use the role currently stored in the database.
+         * This protects against old JWTs after an admin changes a role.
          */
-        role = user.getRole();
+        String role = user.getRole();
 
-        httpRequest.setAttribute("role", role);
+        if (role == null || role.isBlank()) {
+            role = tokenRole;
+        }
+
         httpRequest.setAttribute("userId", userId);
+        httpRequest.setAttribute("role", role);
 
         System.out.println("PATH = " + path);
+        System.out.println("METHOD = " + method);
         System.out.println("ROLE = " + role);
         System.out.println("USER ID = " + userId);
 
-        // OWNER or ADMIN only
+        /*
+         * OWNER or ADMIN only.
+         */
         if ("POST".equals(method) &&
                 (
                         path.equals("/businesses/add") ||
@@ -169,11 +189,69 @@ public class JwtFilter implements Filter {
             }
         }
 
-        // ADMIN only
-        if (isAdminPath(path)) {
+        /*
+         * CLIENT only: create reviews.
+         */
+        if ("POST".equals(method) &&
+                path.equals("/reviews/create")) {
+
+            if (!"CLIENT".equals(role)) {
+                sendJsonError(
+                        httpResponse,
+                        HttpServletResponse.SC_FORBIDDEN,
+                        "Access denied: CLIENT only",
+                        null,
+                        "ACCESS_DENIED"
+                );
+
+                return;
+            }
+        }
+
+        /*
+         * CLIENT only: view own reviews.
+         */
+        if ("GET".equals(method) &&
+                path.equals("/reviews/client")) {
+
+            if (!"CLIENT".equals(role)) {
+                sendJsonError(
+                        httpResponse,
+                        HttpServletResponse.SC_FORBIDDEN,
+                        "Access denied: CLIENT only",
+                        null,
+                        "ACCESS_DENIED"
+                );
+
+                return;
+            }
+        }
+
+        /*
+         * OWNER only: view reviews for owned businesses.
+         */
+        if ("GET".equals(method) &&
+                path.equals("/reviews/owner")) {
+
+            if (!"OWNER".equals(role)) {
+                sendJsonError(
+                        httpResponse,
+                        HttpServletResponse.SC_FORBIDDEN,
+                        "Access denied: OWNER only",
+                        null,
+                        "ACCESS_DENIED"
+                );
+
+                return;
+            }
+        }
+
+        /*
+         * ADMIN-only endpoints.
+         */
+        if (isAdminPath(path, method)) {
 
             if (!"ADMIN".equals(role)) {
-
                 sendJsonError(
                         httpResponse,
                         HttpServletResponse.SC_FORBIDDEN,
@@ -189,12 +267,23 @@ public class JwtFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    private boolean isAdminPath(String path) {
+    private boolean isAdminPath(
+            String path,
+            String method
+    ) {
         return path.equals("/bookings/admin")
                 || path.startsWith("/bookings/accept/")
                 || path.startsWith("/bookings/decline/")
                 || path.matches("/users/\\d+/freeze")
-                || path.matches("/users/\\d+/unfreeze");
+                || path.matches("/users/\\d+/unfreeze")
+                || (
+                    "GET".equals(method) &&
+                    path.equals("/reviews/admin")
+                )
+                || (
+                    "DELETE".equals(method) &&
+                    path.matches("/reviews/\\d+")
+                );
     }
 
     private boolean isPublicPath(String path) {
@@ -202,7 +291,10 @@ public class JwtFilter implements Filter {
                 || path.startsWith("/users/register")
                 || path.endsWith(".html")
                 || path.startsWith("/css/")
-                || path.startsWith("/js/");
+                || path.startsWith("/js/")
+                || path.startsWith("/images/")
+                || path.equals("/")
+                || path.equals("/favicon.ico");
     }
 
     private void sendJsonError(
@@ -217,16 +309,39 @@ public class JwtFilter implements Filter {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
-        Map<String, Object> body = new LinkedHashMap<>();
+        StringBuilder json = new StringBuilder();
 
-        body.put("message", message);
+        json.append("{");
+
+        json.append("\"message\":\"")
+                .append(escapeJson(message))
+                .append("\"");
 
         if (reason != null) {
-            body.put("reason", reason);
+            json.append(",\"reason\":\"")
+                    .append(escapeJson(reason))
+                    .append("\"");
         }
 
-        body.put("code", code);
+        json.append(",\"code\":\"")
+                .append(escapeJson(code))
+                .append("\"");
 
-        objectMapper.writeValue(response.getWriter(), body);
+        json.append("}");
+
+        response.getWriter().write(json.toString());
+    }
+
+    private String escapeJson(String value) {
+        if (value == null) {
+            return "";
+        }
+
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\t", "\\t");
     }
 }
