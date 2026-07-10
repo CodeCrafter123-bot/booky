@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,7 +31,9 @@
     <div class="section-head">
       <span class="eyebrow">Appointments</span>
       <h2>My Bookings</h2>
-      <p>View your upcoming appointments and manage your booking status.</p>
+      <p>
+        View your appointments, cancel bookings, and review completed services.
+      </p>
     </div>
 
     <div id="message" class="message"></div>
@@ -40,6 +43,85 @@
     </section>
   </main>
 
+  <!-- Review Modal -->
+  <div id="reviewModal" class="review-modal hidden">
+    <div id="reviewModalBackdrop" class="review-modal-backdrop"></div>
+
+    <section
+      class="review-modal-content glass-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="reviewModalTitle"
+    >
+      <div class="review-modal-head">
+        <div>
+          <span class="eyebrow">Share Your Experience</span>
+          <h3 id="reviewModalTitle">Leave a Review</h3>
+        </div>
+
+        <button
+          id="closeReviewModalBtn"
+          type="button"
+          class="review-modal-close"
+          aria-label="Close review form"
+        >
+          ×
+        </button>
+      </div>
+
+      <p id="reviewBookingText" class="review-booking-text"></p>
+
+      <div class="review-field">
+        <label>Your rating</label>
+
+        <div id="starRating" class="star-rating" role="radiogroup">
+          <button type="button" class="star-btn" data-rating="1" aria-label="1 star">★</button>
+          <button type="button" class="star-btn" data-rating="2" aria-label="2 stars">★</button>
+          <button type="button" class="star-btn" data-rating="3" aria-label="3 stars">★</button>
+          <button type="button" class="star-btn" data-rating="4" aria-label="4 stars">★</button>
+          <button type="button" class="star-btn" data-rating="5" aria-label="5 stars">★</button>
+        </div>
+
+        <p id="ratingText" class="rating-text">Select a rating</p>
+      </div>
+
+      <div class="review-field">
+        <label for="reviewComment">Comment</label>
+
+        <textarea
+          id="reviewComment"
+          class="review-textarea"
+          rows="5"
+          maxlength="1000"
+          placeholder="Tell us about your experience..."
+        ></textarea>
+
+        <p class="review-character-count">
+          <span id="reviewCharacterCount">0</span>/1000
+        </p>
+      </div>
+
+      <div class="review-modal-actions">
+        <button
+          id="cancelReviewBtn"
+          type="button"
+          class="btn btn-ghost"
+        >
+          Cancel
+        </button>
+
+        <button
+          id="submitReviewBtn"
+          type="button"
+          class="btn btn-primary"
+        >
+          Submit Review
+        </button>
+      </div>
+    </section>
+  </div>
+
   <script src="js/my-bookings.js"></script>
 </body>
 </html>
+
