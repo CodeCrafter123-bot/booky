@@ -58,67 +58,86 @@ const dashboardConfig = {
       }
     ]
   },
+OWNER: {
+  subtitle: "Manage your services, monitor appointment activity, and grow your business.",
+  actionsTitle: "Owner Workspace",
+  actionsSubtitle: "Manage your businesses, services, bookings, reviews, and analytics.",
 
-  OWNER: {
-    subtitle: "Manage your services, monitor appointment activity, and grow your business.",
-    actionsTitle: "Owner Workspace",
-    actionsSubtitle: "Tools for managing services and future booking requests.",
-    stats: [
-      { label: "Business Tools", value: "Ready", icon: "🛠️" },
-      { label: "Bookings", value: "Tracking", icon: "📅" },
-      { label: "Role", value: "Owner", icon: "👤" }
-    ],
-    links: [
-      {
-        title: "Browse Businesses",
-        description: "View businesses currently listed on Booky.",
-        icon: "🏢",
-        href: "browse.html"
-      },
-      {
-  title: "Add Service",
-  description: "Create services for your business.",
-  icon: "🛠️",
-  href: "owner-add-service.html"
+  stats: [
+    {
+      label: "Analytics Dashboard",
+      value: "Live",
+      icon: "📊"
+    },
+    {
+      label: "Bookings",
+      value: "Tracking",
+      icon: "📅"
+    },
+    {
+      label: "Role",
+      value: "Owner",
+      icon: "👤"
+    }
+  ],
+
+  links: [
+    {
+      title: "Analytics Dashboard",
+      description: "View bookings, ratings, businesses, services, and recent activity.",
+      icon: "📊",
+      href: "owner-dashboard.html"
+    },
+    {
+      title: "Browse Businesses",
+      description: "View businesses currently listed on Booky.",
+      icon: "🏢",
+      href: "browse.html"
+    },
+    {
+      title: "Add Business",
+      description: "Create your own business profile on Booky.",
+      icon: "➕",
+      href: "admin-add-business.html"
+    },
+    {
+      title: "Add Service",
+      description: "Create services for your business.",
+      icon: "🛠️",
+      href: "owner-add-service.html"
+    },
+    {
+      title: "Manage Services",
+      description: "View services after selecting a business.",
+      icon: "⚙️",
+      href: "services.html"
+    },
+    {
+      title: "Booking Activity",
+      description: "View bookings for your businesses.",
+      icon: "📅",
+      href: "owner-bookings.html"
+    },
+    {
+      title: "Business Hours",
+      description: "Set weekly opening and closing times for your business.",
+      icon: "⏰",
+      href: "owner-business-hours.html"
+    },
+    {
+      title: "Customer Reviews",
+      description: "View ratings and feedback for your businesses.",
+      icon: "⭐",
+      href: "owner-reviews.html"
+    },
+    {
+      title: "Profile",
+      description: "View your owner account information.",
+      icon: "👤",
+      href: "profile.html"
+    }
+  ]
 },
-      {
-  title: "Add Business",
-  description: "Create your own business profile on Booky.",
-  icon: "➕",
-  href: "admin-add-business.html"
-},
-      {
-        title: "Manage Services",
-        description: "View services after selecting a business.",
-        icon: "🛠️",
-        href: "services.html"
-      },
-      
-      {
-    title: "Booking Activity",
-    description: "View bookings for your businesses.",
-    icon: "📅",
-    href: "owner-bookings.html"
-},
-{
-  title: "Business Hours",
-  description: "Set weekly opening and closing times for your business.",
-  icon: "⏰",
-  href: "owner-business-hours.html"
-},
-{ title: "Customer Reviews",
-         description: "View ratings and feedback for your businesses.", 
-         href: "owner-reviews.html",
-          icon: "⭐"
-         },
-      {
-        title: "Profile",
-        description: "View your owner account information.",
-        icon: "👤",
-        href: "profile.html"
-      }
-    ]
-  },
 
   ADMIN: {
     subtitle: "Control platform activity, manage businesses, and prepare for full admin operations.",

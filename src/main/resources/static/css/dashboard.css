@@ -1301,3 +1301,706 @@
 
 .reviews-summary-card { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px; margin-bottom: 26px; } .reviews-summary-card h3 { margin: 6px 0; font-size: 2rem; } .reviews-grid { display: grid; gap: 20px; } .review-card { padding: 24px; } .review-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; } .review-card-head h3 { margin: 5px 0 0; } .review-business { color: #7c3aed; font-size: 0.85rem; font-weight: 700; } .review-rating { color: #eab308; font-size: 1.25rem; letter-spacing: 2px; white-space: nowrap; } .review-comment { margin: 20px 0; padding: 16px; border-radius: 12px; background: rgba(148, 163, 184, 0.1); line-height: 1.65; } .review-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px 20px; color: #64748b; font-size: 0.9rem; } .admin-review-comment { max-width: 280px; white-space: normal; line-height: 1.45; } @media (max-width: 700px) { .reviews-summary-card { align-items: stretch; flex-direction: column; } .review-card-head { flex-direction: column; } .review-meta { grid-template-columns: 1fr; } }
 
+/* ===========================================================
+   OWNER ANALYTICS DASHBOARD
+   Uses the existing Booky dark glassmorphism design system
+   =========================================================== */
+
+/* ===================== ANALYTICS HERO ===================== */
+
+.analytics-hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px;
+  padding: 32px;
+  margin-bottom: var(--sp-6);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(124, 92, 255, 0.26),
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 10% 100%,
+      rgba(76, 224, 210, 0.13),
+      transparent 34%
+    ),
+    rgba(19, 26, 44, 0.65);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(20px);
+}
+
+.analytics-hero::after {
+  content: "";
+  position: absolute;
+  top: -80px;
+  right: -65px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  border: 1px solid rgba(124, 92, 255, 0.16);
+  pointer-events: none;
+}
+
+.analytics-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.analytics-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  color: var(--cyan-300);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.analytics-eyebrow::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cyan-300);
+  box-shadow: 0 0 14px rgba(76, 224, 210, 0.7);
+}
+
+.analytics-hero h1 {
+  margin: 0 0 10px;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+.analytics-hero p {
+  max-width: 660px;
+  margin: 0;
+  color: var(--grey-300);
+  line-height: 1.7;
+}
+
+.analytics-refresh-btn {
+  position: relative;
+  z-index: 1;
+  min-width: 120px;
+  padding: 11px 18px;
+  border: 1px solid rgba(124, 92, 255, 0.38);
+  border-radius: var(--r-full);
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 92, 255, 0.17),
+      rgba(76, 224, 210, 0.08)
+    );
+  color: var(--white);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.22s var(--ease),
+    border-color 0.22s var(--ease),
+    box-shadow 0.22s var(--ease);
+}
+
+.analytics-refresh-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--purple-400);
+  box-shadow: 0 12px 26px rgba(124, 92, 255, 0.17);
+}
+
+.analytics-refresh-btn:active {
+  transform: translateY(0);
+}
+
+/* ===================== ANALYTICS MESSAGE ===================== */
+
+.dashboard-message {
+  display: none;
+  margin-bottom: var(--sp-5);
+  padding: 14px 17px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: rgba(19, 26, 44, 0.62);
+  color: var(--grey-300);
+  font-size: 0.9rem;
+  box-shadow: var(--shadow-card);
+}
+
+.dashboard-message.info {
+  display: block;
+  color: var(--cyan-300);
+  border-color: rgba(76, 224, 210, 0.24);
+  background: rgba(76, 224, 210, 0.07);
+}
+
+.dashboard-message.success {
+  display: block;
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.08);
+}
+
+.dashboard-message.error {
+  display: block;
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.27);
+  background: rgba(239, 68, 68, 0.08);
+}
+
+/* ===================== ANALYTICS STAT GRID ===================== */
+
+.analytics-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.analytics-stat-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 150px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.055),
+      rgba(255, 255, 255, 0.018)
+    ),
+    rgba(19, 26, 44, 0.58);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
+  transition:
+    transform 0.25s var(--ease),
+    border-color 0.25s var(--ease),
+    box-shadow 0.25s var(--ease);
+}
+
+.analytics-stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 22px;
+  right: 22px;
+  height: 2px;
+  border-radius: var(--r-full);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(124, 92, 255, 0.85),
+    rgba(76, 224, 210, 0.8),
+    transparent
+  );
+  opacity: 0.8;
+}
+
+.analytics-stat-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(124, 92, 255, 0.32);
+  box-shadow:
+    var(--shadow-card),
+    0 18px 36px rgba(5, 7, 14, 0.18);
+}
+
+.analytics-stat-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+
+.analytics-stat-label {
+  color: var(--grey-400);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.analytics-stat-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(124, 92, 255, 0.24);
+  border-radius: 13px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 92, 255, 0.2),
+      rgba(76, 224, 210, 0.1)
+    );
+  font-size: 1.1rem;
+}
+
+.analytics-stat-value {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3vw, 2.35rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1;
+}
+
+.analytics-stat-note {
+  margin-top: 11px;
+  color: var(--grey-500);
+  font-size: 0.76rem;
+}
+
+/* Individual card accents */
+
+.analytics-stat-card.today .analytics-stat-value {
+  color: var(--cyan-300);
+}
+
+.analytics-stat-card.pending .analytics-stat-value {
+  color: #fbbf24;
+}
+
+.analytics-stat-card.confirmed .analytics-stat-value {
+  color: #86efac;
+}
+
+.analytics-stat-card.cancelled .analytics-stat-value {
+  color: #fca5a5;
+}
+
+.analytics-stat-card.rating .analytics-stat-value {
+  color: #fde047;
+}
+
+.analytics-stat-card.reviews .analytics-stat-value,
+.analytics-stat-card.businesses .analytics-stat-value,
+.analytics-stat-card.services .analytics-stat-value {
+  color: #c4b5fd;
+}
+
+/* ===================== ANALYTICS CONTENT GRID ===================== */
+
+.analytics-content-grid {
+  display: grid;
+  grid-template-columns: minmax(300px, 0.85fr) minmax(0, 1.35fr);
+  gap: var(--sp-5);
+  align-items: start;
+}
+
+.analytics-panel {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    ),
+    rgba(19, 26, 44, 0.58);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(18px);
+}
+
+.analytics-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.analytics-panel-title h2 {
+  margin: 0 0 6px;
+  font-size: 1.2rem;
+}
+
+.analytics-panel-title p {
+  margin: 0;
+  color: var(--grey-400);
+  font-size: 0.85rem;
+}
+
+.analytics-panel-link {
+  flex-shrink: 0;
+  color: var(--cyan-300);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.analytics-panel-link:hover {
+  color: var(--white);
+  transform: translateX(2px);
+}
+
+/* ===================== POPULAR SERVICES ===================== */
+
+.popular-services-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.popular-service-row {
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.075);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.028);
+  transition:
+    background 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    transform 0.2s var(--ease);
+}
+
+.popular-service-row:hover {
+  transform: translateX(3px);
+  border-color: rgba(124, 92, 255, 0.25);
+  background: rgba(124, 92, 255, 0.055);
+}
+
+.popular-service-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.popular-service-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.service-rank {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(124, 92, 255, 0.27);
+  border-radius: 10px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 92, 255, 0.18),
+      rgba(76, 224, 210, 0.08)
+    );
+  color: var(--cyan-300);
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.popular-service-name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--white);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.booking-count {
+  flex-shrink: 0;
+  color: var(--grey-300);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.service-progress {
+  width: 100%;
+  height: 5px;
+  margin-top: 13px;
+  overflow: hidden;
+  border-radius: var(--r-full);
+  background: rgba(255, 255, 255, 0.065);
+}
+
+.service-progress-bar {
+  height: 100%;
+  min-width: 8px;
+  border-radius: inherit;
+  background: var(--grad-primary);
+  box-shadow: 0 0 12px rgba(76, 224, 210, 0.26);
+}
+
+/* ===================== RECENT BOOKINGS ===================== */
+
+.recent-bookings-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.recent-booking-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.recent-booking-card:first-child {
+  padding-top: 0;
+}
+
+.recent-booking-card:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.recent-booking-main {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  min-width: 0;
+}
+
+.recent-client-avatar {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(124, 92, 255, 0.25);
+  border-radius: 14px;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124, 92, 255, 0.2),
+      rgba(76, 224, 210, 0.09)
+    );
+  color: var(--white);
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+
+.recent-booking-details {
+  min-width: 0;
+}
+
+.recent-booking-details strong {
+  display: block;
+  overflow: hidden;
+  color: var(--white);
+  font-size: 0.92rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-booking-details span {
+  display: block;
+  margin-top: 4px;
+  color: var(--grey-300);
+  font-size: 0.82rem;
+}
+
+.recent-booking-details small {
+  display: block;
+  margin-top: 4px;
+  overflow: hidden;
+  color: var(--grey-500);
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-booking-meta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
+  text-align: right;
+}
+
+.recent-booking-time {
+  color: var(--grey-400);
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  white-space: nowrap;
+}
+
+/* ===================== STATUS BADGES ===================== */
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--r-full);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.status-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+}
+
+.status-pending {
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.25);
+  background: rgba(245, 158, 11, 0.09);
+}
+
+.status-confirmed {
+  color: #86efac;
+  border-color: rgba(34, 197, 94, 0.25);
+  background: rgba(34, 197, 94, 0.09);
+}
+
+.status-cancelled {
+  color: #fca5a5;
+  border-color: rgba(239, 68, 68, 0.25);
+  background: rgba(239, 68, 68, 0.09);
+}
+
+/* ===================== EMPTY STATES ===================== */
+
+.analytics-empty-state {
+  min-height: 180px;
+  display: grid;
+  place-items: center;
+  padding: 28px 20px;
+  border: 1px dashed rgba(148, 163, 184, 0.2);
+  border-radius: var(--r-md);
+  background: rgba(255, 255, 255, 0.018);
+  text-align: center;
+}
+
+.analytics-empty-icon {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 2rem;
+  opacity: 0.7;
+}
+
+.analytics-empty-state p {
+  margin: 0;
+  color: var(--grey-400);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+/* Compatibility with the earlier JavaScript empty-state class */
+
+.empty-state {
+  padding: 32px 18px;
+  border: 1px dashed rgba(148, 163, 184, 0.18);
+  border-radius: var(--r-md);
+  color: var(--grey-400);
+  background: rgba(255, 255, 255, 0.018);
+  text-align: center;
+}
+
+/* ===================== LOADING SKELETON ===================== */
+
+.analytics-skeleton {
+  position: relative;
+  overflow: hidden;
+  min-height: 18px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.analytics-skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08),
+    transparent
+  );
+  animation: analytics-shimmer 1.5s infinite;
+}
+
+@keyframes analytics-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* ===================== ANALYTICS RESPONSIVE ===================== */
+
+@media (max-width: 1180px) {
+  .analytics-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .analytics-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .analytics-hero {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: var(--sp-5);
+  }
+
+  .analytics-refresh-btn {
+    width: 100%;
+  }
+
+  .analytics-panel {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 580px) {
+  .analytics-stat-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-stat-card {
+    min-height: 135px;
+  }
+
+  .analytics-panel-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .recent-booking-card {
+    grid-template-columns: 1fr;
+  }
+
+  .recent-booking-meta {
+    align-items: flex-start;
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .popular-service-main {
+    align-items: flex-start;
+  }
+}

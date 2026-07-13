@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Booky owner analytics dashboard"
+    >
+
+    <title>Owner Analytics — Booky</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+
+<body>
+
+    <!-- Mobile navigation bar -->
+    <header class="mobile-topbar">
+
+        <button
+            id="mobileMenuBtn"
+            class="mobile-menu-btn"
+            type="button"
+            aria-label="Open navigation menu"
+        >
+            ☰
+        </button>
+
+        <a href="dashboard.html" class="logo">
+            Booky
+        </a>
+
+        <div class="mobile-spacer"></div>
+
+    </header>
+
+    <div class="app-shell">
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+
+            <div class="sidebar-logo">
+                <a href="dashboard.html" class="logo">
+                    Booky
+                </a>
+            </div>
+
+            <p class="sidebar-section-label">
+                Owner Workspace
+            </p>
+
+            <nav class="sidebar-nav">
+
+                <a
+                    href="owner-dashboard.html"
+                    class="sidebar-link active"
+                >
+                    <span class="ico">📊</span>
+                    <span>Analytics</span>
+                </a>
+
+                <a
+                    href="dashboard.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">🏠</span>
+                    <span>Main Dashboard</span>
+                </a>
+
+                <a
+                    href="browse.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">🏢</span>
+                    <span>Browse Businesses</span>
+                </a>
+
+                <a
+                    href="admin-add-business.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">➕</span>
+                    <span>Add Business</span>
+                </a>
+
+                <a
+                    href="owner-add-service.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">🛠️</span>
+                    <span>Add Service</span>
+                </a>
+
+                <a
+                    href="owner-business-hours.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">⏰</span>
+                    <span>Business Hours</span>
+                </a>
+
+                <a
+                    href="owner-bookings.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">📅</span>
+                    <span>Booking Activity</span>
+                </a>
+
+                <a
+                    href="owner-reviews.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">⭐</span>
+                    <span>Customer Reviews</span>
+                </a>
+
+                <a
+                    href="profile.html"
+                    class="sidebar-link"
+                >
+                    <span class="ico">👤</span>
+                    <span>Profile</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-footer">
+
+                <div class="user-chip">
+
+                    <div
+                        id="avatarInitial"
+                        class="avatar"
+                    >
+                        O
+                    </div>
+
+                    <div class="user-chip-info">
+
+                        <div
+                            id="userName"
+                            class="user-chip-name"
+                        >
+                            Owner
+                        </div>
+
+                        <div
+                            id="userRole"
+                            class="user-chip-role"
+                        >
+                            OWNER
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <button
+                    id="logoutBtn"
+                    class="logout-btn"
+                    type="button"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+
+            <!-- Analytics hero -->
+            <section class="analytics-hero">
+
+                <div class="analytics-hero-content">
+
+                    <p class="analytics-eyebrow">
+                        Live Business Analytics
+                    </p>
+
+                    <h1 id="welcomeHeading">
+                        Welcome back
+                    </h1>
+
+                    <p>
+                        Track your bookings, business performance,
+                        customer reviews, and most popular services.
+                    </p>
+
+                </div>
+
+                <button
+                    id="refreshBtn"
+                    class="analytics-refresh-btn"
+                    type="button"
+                >
+                    ↻ Refresh Data
+                </button>
+
+            </section>
+
+            <!-- API messages -->
+            <div
+                id="message"
+                class="dashboard-message"
+                role="alert"
+            ></div>
+
+            <!-- Statistics -->
+            <section class="analytics-stat-grid">
+
+                <article class="analytics-stat-card today">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Today's Bookings
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            📅
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="todayBookings"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Appointments scheduled today
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card pending">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Pending Bookings
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            ⏳
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="pendingBookings"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Waiting for approval
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card confirmed">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Confirmed Bookings
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            ✅
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="confirmedBookings"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Approved appointments
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card cancelled">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Cancelled Bookings
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            ❌
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="cancelledBookings"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Cancelled appointments
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card rating">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Average Rating
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            ⭐
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="averageRating"
+                        class="analytics-stat-value"
+                    >
+                        0.0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Average customer satisfaction
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card reviews">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Total Reviews
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            💬
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="totalReviews"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Customer feedback received
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card businesses">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Businesses
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            🏢
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="totalBusinesses"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Businesses owned by you
+                    </p>
+
+                </article>
+
+                <article class="analytics-stat-card services">
+
+                    <div class="analytics-stat-top">
+
+                        <span class="analytics-stat-label">
+                            Services
+                        </span>
+
+                        <div class="analytics-stat-icon">
+                            🛠️
+                        </div>
+
+                    </div>
+
+                    <strong
+                        id="totalServices"
+                        class="analytics-stat-value"
+                    >
+                        0
+                    </strong>
+
+                    <p class="analytics-stat-note">
+                        Active services available
+                    </p>
+
+                </article>
+
+            </section>
+
+            <!-- Analytics panels -->
+            <section class="analytics-content-grid">
+
+                <!-- Popular services -->
+                <article class="analytics-panel">
+
+                    <div class="analytics-panel-header">
+
+                        <div class="analytics-panel-title">
+
+                            <h2>Popular Services</h2>
+
+                            <p>
+                                Your most frequently booked services.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="owner-add-service.html"
+                            class="analytics-panel-link"
+                        >
+                            Manage services →
+                        </a>
+
+                    </div>
+
+                    <div
+                        id="popularServices"
+                        class="popular-services-list"
+                    >
+
+                        <div class="analytics-empty-state">
+
+                            <div>
+
+                                <span class="analytics-empty-icon">
+                                    📊
+                                </span>
+
+                                <p>
+                                    No service booking data is available yet.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+                <!-- Recent bookings -->
+                <article class="analytics-panel">
+
+                    <div class="analytics-panel-header">
+
+                        <div class="analytics-panel-title">
+
+                            <h2>Recent Bookings</h2>
+
+                            <p>
+                                Latest appointments across your businesses.
+                            </p>
+
+                        </div>
+
+                        <a
+                            href="owner-bookings.html"
+                            class="analytics-panel-link"
+                        >
+                            View all →
+                        </a>
+
+                    </div>
+
+                    <div
+                        id="recentBookings"
+                        class="recent-bookings-list"
+                    >
+
+                        <div class="analytics-empty-state">
+
+                            <div>
+
+                                <span class="analytics-empty-icon">
+                                    📅
+                                </span>
+
+                                <p>
+                                    No recent bookings are available.
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </article>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="js/owner-dashboard.js"></script>
+
+</body>
+
+</html>
