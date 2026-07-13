@@ -8,4 +8,6 @@ import java.util.List;
 public interface BookyServiceRepository extends JpaRepository<BookyService, Integer> {
 
     List<BookyService> findByBusinessId(Integer businessId);
+
+    long countByBusinessOwnerId(Integer ownerId);
 }

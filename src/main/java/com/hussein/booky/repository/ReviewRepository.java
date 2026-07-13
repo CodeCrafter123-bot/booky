@@ -43,4 +43,21 @@ public interface ReviewRepository
     );
 
     long countByBusinessId(Integer businessId);
+    @Query("""
+        SELECT COUNT(r)
+        FROM Review r
+        WHERE r.business.owner.id = :ownerId
+        """)
+long countReviewsByOwnerId(
+        @Param("ownerId") Integer ownerId
+);
+
+@Query("""
+        SELECT AVG(r.rating)
+        FROM Review r
+        WHERE r.business.owner.id = :ownerId
+        """)
+Double findAverageRatingByOwnerId(
+        @Param("ownerId") Integer ownerId
+);
 }

@@ -245,6 +245,25 @@ public class JwtFilter implements Filter {
                 return;
             }
         }
+      /*
+ * OWNER only: dashboard analytics.
+ */
+if ("GET".equals(method) &&
+        path.equals("/owner/dashboard")) {
+
+    if (!"OWNER".equals(role)) {
+
+        sendJsonError(
+                httpResponse,
+                HttpServletResponse.SC_FORBIDDEN,
+                "Access denied: OWNER only",
+                null,
+                "ACCESS_DENIED"
+        );
+
+        return;
+    }
+}
 
         /*
          * ADMIN-only endpoints.
