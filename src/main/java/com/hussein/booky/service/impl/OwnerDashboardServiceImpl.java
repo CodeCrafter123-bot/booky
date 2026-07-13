@@ -142,14 +142,14 @@ public class OwnerDashboardServiceImpl implements OwnerDashboardService {
             Booking booking
     ) {
 
-        return new RecentBookingResponse(
-                booking.getId(),
-                booking.getUser().getFullName(),
-                booking.getUser().getEmail(),
-                booking.getService().getBusiness().getName(),
-                booking.getService().getName(),
-                booking.getAppointmentTime(),
-                booking.getStatus()
-        );
+       return new RecentBookingResponse(
+        booking.getId(),
+        booking.getUser().getFullName(),
+        booking.getUser().getEmail(),
+        booking.getService().getBusiness().getName(),
+        booking.getService().getName(),
+        booking.getAppointmentTime(),
+        booking.getStatus()
+);
     }
 }

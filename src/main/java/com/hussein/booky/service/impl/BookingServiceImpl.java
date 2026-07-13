@@ -5,6 +5,7 @@ import com.hussein.booky.dto.BookingResponse;
 import com.hussein.booky.entity.Booking;
 import com.hussein.booky.entity.BookyService;
 import com.hussein.booky.entity.BusinessHours;
+import com.hussein.booky.service.EmailService;
 import com.hussein.booky.entity.User;
 import com.hussein.booky.repository.BookingRepository;
 import com.hussein.booky.repository.BookyServiceRepository;
@@ -27,17 +28,21 @@ public class BookingServiceImpl implements BookingService {
     private final UserRepository userRepository;
     private final BookyServiceRepository bookyServiceRepository;
     private final BusinessHoursRepository businessHoursRepository;
+    private final EmailService emailService;
 
-    public BookingServiceImpl(BookingRepository bookingRepository,
-                              UserRepository userRepository,
-                              BookyServiceRepository bookyServiceRepository,
-                              BusinessHoursRepository businessHoursRepository) {
+    public BookingServiceImpl(
+            BookingRepository bookingRepository,
+            UserRepository userRepository,
+            BookyServiceRepository bookyServiceRepository,
+            BusinessHoursRepository businessHoursRepository,
+            EmailService emailService
+    ) {
         this.bookingRepository = bookingRepository;
         this.userRepository = userRepository;
         this.bookyServiceRepository = bookyServiceRepository;
         this.businessHoursRepository = businessHoursRepository;
+        this.emailService = emailService;
     }
-
     @Override
     public BookingResponse createBooking(BookingRequest request, Integer userId) {
 
@@ -55,9 +60,14 @@ public class BookingServiceImpl implements BookingService {
         booking.setUser(user);
         booking.setService(service);
 
-        Booking savedBooking = bookingRepository.save(booking);
+       Booking savedBooking =
+        bookingRepository.save(booking);
 
-        return mapToResponse(savedBooking);
+emailService.sendNewBookingToAdmins(
+        savedBooking
+);
+
+return mapToResponse(savedBooking);
     }
 
     private void validateAvailability(BookingRequest request, BookyService service) {
@@ -148,22 +158,45 @@ public class BookingServiceImpl implements BookingService {
 
         booking.setStatus("CONFIRMED");
 
-        Booking updatedBooking = bookingRepository.save(booking);
+       booking.setStatus("CONFIRMED");
 
-        return mapToResponse(updatedBooking);
+Booking savedBooking =
+        bookingRepository.save(booking);
+
+emailService.sendApprovedBookingToOwner(
+        savedBooking
+);
+
+return mapToResponse(savedBooking);
     }
 
-    @Override
-    public BookingResponse declineBooking(Integer bookingId) {
-        Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Booking not found"));
+   @Override
+public BookingResponse declineBooking(Integer bookingId) {
 
-        booking.setStatus("CANCELLED");
+    Booking booking = bookingRepository.findById(bookingId)
+            .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Booking not found"
+            ));
 
-        Booking updatedBooking = bookingRepository.save(booking);
-
-        return mapToResponse(updatedBooking);
+    if (!"PENDING".equals(booking.getStatus())) {
+        throw new ResponseStatusException(
+                HttpStatus.BAD_REQUEST,
+                "Only pending bookings can be declined"
+        );
     }
+
+    booking.setStatus("CANCELLED");
+
+    Booking updatedBooking =
+            bookingRepository.save(booking);
+
+    emailService.sendDeclinedBookingToOwner(
+            updatedBooking
+    );
+
+    return mapToResponse(updatedBooking);
+}
 
     @Override
     public List<BookingResponse> getBookingsByOwner(Integer ownerId) {

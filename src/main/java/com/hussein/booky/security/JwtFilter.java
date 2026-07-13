@@ -309,6 +309,7 @@ if ("GET".equals(method) &&
         return path.startsWith("/users/login")
                 || path.startsWith("/users/register")
                 || path.endsWith(".html")
+                
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
                 || path.startsWith("/images/")
