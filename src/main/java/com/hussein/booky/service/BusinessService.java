@@ -10,4 +10,6 @@ public interface BusinessService {
     BusinessResponse addBusiness(BusinessRequest request, Integer ownerId);
 
     List<BusinessResponse> getAllBusinesses();
+
+    BusinessResponse getBusinessById(Integer businessId);
 }

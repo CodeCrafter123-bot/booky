@@ -17,25 +17,34 @@ public class BusinessServiceImpl implements BusinessService {
     private final BusinessRepository businessRepository;
     private final UserRepository userRepository;
 
-    public BusinessServiceImpl(BusinessRepository businessRepository,
-                               UserRepository userRepository) {
+    public BusinessServiceImpl(
+            BusinessRepository businessRepository,
+            UserRepository userRepository
+    ) {
         this.businessRepository = businessRepository;
         this.userRepository = userRepository;
     }
 
     @Override
-public BusinessResponse addBusiness(BusinessRequest request, Integer ownerId) {
+    public BusinessResponse addBusiness(
+            BusinessRequest request,
+            Integer ownerId
+    ) {
         User owner = userRepository.findById(ownerId)
-                .orElseThrow(() -> new RuntimeException("Owner not found"));
+                .orElseThrow(() ->
+                        new RuntimeException("Owner not found")
+                );
 
         Business business = new Business();
+
         business.setName(request.getName());
         business.setType(request.getType());
         business.setLocation(request.getLocation());
         business.setDescription(request.getDescription());
         business.setOwner(owner);
 
-        Business savedBusiness = businessRepository.save(business);
+        Business savedBusiness =
+                businessRepository.save(business);
 
         return mapToResponse(savedBusiness);
     }
@@ -48,14 +57,34 @@ public BusinessResponse addBusiness(BusinessRequest request, Integer ownerId) {
                 .toList();
     }
 
-    private BusinessResponse mapToResponse(Business business) {
-    return new BusinessResponse(
-            business.getId(),
-            business.getName(),
-            business.getType(),
-            business.getLocation(),
-            business.getDescription(),
-            business.getOwner() != null ? business.getOwner().getId() : null
-    );
-}
+    @Override
+    public BusinessResponse getBusinessById(
+            Integer businessId
+    ) {
+        Business business = businessRepository
+                .findById(businessId)
+                .orElseThrow(() ->
+                        new RuntimeException(
+                                "Business not found with ID: "
+                                        + businessId
+                        )
+                );
+
+        return mapToResponse(business);
+    }
+
+    private BusinessResponse mapToResponse(
+            Business business
+    ) {
+        return new BusinessResponse(
+                business.getId(),
+                business.getName(),
+                business.getType(),
+                business.getLocation(),
+                business.getDescription(),
+                business.getOwner() != null
+                        ? business.getOwner().getId()
+                        : null
+        );
+    }
 }

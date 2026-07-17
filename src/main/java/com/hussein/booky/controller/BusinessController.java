@@ -17,7 +17,10 @@ public class BusinessController {
     private final BusinessService businessService;
     private final JwtService jwtService;
 
-    public BusinessController(BusinessService businessService, JwtService jwtService) {
+    public BusinessController(
+            BusinessService businessService,
+            JwtService jwtService
+    ) {
         this.businessService = businessService;
         this.jwtService = jwtService;
     }
@@ -30,11 +33,24 @@ public class BusinessController {
         String token = authHeader.substring(7);
         Integer ownerId = jwtService.extractUserId(token);
 
-        return ResponseEntity.ok(businessService.addBusiness(request, ownerId));
+        return ResponseEntity.ok(
+                businessService.addBusiness(request, ownerId)
+        );
     }
 
     @GetMapping
     public ResponseEntity<List<BusinessResponse>> getAllBusinesses() {
-        return ResponseEntity.ok(businessService.getAllBusinesses());
+        return ResponseEntity.ok(
+                businessService.getAllBusinesses()
+        );
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<BusinessResponse> getBusinessById(
+            @PathVariable Integer id
+    ) {
+        return ResponseEntity.ok(
+                businessService.getBusinessById(id)
+        );
     }
 }
