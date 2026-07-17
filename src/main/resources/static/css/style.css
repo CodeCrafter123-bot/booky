@@ -779,7 +779,9 @@ h4 {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: var(--sp-4);
 }
-
+.item-card-footer .btn {
+    width: 100%;
+}
 .item-card {
   background: rgba(19, 26, 44, 0.58);
   backdrop-filter: blur(20px);
@@ -835,14 +837,12 @@ h4 {
   font-size: 0.92rem;
   line-height: 1.6;
 }
-
 .item-card-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--sp-3);
-  margin-top: auto;
-  padding-top: var(--sp-2);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+    margin-top: auto;
+    padding-top: var(--sp-3);
 }
 
 .item-price {
@@ -1163,4 +1163,56 @@ h4 {
     opacity: .7;
     cursor: wait;
     transform: none;
+}
+
+
+/* Business Browse Buttons */
+
+.business-card-actions {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-3);
+    margin-top: auto;
+}
+
+.business-card-actions .btn {
+    width: 100%;
+}
+
+.item-card .item-desc {
+    min-height: 48px;
+}
+
+@media (max-width: 900px) {
+    .business-card-actions {
+        grid-template-columns: 1fr;
+    }
+}
+/* ===========================================================
+   BROWSE PAGE — BUSINESS CARD BUTTON FIX
+   Keep this at the very bottom of style.css
+   =========================================================== */
+
+.item-card .business-card-actions {
+  width: 100%;
+  margin-top: auto;
+  padding-top: var(--sp-3);
+
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: var(--sp-2);
+}
+
+.item-card .business-card-actions .btn {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 11px 14px;
+  white-space: nowrap;
+}
+
+.item-card .item-desc {
+  min-height: 48px;
 }

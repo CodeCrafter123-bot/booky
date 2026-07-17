@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <meta
+    name="description"
+    content="View business details, services, opening hours, and reviews on Booky."
+  >
+
+  <title>Business Details — Booky</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/business-details.css">
+
+</head>
+
+<body>
+
+  <header class="details-header">
+    <div class="details-header-container">
+
+      <a href="dashboard.html" class="brand">
+        Booky
+      </a>
+
+      <nav class="details-navigation">
+        <a href="browse.html" class="back-link">
+          ← Back to businesses
+        </a>
+
+        <button
+          type="button"
+          id="logoutBtn"
+          class="btn btn-secondary"
+        >
+          Logout
+        </button>
+      </nav>
+
+    </div>
+  </header>
+
+  <main class="business-details-page">
+
+    <section
+      id="message"
+      class="message"
+      aria-live="polite"
+    ></section>
+
+    <section
+      id="loadingState"
+      class="page-state"
+    >
+      <div class="loading-spinner"></div>
+
+      <h2>Loading business details</h2>
+
+      <p>
+        Please wait while we prepare the business information.
+      </p>
+    </section>
+
+    <section
+      id="errorState"
+      class="page-state error-state"
+      hidden
+    >
+      <div class="state-icon">!</div>
+
+      <h2>Business could not be loaded</h2>
+
+      <p id="errorText">
+        Something went wrong while loading this business.
+      </p>
+
+      <a href="browse.html" class="btn btn-primary">
+        Return to businesses
+      </a>
+    </section>
+
+    <div id="businessContent" hidden>
+
+      <section class="business-hero">
+
+        <div class="business-cover">
+
+          <div
+            id="businessInitial"
+            class="business-initial"
+          >
+            B
+          </div>
+
+        </div>
+
+        <div class="business-hero-content">
+
+          <div class="business-title-row">
+
+            <div>
+              <span
+                id="businessType"
+                class="business-type"
+              >
+                Business
+              </span>
+
+              <h1 id="businessName">
+                Business Name
+              </h1>
+            </div>
+
+            <button
+              type="button"
+              id="bookNowBtn"
+              class="btn btn-primary hero-book-button"
+            >
+              View Services
+            </button>
+
+          </div>
+
+          <div class="business-summary">
+
+            <span id="businessLocation">
+              📍 Location
+            </span>
+
+            <span class="summary-divider">•</span>
+
+            <span class="rating-summary">
+              <strong id="averageRating">0.0</strong>
+
+              <span class="rating-star">★</span>
+
+              <span id="reviewCount">0 reviews</span>
+            </span>
+
+          </div>
+
+          <p
+            id="businessDescription"
+            class="business-description"
+          >
+            Business description
+          </p>
+
+        </div>
+
+      </section>
+
+      <section class="business-content-grid">
+
+        <div class="main-column">
+
+          <section class="details-panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <span class="section-label">
+                  Available services
+                </span>
+
+                <h2>Choose a service</h2>
+              </div>
+
+              <span
+                id="serviceCount"
+                class="count-badge"
+              >
+                0 services
+              </span>
+
+            </div>
+
+            <div
+              id="servicesList"
+              class="services-list"
+            >
+              <p class="content-loading">
+                Loading services...
+              </p>
+            </div>
+
+          </section>
+
+          <section class="details-panel reviews-panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <span class="section-label">
+                  Customer feedback
+                </span>
+
+                <h2>Reviews</h2>
+              </div>
+
+            </div>
+
+            <div
+              id="reviewsList"
+              class="reviews-list"
+            >
+              <p class="content-loading">
+                Loading reviews...
+              </p>
+            </div>
+
+          </section>
+
+        </div>
+
+        <aside class="sidebar-column">
+
+          <section class="details-panel sticky-panel">
+
+            <div class="panel-heading">
+
+              <div>
+                <span class="section-label">
+                  Weekly schedule
+                </span>
+
+                <h2>Business Hours</h2>
+              </div>
+
+            </div>
+
+            <div
+              id="businessHours"
+              class="business-hours"
+            >
+              <p class="content-loading">
+                Loading hours...
+              </p>
+            </div>
+
+          </section>
+
+        </aside>
+
+      </section>
+
+    </div>
+
+  </main>
+
+  <script src="js/business-details.js"></script>
+
+</body>
+
+</html>

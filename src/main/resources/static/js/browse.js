@@ -55,40 +55,91 @@ function render(items) {
     return;
   }
 
-  grid.innerHTML = items.map((business) => {
-    const id = Number(business.id);
+  grid.innerHTML = items
+    .map((business) => {
+      const id = Number(business.id);
 
-    return `
-      <article class="item-card">
-        <div class="item-card-top">
-          <span class="item-tag">${escapeHTML(business.type || "Business")}</span>
-        </div>
+      return `
+        <article class="item-card">
 
-        <h3>${escapeHTML(business.name || business.businessName || "Unnamed Business")}</h3>
+          <div class="item-card-top">
+            <span class="item-tag">
+              ${escapeHTML(business.type || "Business")}
+            </span>
+          </div>
 
-        <div class="item-meta">
-          <span>📍 ${escapeHTML(business.location || "Not specified")}</span>
-        </div>
+          <h3>
+            ${escapeHTML(
+              business.name ||
+              business.businessName ||
+              "Unnamed Business"
+            )}
+          </h3>
 
-        <p class="item-desc">${escapeHTML(business.description || "No description available.")}</p>
+          <div class="item-meta">
+            <span>
+              📍 ${escapeHTML(
+                business.location ||
+                "Not specified"
+              )}
+            </span>
+          </div>
 
-        <div class="item-card-footer">
-          <button class="btn btn-primary btn-block" onclick="viewServices(${id})">
-            View Services
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("");
+          <p class="item-desc">
+            ${escapeHTML(
+              business.description ||
+              "No description available."
+            )}
+          </p>
+
+          <div class="item-card-footer business-card-actions">
+
+            <button
+              type="button"
+              class="btn btn-primary btn-block"
+              onclick="viewBusinessDetails(${id})"
+            >
+              View Details
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-ghost btn-block"
+              onclick="viewServices(${id})"
+            >
+              View Services
+            </button>
+
+          </div>
+
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function viewBusinessDetails(id) {
+  if (!Number.isInteger(id) || id <= 0) {
+    showMessage("Invalid business selected.");
+    return;
+  }
+
+  localStorage.setItem("selected_business_id", String(id));
+  location.href = `business-details.html?id=${id}`;
 }
 
 function viewServices(id) {
-  localStorage.setItem("selected_business_id", id);
+  if (!Number.isInteger(id) || id <= 0) {
+    showMessage("Invalid business selected.");
+    return;
+  }
+
+  localStorage.setItem("selected_business_id", String(id));
   location.href = "services.html";
 }
 
 function filterBusinesses() {
-  const query = searchInput.value.trim().toLowerCase();
+  const query = searchInput?.value.trim().toLowerCase() || "";
 
   const filteredBusinesses = businesses.filter((business) => {
     const searchableText = `
@@ -128,15 +179,25 @@ async function loadBusinesses() {
     }
 
     if (!response.ok) {
-      throw new Error(data.message || "Could not load businesses.");
+      throw new Error(
+        data.message ||
+        "Could not load businesses."
+      );
     }
 
     businesses = Array.isArray(data) ? data : [];
 
     showMessage("");
     render(businesses);
+
   } catch (error) {
-    showMessage(error.message || "Could not load businesses.");
-    grid.innerHTML = "";
+    showMessage(
+      error.message ||
+      "Could not load businesses."
+    );
+
+    if (grid) {
+      grid.innerHTML = "";
+    }
   }
 }
