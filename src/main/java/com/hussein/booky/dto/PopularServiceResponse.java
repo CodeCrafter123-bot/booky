@@ -1,7 +1,7 @@
 package com.hussein.booky.dto;
-
+//small response dto that contains the most popular services in the system and their booking count
 public class PopularServiceResponse {
-
+//contains the service name and the number of bookings for that service in the system
     private String serviceName;
     private long bookingCount;
 

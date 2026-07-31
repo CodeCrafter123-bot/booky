@@ -3,7 +3,8 @@ package com.hussein.booky.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-
+/*
+is the request DTO containing the information sent when someone creates a Booky account. */
 public class RegisterRequest {
 
     @NotBlank(message = "Full name is required")
@@ -43,3 +44,15 @@ public class RegisterRequest {
         return role;
     }
 }
+
+/*
+
+Frontend sends registration JSON
+→ @RequestBody creates RegisterRequest
+→ @Valid checks its annotations
+→ service checks whether email already exists
+→ service hashes password with BCrypt
+→ service creates User entity
+→ repository saves user
+→ UserResponse returns without password
+*/

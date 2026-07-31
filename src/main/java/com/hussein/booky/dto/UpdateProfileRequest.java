@@ -2,7 +2,9 @@ package com.hussein.booky.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
+/*
+request dto contains the profile info a logged in user wants to change 
+it currently allows user to update full name and to change emil address  */
 public class UpdateProfileRequest {
 
     @NotBlank(message = "Full name is required")

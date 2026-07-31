@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class BookingRequest {
+    //date and time selected by the user and cannot be null and must be in the future
 
     @NotNull(message = "Appointment time is required")
     @Future(message = "Appointment time must be in the future")

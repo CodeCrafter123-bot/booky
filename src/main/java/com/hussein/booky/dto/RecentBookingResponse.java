@@ -3,7 +3,8 @@ package com.hussein.booky.dto;
 import java.time.LocalDateTime;
 
 public class RecentBookingResponse {
-
+/*
+is a response DTO representing one recent booking displayed on the owner dashboard */
     private Integer bookingId;
     private String clientName;
     private String clientEmail;

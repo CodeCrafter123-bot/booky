@@ -1,7 +1,7 @@
 package com.hussein.booky.dto;
 
 import java.util.List;
-
+//response dto combines all the statistics and info needed to display the owner dashboard in the frontend
 public class OwnerDashboardResponse {
 
     private long todayBookings;

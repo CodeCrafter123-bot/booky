@@ -1,7 +1,11 @@
 package com.hussein.booky.dto;
 
 import java.time.LocalDateTime;
-
+//response dto to send the booking details back to the client
+//it include some info about the booking 
+/*
+  Response DTO returned after retrieving, creating,
+  cancelling, accepting or declining a booking. */
 public class BookingResponse {
 
     private Integer id;

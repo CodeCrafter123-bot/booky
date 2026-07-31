@@ -2,7 +2,7 @@ package com.hussein.booky.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-
+//request dto contains the info a user sends when logging in 
 public class LoginRequest {
 
     @NotBlank(message = "Email is required")

@@ -1,5 +1,7 @@
 package com.hussein.booky.dto;
 
+
+/*response dto controls the service info sent form the backend to the frontend  */
 public class BookyServiceResponse {
 
     private Integer id;

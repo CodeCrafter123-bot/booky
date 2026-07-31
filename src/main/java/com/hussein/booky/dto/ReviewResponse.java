@@ -1,7 +1,8 @@
 package com.hussein.booky.dto;
 
 import java.time.LocalDateTime;
-
+/*
+is a response DTO that combines review information with related booking, client, business, and service information. */
 public class ReviewResponse {
 
     private Integer id;

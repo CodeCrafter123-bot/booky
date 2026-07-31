@@ -1,5 +1,8 @@
 package com.hussein.booky.dto;
-
+//a response dto returned after a successfull login it gives the frontend :
+/*
+A jwt for the future authenticated requests 
+safe info about the logged in user  */
 public class LoginResponse {
 
     private String token;

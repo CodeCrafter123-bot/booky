@@ -2,11 +2,14 @@ package com.hussein.booky.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+   
+//all dto files transfers and validates data betweeen the frontend and controller 
 
 public class AdminUpdateUserRequest {
-
+//not blank means the field is required and cannot be empty
     @NotBlank(message = "Full name is required")
     private String fullName;
+    
 
     @NotBlank(message = "Email is required")
     @Email(message = "Email must be valid")

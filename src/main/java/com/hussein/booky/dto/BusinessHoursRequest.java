@@ -2,7 +2,7 @@ package com.hussein.booky.dto;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;
-
+//request dto to recieve the business hours info from the frontend to the backend for one business 
 public class BusinessHoursRequest {
 
   private Integer businessId;

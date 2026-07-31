@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-
+//request dto contains the info a client sends when submitting a review 
 public class CreateReviewRequest {
 
     @NotNull(message = "Booking ID is required")

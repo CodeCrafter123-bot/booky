@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+//a request dto contains the info needed to add a service to a bussiness 
 public class BookyServiceRequest {
 
     @NotBlank(message = "Service name is required")

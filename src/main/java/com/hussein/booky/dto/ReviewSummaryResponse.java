@@ -1,5 +1,13 @@
 package com.hussein.booky.dto;
+/*is a response DTO containing summarized rating information for one business.
+ 
 
+Instead of returning every review, it returns:
+
+Business identity
+Average rating
+Total number of reviews
+*/
 public class ReviewSummaryResponse {
 
     private Integer businessId;

@@ -1,7 +1,8 @@
 package com.hussein.booky.dto;
 
 import java.time.LocalDateTime;
-
+/*
+is a response DTO containing safe user information returned by the backend. */
 public class UserResponse {
 
     private Integer id;
@@ -66,3 +67,9 @@ public class UserResponse {
         return frozenAt;
     }
 }
+/*
+Repository returns User entity
+→ service selects safe fields
+→ service creates UserResponse
+→ controller returns it
+→ Jackson converts it to JSON */

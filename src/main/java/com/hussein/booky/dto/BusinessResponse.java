@@ -1,5 +1,5 @@
 package com.hussein.booky.dto;
-
+//business dto response controls the business info returned form the backend to frontend 
 public class BusinessResponse {
 
     private Integer id;

@@ -1,9 +1,9 @@
 package com.hussein.booky.dto;
 
 import jakarta.validation.constraints.NotBlank;
-
+/*business request dto containing info needed to creae a business in booky  */
 public class BusinessRequest {
-
+//the owner id not included because the backend retrieves it from the authenticated user JWT token
     @NotBlank(message = "Business name is required")
     private String name;
 
