@@ -4,6 +4,8 @@ import com.hussein.booky.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -12,11 +14,22 @@ import java.util.Date;
 @Service
 public class JwtService {
 
-    private static final String SECRET =
-            "booky-secret-key-booky-secret-key-booky-secret-key";
+    @Value("${jwt.secret}")
+    private String secret;
 
-    private final SecretKey key =
-            Keys.hmacShaKeyFor(SECRET.getBytes());
+    @Value("${jwt.expiration-ms:86400000}")
+    private long expirationMs;
+
+    private SecretKey key;
+
+    @PostConstruct
+    private void init() {
+        if (secret == null || secret.getBytes().length < 32) {
+            throw new IllegalStateException(
+                    "jwt.secret must be set (via the JWT_SECRET env var) and be at least 32 bytes long");
+        }
+        key = Keys.hmacShaKeyFor(secret.getBytes());
+    }
 
     public String generateToken(User user) {
         return Jwts.builder()
@@ -24,7 +37,7 @@ public class JwtService {
                 .claim("userId", user.getId())
                 .claim("role", user.getRole())
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .expiration(new Date(System.currentTimeMillis() + expirationMs))
                 .signWith(key)
                 .compact();
     }
