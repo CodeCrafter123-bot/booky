@@ -1,5 +1,5 @@
 
-const API_BASE_URL = "http://localhost:8080";
+const API_BASE_URL = "";
 
 const token = localStorage.getItem("booky_token");
 

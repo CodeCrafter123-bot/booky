@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Page not found — Booky</title>
+  <meta name="description" content="The page you're looking for doesn't exist or may have moved." />
+  <meta name="robots" content="noindex, nofollow" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#7c5cff" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+
+  <style>
+    .error-hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: var(--sp-8) var(--sp-4);
+    }
+    .error-code {
+      font-family: var(--font-mono);
+      font-size: clamp(3.5rem, 12vw, 6rem);
+      font-weight: 700;
+      background: var(--grad-text);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+      margin-bottom: var(--sp-4);
+    }
+    .error-hero h1 { font-size: 1.6rem; margin-bottom: var(--sp-3); }
+    .error-hero p {
+      color: var(--grey-300);
+      max-width: 460px;
+      margin-bottom: var(--sp-6);
+      line-height: 1.7;
+    }
+    .error-ctas { display: flex; gap: var(--sp-3); flex-wrap: wrap; justify-content: center; }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="/index.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="error-hero">
+      <div class="error-code">404</div>
+      <h1>This page took a day off</h1>
+      <p>
+        We couldn't find the page you were looking for. It may have been moved,
+        renamed, or never existed.
+      </p>
+      <div class="error-ctas">
+        <a href="/index.html" class="btn btn-primary">Go home</a>
+        <a href="/browse.html" class="btn btn-ghost">Browse businesses</a>
+        <a href="/faq.html" class="btn btn-ghost">Visit FAQ</a>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>

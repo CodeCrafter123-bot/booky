@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080";
+const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
 const user = JSON.parse(localStorage.getItem("booky_user") || "null");

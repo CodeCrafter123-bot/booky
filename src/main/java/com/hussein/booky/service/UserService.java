@@ -87,6 +87,7 @@ public class UserService {
 
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
+        user.setPhone(request.getPhone());
 
         User savedUser = userRepository.save(user);
 

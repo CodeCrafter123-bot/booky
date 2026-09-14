@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Register — Booky</title>
+  <meta name="description" content="Create a free Booky account to start booking appointments or list your business on Booky." />
+  <link rel="canonical" href="https://booky.example/register.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Register — Booky" />
+  <meta property="og:description" content="Create a free Booky account to start booking appointments or list your business on Booky." />
+  <meta property="og:url" content="https://booky.example/register.html" />
+  <meta property="og:site_name" content="Booky" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Register — Booky" />
+  <meta name="twitter:description" content="Create a free Booky account to start booking appointments or list your business on Booky." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#7c5cff" />
+
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -108,6 +124,15 @@
             <div class="field-error-msg" id="roleError">Please select a role.</div>
           </div>
 
+          <div class="form-group">
+            <label class="checkbox-row" for="agreeTerms">
+              <input type="checkbox" id="agreeTerms" />
+              I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
+              and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
+            </label>
+            <div class="field-error-msg" id="agreeTermsError">You must agree to the Terms and Privacy Policy to continue.</div>
+          </div>
+
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
             <span class="spinner"></span>
             <span class="btn-label">Create account</span>
@@ -119,12 +144,16 @@
           <a href="login.html">Log in</a>
         </p>
       </section>
+
+      <p class="auth-footer-text" style="margin-top: var(--sp-4); font-size: 0.8rem;">
+        <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="faq.html">FAQ</a>
+      </p>
     </div>
   </main>
 
   <div class="toast" id="toast"></div>
 
-  <script src="js/common.js"></script>
   <script src="js/register.js"></script>
+  <script src="/js/cookie-consent.js"></script>
 </body>
 </html>

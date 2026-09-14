@@ -14,7 +14,7 @@ const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
 const avatarInitial = document.getElementById("avatarInitial");
 
-const API_URL = "http://localhost:8080/bookings/owner";
+const API_URL = "/bookings/owner";
 
 userName.textContent = user.fullName || user.name || user.email;
 userRole.textContent = user.role;

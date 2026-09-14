@@ -5,6 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Login — Booky</title>
+  <meta name="description" content="Log in to your Booky account to book appointments or manage your business." />
+  <link rel="canonical" href="https://booky.example/login.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Login — Booky" />
+  <meta property="og:description" content="Log in to your Booky account to book appointments or manage your business." />
+  <meta property="og:url" content="https://booky.example/login.html" />
+  <meta property="og:site_name" content="Booky" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Login — Booky" />
+  <meta name="twitter:description" content="Log in to your Booky account to book appointments or manage your business." />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+  <meta name="theme-color" content="#7c5cff" />
+
 
   <link rel="stylesheet" href="css/style.css" />
 </head>
@@ -78,12 +94,16 @@
           <a href="register.html">Create one</a>
         </p>
       </section>
+
+      <p class="auth-footer-text" style="margin-top: var(--sp-4); font-size: 0.8rem;">
+        <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="faq.html">FAQ</a>
+      </p>
     </div>
   </main>
 
   <div class="toast" id="toast"></div>
 
-  <script src="js/common.js"></script>
   <script src="js/login.js"></script>
+  <script src="/js/cookie-consent.js"></script>
 </body>
 </html>

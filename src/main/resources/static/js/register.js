@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8080/users/register";
+const API_URL = "/users/register";
 
 const form = document.getElementById("registerForm");
 const alertBox = document.getElementById("formAlert");
@@ -14,6 +14,9 @@ const emailError = document.getElementById("emailError");
 const passwordError = document.getElementById("passwordError");
 const phoneError = document.getElementById("phoneError");
 const roleError = document.getElementById("roleError");
+
+const agreeTermsInput = document.getElementById("agreeTerms");
+const agreeTermsError = document.getElementById("agreeTermsError");
 
 document.querySelectorAll(".password-toggle").forEach((toggleButton) => {
   toggleButton.addEventListener("click", () => {
@@ -63,6 +66,11 @@ function validateForm(data) {
     roleError.classList.remove("show");
   }
 
+  if (agreeTermsError) {
+    agreeTermsError.textContent = "";
+    agreeTermsError.classList.remove("show");
+  }
+
   showMessage("");
 
   if (!data.fullName) {
@@ -95,6 +103,15 @@ function validateForm(data) {
     if (roleError) {
       roleError.textContent = "Please select a role.";
       roleError.classList.add("show");
+    }
+
+    isValid = false;
+  }
+
+  if (agreeTermsInput && !agreeTermsInput.checked) {
+    if (agreeTermsError) {
+      agreeTermsError.textContent = "You must agree to the Terms and Privacy Policy to continue.";
+      agreeTermsError.classList.add("show");
     }
 
     isValid = false;

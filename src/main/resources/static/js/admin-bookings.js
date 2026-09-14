@@ -14,7 +14,7 @@ const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
 const avatarInitial = document.getElementById("avatarInitial");
 
-const API_URL = "http://localhost:8080/bookings/admin";
+const API_URL = "/bookings/admin";
 
 userName.textContent = user.name || user.email || "Admin";
 userRole.textContent = user.role;
@@ -126,7 +126,7 @@ bookingsContainer.innerHTML += `
 
 async function acceptBooking(id) {
     try {
-        const response = await fetch(`http://localhost:8080/bookings/accept/${id}`, {
+        const response = await fetch(`/bookings/accept/${id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`
@@ -148,7 +148,7 @@ async function acceptBooking(id) {
 
 async function declineBooking(id) {
     try {
-        const response = await fetch(`http://localhost:8080/bookings/decline/${id}`, {
+        const response = await fetch(`/bookings/decline/${id}`, {
             method: "PUT",
             headers: {
                 Authorization: `Bearer ${token}`

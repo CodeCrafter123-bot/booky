@@ -14,12 +14,16 @@ public class UpdateProfileRequest {
     @Email(message = "Email must be valid")
     private String email;
 
+    @NotBlank(message = "Phone number is required")
+    private String phone;
+
     public UpdateProfileRequest() {
     }
 
-    public UpdateProfileRequest(String fullName, String email) {
+    public UpdateProfileRequest(String fullName, String email, String phone) {
         this.fullName = fullName;
         this.email = email;
+        this.phone = phone;
     }
 
     public String getFullName() {
@@ -30,11 +34,19 @@ public class UpdateProfileRequest {
         return email;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

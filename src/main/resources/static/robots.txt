@@ -1,0 +1,33 @@
+# TODO: replace https://booky.example with your real production domain
+# in this file and in sitemap.xml / every canonical & og:url tag.
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /login.html
+Allow: /register.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /faq.html
+
+# Authenticated / app-only pages — every one of these redirects to /login.html
+# client-side when there's no token, so there's nothing useful to index.
+Disallow: /browse.html
+Disallow: /business-details.html
+Disallow: /services.html
+Disallow: /dashboard.html
+Disallow: /book.html
+Disallow: /my-bookings.html
+Disallow: /profile.html
+Disallow: /owner-*.html
+Disallow: /admin*.html
+
+# API endpoints are not content and shouldn't be crawled
+Disallow: /users/
+Disallow: /businesses/
+Disallow: /bookings/
+Disallow: /reviews/
+Disallow: /services/
+Disallow: /availability/
+
+Sitemap: https://booky.example/sitemap.xml

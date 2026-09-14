@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>FAQ — Booky</title>
+  <meta name="description" content="Answers to common questions about booking appointments, managing your business, and using Booky." />
+  <link rel="canonical" href="https://booky.example/faq.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="FAQ — Booky" />
+  <meta property="og:description" content="Answers to common questions about booking appointments and managing your business on Booky." />
+  <meta property="og:url" content="https://booky.example/faq.html" />
+  <meta property="og:site_name" content="Booky" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="FAQ — Booky" />
+  <meta name="twitter:description" content="Answers to common questions about booking appointments and managing your business on Booky." />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon.ico" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="manifest" href="site.webmanifest" />
+  <meta name="theme-color" content="#7c5cff" />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Is Booky free to use?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, creating a client account and booking appointments on Booky is free." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I book an appointment?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Register or log in, browse businesses, choose a service, pick an available time slot, and confirm your booking." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I cancel or reschedule a booking?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes, from the My Bookings page. Cancellation policies can vary by business." }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I list my business on Booky?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Register as a business owner, then add your business details, services, and hours from your owner dashboard." }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    .faq-content { max-width: 780px; margin: 0 auto; }
+    .faq-item {
+      margin-bottom: var(--sp-3);
+      padding: var(--sp-4) var(--sp-5);
+    }
+    .faq-item summary {
+      cursor: pointer;
+      font-weight: 700;
+      font-family: var(--font-display);
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: "+";
+      font-size: 1.3rem;
+      color: var(--cyan-300);
+      flex-shrink: 0;
+      transition: transform 0.2s var(--ease);
+    }
+    .faq-item[open] summary::after { transform: rotate(45deg); }
+    .faq-item p {
+      color: var(--grey-300);
+      line-height: 1.7;
+      margin-top: var(--sp-3);
+    }
+    .faq-group-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--cyan-300);
+      margin: var(--sp-7) 0 var(--sp-3);
+    }
+    .faq-group-title:first-child { margin-top: 0; }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="login.html" class="btn btn-ghost btn-sm nav-link-text">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container section">
+    <div class="section-head">
+      <span class="eyebrow">Support</span>
+      <h2>Frequently Asked Questions</h2>
+      <p>Can't find what you're looking for? Email <a href="mailto:support@booky.example">support@booky.example</a>.</p>
+    </div>
+
+    <div class="faq-content">
+      <p class="faq-group-title">Getting started</p>
+
+      <details class="faq-item glass-card">
+        <summary>Is Booky free to use?</summary>
+        <p>Yes — creating a client account and booking appointments is free. Business listing plans may vary; ask your Booky contact for current pricing.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>How do I create an account?</summary>
+        <p>Click "Get Started" and register with your name, email, and password. You can register as a client to book appointments, or as a business owner to list your services.</p>
+      </details>
+
+      <p class="faq-group-title">Booking appointments</p>
+
+      <details class="faq-item glass-card">
+        <summary>How do I book an appointment?</summary>
+        <p>Log in, browse businesses from the Browse page, select a business and service, choose an available time slot, and confirm your booking.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>Can I cancel or reschedule a booking?</summary>
+        <p>Yes — open "My Bookings" to view, cancel, or manage upcoming appointments. Specific cancellation windows and rescheduling policies are set by each business.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>Will I get a confirmation for my booking?</summary>
+        <p>You'll see your booking status update in "My Bookings," and, where email notifications are enabled, you'll also receive a confirmation email.</p>
+      </details>
+
+      <p class="faq-group-title">For business owners</p>
+
+      <details class="faq-item glass-card">
+        <summary>How do I list my business?</summary>
+        <p>Register as a business owner, then add your business profile, services, pricing, and hours from your owner dashboard.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>How do I manage incoming bookings?</summary>
+        <p>Your owner dashboard shows all bookings for your business, where you can accept, decline, or review appointment details.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>Can I respond to customer reviews?</summary>
+        <p>You can view all reviews left for your business from the owner reviews page.</p>
+      </details>
+
+      <p class="faq-group-title">Account & privacy</p>
+
+      <details class="faq-item glass-card">
+        <summary>How do I update my profile information?</summary>
+        <p>Go to your Profile page after logging in to update your name, email, or phone number.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>How is my data protected?</summary>
+        <p>Passwords are stored as secure hashes and authentication uses token-based sessions. See our <a href="privacy.html">Privacy Policy</a> for full details.</p>
+      </details>
+
+      <details class="faq-item glass-card">
+        <summary>How do I delete my account?</summary>
+        <p>Email <a href="mailto:support@booky.example">support@booky.example</a> with your account deletion request, and we'll process it in line with our <a href="privacy.html">Privacy Policy</a>.</p>
+      </details>
+    </div>
+  </main>
+
+  <footer class="site-footer container">
+    <div class="footer-grid">
+      <a href="index.html" class="logo">
+        <span class="logo-mark">📅</span>
+        <span>Booky</span>
+      </a>
+
+      <div class="footer-cols">
+        <div class="footer-col">
+          <h4>Product</h4>
+          <a href="index.html#features">Features</a>
+          <a href="index.html#how-it-works">How it works</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Account</h4>
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <a href="privacy.html">Privacy Policy</a>
+          <a href="terms.html">Terms of Service</a>
+          <a href="faq.html">FAQ</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">© 2026 Booky. All rights reserved.</div>
+  </footer>
+
+  <script src="js/cookie-consent.js"></script>
+</body>
+</html>
