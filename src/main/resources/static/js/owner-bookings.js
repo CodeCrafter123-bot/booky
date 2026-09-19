@@ -1,142 +1,204 @@
-const token = localStorage.getItem("booky_token");
-const user = JSON.parse(localStorage.getItem("booky_user") || "null");
-
-if (!token || !user || user.role !== "OWNER") {
-    window.location.href = "login.html";
-}
-
-const bookingsContainer = document.getElementById("bookingsContainer");
-const message = document.getElementById("message");
-const refreshBtn = document.getElementById("refreshBtn");
-const logoutBtn = document.getElementById("logoutBtn");
-
-const userName = document.getElementById("userName");
-const userRole = document.getElementById("userRole");
-const avatarInitial = document.getElementById("avatarInitial");
-
-const API_URL = "/bookings/owner";
-
-userName.textContent = user.fullName || user.name || user.email;
-userRole.textContent = user.role;
-avatarInitial.textContent =
-    (user.fullName || user.name || user.email).charAt(0).toUpperCase();
-
-function showMessage(text, type = "success") {
-    message.textContent = text;
-    message.className = type === "success"
-        ? "message success"
-        : "message error";
-
-    setTimeout(() => {
-        message.textContent = "";
-        message.className = "message";
-    }, 3000);
-}
-
-function getStatusClass(status) {
-    switch (status) {
-        case "PENDING":
-            return "status-pending";
-        case "CONFIRMED":
-            return "status-confirmed";
-        case "CANCELLED":
-            return "status-cancelled";
-        default:
-            return "";
-    }
-}
-
-function formatDate(date) {
-    return new Date(date).toLocaleString([], {
-        year: "numeric",
-        month: "short",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit"
-    });
-}
-
-async function loadBookings() {
-
-    bookingsContainer.innerHTML = `
-        <p class="muted">Loading bookings...</p>
-    `;
+(() => {
+    const token = localStorage.getItem("booky_token");
+    let user = null;
 
     try {
-
-        const response = await fetch(API_URL, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error("Failed to load bookings.");
-        }
-
-        const bookings = await response.json();
-
-        if (bookings.length === 0) {
-            bookingsContainer.innerHTML = `
-                <p class="muted">
-                    No bookings have been made for your businesses yet.
-                </p>
-            `;
-            return;
-        }
-
-        bookingsContainer.innerHTML = "";
-
-        bookings.forEach(booking => {
-
-            bookingsContainer.innerHTML += `
-                <div class="glass-card admin-item">
-
-                    <div class="admin-item-header">
-
-                        <div>
-                            <h3>${booking.serviceName}</h3>
-                            <p>${booking.businessName}</p>
-                        </div>
-
-                        <span class="booking-status ${getStatusClass(booking.status)}">
-                            ${booking.status}
-                        </span>
-
-                    </div>
-
-                    <div class="booking-details">
-
-                        <p><strong>Client:</strong> ${booking.clientName}</p>
-
-                        <p><strong>Email:</strong> ${booking.clientEmail}</p>
-
-                        <p><strong>Appointment:</strong>
-                        ${formatDate(booking.appointmentTime)}</p>
-
-                        <p><strong>Price:</strong>
-                        $${booking.servicePrice}</p>
-
-                        <p><strong>Duration:</strong>
-                        ${booking.serviceDuration} minutes</p>
-
-                    </div>
-
-                </div>
-            `;
-        });
-
-    } catch (error) {
-        console.error(error);
-        showMessage(error.message, "error");
+        user = JSON.parse(localStorage.getItem("booky_user") || "null");
+    } catch {
+        user = null;
     }
-}
 
-refreshBtn.addEventListener("click", loadBookings);
+    if (!token || !user || user.role !== "OWNER") {
+        window.location.replace("login.html");
+        return;
+    }
 
-logoutBtn.addEventListener("click", () => {
-    localStorage.clear();
-    window.location.href = "login.html";
-});
+    const bookingsContainer = document.getElementById("bookingsContainer");
+    const message = document.getElementById("message");
+    const refreshBtn = document.getElementById("refreshBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-loadBookings();
+    const displayName = user.fullName || user.name || user.email || "Owner";
+
+    document.getElementById("userName").textContent = displayName;
+    document.getElementById("userRole").textContent = user.role;
+    document.getElementById("avatarInitial").textContent =
+        String(displayName).charAt(0).toUpperCase();
+
+    let messageTimer;
+
+    function createElement(tag, className, text) {
+        const element = document.createElement(tag);
+
+        if (className) {
+            element.className = className;
+        }
+
+        if (text !== undefined) {
+            element.textContent = String(text);
+        }
+
+        return element;
+    }
+
+    function showMessage(text, type = "success") {
+        clearTimeout(messageTimer);
+
+        message.textContent = text;
+        message.className =
+            type === "success" ? "message success" : "message error";
+
+        messageTimer = setTimeout(() => {
+            message.textContent = "";
+            message.className = "message";
+        }, 3000);
+    }
+
+    function showPlaceholder(text) {
+        bookingsContainer.replaceChildren(
+            createElement("p", "muted", text)
+        );
+    }
+
+    function getStatusClass(status) {
+        switch (status) {
+            case "PENDING":
+                return "status-pending";
+            case "CONFIRMED":
+                return "status-confirmed";
+            case "CANCELLED":
+                return "status-cancelled";
+            default:
+                return "";
+        }
+    }
+
+    function formatDate(value) {
+        if (!value) return "N/A";
+
+        const date = new Date(value);
+
+        if (Number.isNaN(date.getTime())) return "N/A";
+
+        return date.toLocaleString([], {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            hour: "2-digit",
+            minute: "2-digit"
+        });
+    }
+
+    function appendDetail(container, label, value) {
+        const paragraph = document.createElement("p");
+        const heading = createElement("strong", "", `${label}: `);
+        const text = createElement("span", "", value ?? "N/A");
+
+        paragraph.append(heading, text);
+        container.append(paragraph);
+    }
+
+    function createBookingCard(booking) {
+        const card = createElement("div", "glass-card admin-item");
+        const header = createElement("div", "admin-item-header");
+        const titleGroup = document.createElement("div");
+
+        titleGroup.append(
+            createElement("h3", "", booking.serviceName || "Service"),
+            createElement("p", "", booking.businessName || "Business")
+        );
+
+        const status = createElement(
+            "span",
+            `booking-status ${getStatusClass(booking.status)}`,
+            booking.status || "UNKNOWN"
+        );
+
+        header.append(titleGroup, status);
+
+        const details = createElement("div", "booking-details");
+
+        appendDetail(details, "Client", booking.clientName || "N/A");
+        appendDetail(details, "Email", booking.clientEmail || "N/A");
+        appendDetail(
+            details,
+            "Appointment",
+            formatDate(booking.appointmentTime)
+        );
+
+        appendDetail(
+            details,
+            "Price",
+            booking.servicePrice == null ? "N/A" : `$${booking.servicePrice}`
+        );
+
+        appendDetail(
+            details,
+            "Duration",
+            booking.serviceDuration == null
+                ? "N/A"
+                : `${booking.serviceDuration} minutes`
+        );
+
+        card.append(header, details);
+
+        return card;
+    }
+
+    async function loadBookings() {
+        showPlaceholder("Loading bookings...");
+        refreshBtn.disabled = true;
+
+        try {
+            const response = await fetch("/bookings/owner", {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            if (response.status === 401) {
+                window.location.replace("login.html");
+                return;
+            }
+
+            if (!response.ok) {
+                throw new Error("Unable to load bookings.");
+            }
+
+            const bookings = await response.json();
+
+            if (!Array.isArray(bookings)) {
+                throw new Error("Unexpected booking response.");
+            }
+
+            if (bookings.length === 0) {
+                showPlaceholder(
+                    "No bookings have been made for your businesses yet."
+                );
+                return;
+            }
+
+            const fragment = document.createDocumentFragment();
+
+            bookings.forEach((booking) => {
+                fragment.append(createBookingCard(booking));
+            });
+
+            bookingsContainer.replaceChildren(fragment);
+        } catch (error) {
+            showPlaceholder("Unable to load bookings.");
+            showMessage(error.message || "Unable to load bookings.", "error");
+        } finally {
+            refreshBtn.disabled = false;
+        }
+    }
+
+    refreshBtn.addEventListener("click", loadBookings);
+
+    logoutBtn.addEventListener("click", () => {
+        localStorage.clear();
+        window.location.replace("login.html");
+    });
+
+    loadBookings();
+})();
