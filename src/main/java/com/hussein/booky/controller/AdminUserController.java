@@ -2,70 +2,70 @@ package com.hussein.booky.controller;
 
 import com.hussein.booky.dto.AdminUpdateUserRequest;
 import com.hussein.booky.dto.UserResponse;
-import com.hussein.booky.security.JwtService;
 import com.hussein.booky.service.UserService;
+
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-//user management operations only avaiable by admin 
-@RestController
 
-//this class will recieve http reqeust and returned ibject auto convert to json 
+@RestController
 @RequestMapping("/admin/users")
-//begin of every endpoint in the contorller 
 public class AdminUserController {
 
-    @Autowired//perform user management operations 
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired  // read and validate information from jwts 
-    private JwtService jwtService;
-    //identifies requester and read their role 
+    public AdminUserController(UserService userService) {
+        this.userService = userService;
+    }
 
-
-    //getting all users 
     @GetMapping
     public List<UserResponse> getAllUsers(
-            @RequestHeader("Authorization") String authHeader//read authorization and stores it in auth header 
+            HttpServletRequest httpRequest
     ) {
-        validateAdmin(authHeader);//checks admin 
-        return userService.getAllUsersForAdmin();//if verifies return list of users 
+        validateAdmin(httpRequest);
+        return userService.getAllUsersForAdmin();
     }
-//getting one user by id 
-    @GetMapping("/{id}")//complete endpoint 
-    public UserResponse getUserById(
 
-        //validate admin then get user then return response 
-            @RequestHeader("Authorization") String authHeader,
-            @PathVariable Integer id
+    @GetMapping("/{id}")
+    public UserResponse getUserById(
+            @PathVariable Integer id,
+            HttpServletRequest httpRequest
     ) {
-        validateAdmin(authHeader);
+        validateAdmin(httpRequest);
         return userService.getUserByIdForAdmin(id);
     }
-//updating user 
-    @PutMapping("/{id}")//end point for this user 
+
+    @PutMapping("/{id}")
     public UserResponse updateUser(
-        //reads id form the url and convert json into adminupdaterequest 
-            @RequestHeader("Authorization") String authHeader,
             @PathVariable Integer id,
-            @Valid @RequestBody AdminUpdateUserRequest request
-            //check annotation in the dto 
+            @Valid @RequestBody AdminUpdateUserRequest request,
+            HttpServletRequest httpRequest
     ) {
-        validateAdmin(authHeader);
-        //returns the updated response 
+        validateAdmin(httpRequest);
         return userService.updateUserForAdmin(id, request);
     }
 
-    private void validateAdmin(String authHeader) {
-        String token = authHeader.replace("Bearer ", "");
-        String role = jwtService.extractRole(token);
+    private void validateAdmin(HttpServletRequest request) {
+        Integer userId = (Integer) request.getAttribute("userId");
+        String role = (String) request.getAttribute("role");
 
-        if (!"ADMIN".equals(role)) {
-            throw new RuntimeException("Access denied. Admins only.");
+        if (userId == null || role == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Authentication is required"
+            );
         }
 
-        //removing the bearer since only the token is needed and the extract  the role of the person if not admin access denied 
+        if (!"ADMIN".equals(role)) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "Access denied: ADMIN only"
+            );
+        }
     }
 }

@@ -14,9 +14,13 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.Set;
 
 @Component
 public class JwtFilter implements Filter {
+
+    private static final Set<String> VALID_ROLES =
+            Set.of("CLIENT", "OWNER", "ADMIN");
 
     private final JwtService jwtService;
     private final UserRepository userRepository;
@@ -42,31 +46,19 @@ public class JwtFilter implements Filter {
         HttpServletResponse httpResponse =
                 (HttpServletResponse) response;
 
-        String path = httpRequest.getRequestURI();
+        String path = httpRequest.getRequestURI()
+                .substring(httpRequest.getContextPath().length());
+
         String method = httpRequest.getMethod();
 
-        /*
-         * Allow CORS preflight requests.
-         */
-        if ("OPTIONS".equals(method)) {
+        if ("OPTIONS".equals(method) || isPublicPath(path, method)) {
             chain.doFilter(request, response);
             return;
         }
 
-        /*
-         * Allow login, registration and frontend static files.
-         */
-        if (isPublicPath(path)) {
-            chain.doFilter(request, response);
-            return;
-        }
+        String authHeader = httpRequest.getHeader("Authorization");
 
-        String authHeader =
-                httpRequest.getHeader("Authorization");
-
-        if (authHeader == null ||
-                !authHeader.startsWith("Bearer ")) {
-
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             sendJsonError(
                     httpResponse,
                     HttpServletResponse.SC_UNAUTHORIZED,
@@ -74,13 +66,23 @@ public class JwtFilter implements Filter {
                     null,
                     "INVALID_TOKEN"
             );
-
             return;
         }
 
         String token = authHeader.substring(7);
+        Integer userId;
 
-        if (!jwtService.isTokenValid(token)) {
+        try {
+            if (!jwtService.isTokenValid(token)) {
+                throw new IllegalArgumentException("Invalid token");
+            }
+
+            userId = jwtService.extractUserId(token);
+
+            if (userId == null || userId <= 0) {
+                throw new IllegalArgumentException("Invalid user ID");
+            }
+        } catch (Exception exception) {
             sendJsonError(
                     httpResponse,
                     HttpServletResponse.SC_UNAUTHORIZED,
@@ -88,30 +90,10 @@ public class JwtFilter implements Filter {
                     null,
                     "INVALID_TOKEN"
             );
-
             return;
         }
 
-        Integer userId;
-        String tokenRole;
-
-        try {
-            userId = jwtService.extractUserId(token);
-            tokenRole = jwtService.extractRole(token);
-        } catch (Exception exception) {
-            sendJsonError(
-                    httpResponse,
-                    HttpServletResponse.SC_UNAUTHORIZED,
-                    "Could not read authentication token",
-                    null,
-                    "INVALID_TOKEN"
-            );
-
-            return;
-        }
-
-        User user = userRepository.findById(userId)
-                .orElse(null);
+        User user = userRepository.findById(userId).orElse(null);
 
         if (user == null) {
             sendJsonError(
@@ -121,14 +103,9 @@ public class JwtFilter implements Filter {
                     null,
                     "USER_NOT_FOUND"
             );
-
             return;
         }
 
-        /*
-         * Block frozen users even when they already have
-         * a previously generated JWT token.
-         */
         if (user.isFrozen()) {
             String reason = user.getFreezeReason();
 
@@ -143,178 +120,136 @@ public class JwtFilter implements Filter {
                     reason,
                     "ACCOUNT_FROZEN"
             );
-
             return;
         }
 
-        /*
-         * Use the role currently stored in the database.
-         * This protects against old JWTs after an admin changes a role.
-         */
+        // Never fall back to the role stored in an old token.
         String role = user.getRole();
 
-        if (role == null || role.isBlank()) {
-            role = tokenRole;
+        if (role == null || !VALID_ROLES.contains(role)) {
+            sendJsonError(
+                    httpResponse,
+                    HttpServletResponse.SC_FORBIDDEN,
+                    "Your account does not have a valid role",
+                    null,
+                    "ACCESS_DENIED"
+            );
+            return;
         }
 
-        httpRequest.setAttribute("userId", userId);
+        httpRequest.setAttribute("userId", user.getId());
         httpRequest.setAttribute("role", role);
 
-        System.out.println("PATH = " + path);
-        System.out.println("METHOD = " + method);
-        System.out.println("ROLE = " + role);
-        System.out.println("USER ID = " + userId);
-
-        /*
-         * OWNER or ADMIN only.
-         */
-        if ("POST".equals(method) &&
-                (
-                        path.equals("/businesses/add") ||
-                        path.equals("/services/add")
-                )) {
-
-            if (!"OWNER".equals(role) &&
-                    !"ADMIN".equals(role)) {
-
-                sendJsonError(
-                        httpResponse,
-                        HttpServletResponse.SC_FORBIDDEN,
-                        "Access denied: OWNER or ADMIN only",
-                        null,
-                        "ACCESS_DENIED"
-                );
-
-                return;
-            }
+        if (isAdminPath(path, method) && !"ADMIN".equals(role)) {
+            denyAccess(httpResponse, "Access denied: ADMIN only");
+            return;
         }
 
-        /*
-         * CLIENT only: create reviews.
-         */
-        if ("POST".equals(method) &&
-                path.equals("/reviews/create")) {
+        if (isOwnerOrAdminPath(path, method)
+                && !"OWNER".equals(role)
+                && !"ADMIN".equals(role)) {
 
-            if (!"CLIENT".equals(role)) {
-                sendJsonError(
-                        httpResponse,
-                        HttpServletResponse.SC_FORBIDDEN,
-                        "Access denied: CLIENT only",
-                        null,
-                        "ACCESS_DENIED"
-                );
-
-                return;
-            }
+            denyAccess(httpResponse, "Access denied: OWNER or ADMIN only");
+            return;
         }
 
-        /*
-         * CLIENT only: view own reviews.
-         */
-        if ("GET".equals(method) &&
-                path.equals("/reviews/client")) {
-
-            if (!"CLIENT".equals(role)) {
-                sendJsonError(
-                        httpResponse,
-                        HttpServletResponse.SC_FORBIDDEN,
-                        "Access denied: CLIENT only",
-                        null,
-                        "ACCESS_DENIED"
-                );
-
-                return;
-            }
+        if (isOwnerPath(path, method) && !"OWNER".equals(role)) {
+            denyAccess(httpResponse, "Access denied: OWNER only");
+            return;
         }
 
-        /*
-         * OWNER only: view reviews for owned businesses.
-         */
-        if ("GET".equals(method) &&
-                path.equals("/reviews/owner")) {
-
-            if (!"OWNER".equals(role)) {
-                sendJsonError(
-                        httpResponse,
-                        HttpServletResponse.SC_FORBIDDEN,
-                        "Access denied: OWNER only",
-                        null,
-                        "ACCESS_DENIED"
-                );
-
-                return;
-            }
-        }
-      /*
- * OWNER only: dashboard analytics.
- */
-if ("GET".equals(method) &&
-        path.equals("/owner/dashboard")) {
-
-    if (!"OWNER".equals(role)) {
-
-        sendJsonError(
-                httpResponse,
-                HttpServletResponse.SC_FORBIDDEN,
-                "Access denied: OWNER only",
-                null,
-                "ACCESS_DENIED"
-        );
-
-        return;
-    }
-}
-
-        /*
-         * ADMIN-only endpoints.
-         */
-        if (isAdminPath(path, method)) {
-
-            if (!"ADMIN".equals(role)) {
-                sendJsonError(
-                        httpResponse,
-                        HttpServletResponse.SC_FORBIDDEN,
-                        "Access denied: ADMIN only",
-                        null,
-                        "ACCESS_DENIED"
-                );
-
-                return;
-            }
+        if (isClientPath(path, method) && !"CLIENT".equals(role)) {
+            denyAccess(httpResponse, "Access denied: CLIENT only");
+            return;
         }
 
         chain.doFilter(request, response);
     }
 
-    private boolean isAdminPath(
-            String path,
-            String method
-    ) {
-        return path.equals("/bookings/admin")
+    private boolean isAdminPath(String path, String method) {
+        return path.equals("/admin")
+                || path.startsWith("/admin/")
+                || path.equals("/bookings/admin")
                 || path.startsWith("/bookings/accept/")
                 || path.startsWith("/bookings/decline/")
                 || path.matches("/users/\\d+/freeze")
                 || path.matches("/users/\\d+/unfreeze")
+                || path.equals("/reviews/admin")
                 || (
-                    "GET".equals(method) &&
-                    path.equals("/reviews/admin")
-                )
-                || (
-                    "DELETE".equals(method) &&
-                    path.matches("/reviews/\\d+")
+                    "DELETE".equals(method)
+                    && path.matches("/reviews/\\d+")
                 );
     }
 
-    private boolean isPublicPath(String path) {
-        return path.startsWith("/users/login")
-                || path.startsWith("/users/register")
-                || path.endsWith(".html")
-                
+    private boolean isOwnerOrAdminPath(String path, String method) {
+        return "POST".equals(method)
+                && (
+                    path.equals("/businesses/add")
+                    || path.equals("/services/add")
+                    || path.equals("/business-hours/save")
+                );
+    }
+
+    private boolean isOwnerPath(String path, String method) {
+        return "GET".equals(method)
+                && (
+                    path.equals("/bookings/owner")
+                    || path.equals("/reviews/owner")
+                    || path.equals("/owner/dashboard")
+                );
+    }
+
+    private boolean isClientPath(String path, String method) {
+        return (
+                    "POST".equals(method)
+                    && path.equals("/reviews/create")
+                )
+                || (
+                    "GET".equals(method)
+                    && path.equals("/reviews/client")
+                );
+    }
+
+    private boolean isPublicPath(String path, String method) {
+        if ("POST".equals(method)
+                && (
+                    path.equals("/users/login")
+                    || path.equals("/users/register")
+                )) {
+            return true;
+        }
+
+        if (!"GET".equals(method) && !"HEAD".equals(method)) {
+            return false;
+        }
+
+        // Public page files do not grant access to protected API data.
+        return path.equals("/")
+                || path.matches("/[A-Za-z0-9-]+\\.html")
                 || path.startsWith("/css/")
                 || path.startsWith("/js/")
                 || path.startsWith("/images/")
-                || path.equals("/")
-                || path.equals("/favicon.ico");
+                || path.equals("/favicon.ico")
+                || path.equals("/favicon.svg")
+                || path.equals("/apple-touch-icon.png")
+                || path.equals("/icon-192.png")
+                || path.equals("/icon-512.png")
+                || path.equals("/site.webmanifest")
+                || path.equals("/robots.txt")
+                || path.equals("/sitemap.xml");
+    }
+
+    private void denyAccess(
+            HttpServletResponse response,
+            String message
+    ) throws IOException {
+        sendJsonError(
+                response,
+                HttpServletResponse.SC_FORBIDDEN,
+                message,
+                null,
+                "ACCESS_DENIED"
+        );
     }
 
     private void sendJsonError(
@@ -331,9 +266,7 @@ if ("GET".equals(method) &&
 
         StringBuilder json = new StringBuilder();
 
-        json.append("{");
-
-        json.append("\"message\":\"")
+        json.append("{\"message\":\"")
                 .append(escapeJson(message))
                 .append("\"");
 
@@ -345,9 +278,7 @@ if ("GET".equals(method) &&
 
         json.append(",\"code\":\"")
                 .append(escapeJson(code))
-                .append("\"");
-
-        json.append("}");
+                .append("\"}");
 
         response.getWriter().write(json.toString());
     }
@@ -357,11 +288,24 @@ if ("GET".equals(method) &&
             return "";
         }
 
-        return value
-                .replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("\n", "\\n")
-                .replace("\r", "\\r")
-                .replace("\t", "\\t");
+        StringBuilder escaped = new StringBuilder();
+
+        for (char character : value.toCharArray()) {
+            switch (character) {
+                case '"' -> escaped.append("\\\"");
+                case '\\' -> escaped.append("\\\\");
+                default -> {
+                    if (character < 0x20) {
+                        escaped.append(
+                                String.format("\\u%04x", (int) character)
+                        );
+                    } else {
+                        escaped.append(character);
+                    }
+                }
+            }
+        }
+
+        return escaped.toString();
     }
 }
