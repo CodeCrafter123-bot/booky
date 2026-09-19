@@ -32,7 +32,7 @@ public ResponseEntity<BookingResponse> createBooking(
 ) { //removing 1st 7 charcater which is "bearer "
     String token = authHeader.substring(7);
 
-    System.out.println("TOKEN = " + token);
+
 //read user id from the jwt 
     Integer userId = jwtService.extractUserId(token);
 
