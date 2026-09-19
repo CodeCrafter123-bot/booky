@@ -9,9 +9,15 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
+import java.util.Optional;
+import jakarta.persistence.LockModeType;
+import org.springframework.data.jpa.repository.Lock;
+import java.util.Optional;
 public interface BookingRepository
         extends JpaRepository<Booking, Integer> {
+                
 
     List<Booking> findByUserId(Integer userId);
 
@@ -106,4 +112,10 @@ public interface BookingRepository
     List<Object[]> findPopularServicesByOwnerId(
             @Param("ownerId") Integer ownerId
     );
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+@Query("SELECT b FROM Booking b WHERE b.id = :bookingId")
+Optional<Booking> findByIdForUpdate(
+        @Param("bookingId") Integer bookingId
+);
+    
 }
