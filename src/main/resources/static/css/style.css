@@ -1274,3 +1274,38 @@ h4 {
     flex: 1;
   }
 }
+/* Registration terms: checkbox beside naturally wrapping text */
+#registerForm .checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+#registerForm .checkbox-row input[type="checkbox"] {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  margin: 3px 0 0;
+}
+
+#registerForm .checkbox-row > span {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+#registerForm .checkbox-row a {
+  display: inline;
+}
+
+/* Align the account notice with the form fields */
+#registerForm > .auth-subtitle {
+  margin: 0;
+  text-align: left;
+  line-height: 1.6;
+}

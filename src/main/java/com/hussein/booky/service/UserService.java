@@ -29,13 +29,14 @@ public class UserService {
     public UserResponse register(RegisterRequest request) {
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
 
-        User user = new User(
-                request.getFullName(),
-                request.getEmail(),
-                encryptedPassword,
-                request.getPhone(),
-                request.getRole()
-        );
+       // Public registration must never grant privileged roles.
+User user = new User(
+        request.getFullName(),
+        request.getEmail(),
+        encryptedPassword,
+        request.getPhone(),
+        "CLIENT"
+);
 
         User savedUser = userRepository.save(user);
 

@@ -5,27 +5,28 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Register — Booky</title>
-  <meta name="description" content="Create a free Booky account to start booking appointments or list your business on Booky." />
+  <meta name="description" content="Create a free Booky account to book and manage your appointments." />
   <link rel="canonical" href="https://booky.example/register.html" />
+
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Register — Booky" />
-  <meta property="og:description" content="Create a free Booky account to start booking appointments or list your business on Booky." />
+  <meta property="og:description" content="Create a free Booky account to book and manage your appointments." />
   <meta property="og:url" content="https://booky.example/register.html" />
   <meta property="og:site_name" content="Booky" />
+
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Register — Booky" />
-  <meta name="twitter:description" content="Create a free Booky account to start booking appointments or list your business on Booky." />
+  <meta name="twitter:description" content="Create a free Booky account to book and manage your appointments." />
+
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#7c5cff" />
 
-
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-
   <main class="auth-page">
     <div class="auth-shell">
       <a href="index.html" class="auth-back">← Back to home</a>
@@ -41,10 +42,16 @@
         <div class="auth-heading">
           <span class="eyebrow">Create Account</span>
           <h1 class="auth-title">Join Booky today</h1>
-          <p class="auth-subtitle">Create your client or business owner account.</p>
+          <p class="auth-subtitle">
+            Create your account to book and manage appointments.
+          </p>
         </div>
 
-        <div id="formAlert" class="alert alert-error"></div>
+        <div
+          id="formAlert"
+          class="alert alert-error"
+          role="alert"
+        ></div>
 
         <form id="registerForm" class="form-stack" novalidate>
           <div class="form-group">
@@ -55,8 +62,12 @@
               class="form-input"
               placeholder="Jane Doe"
               autocomplete="name"
+              aria-describedby="fullNameError"
+              required
             />
-            <div class="field-error-msg" id="fullNameError">Full name is required.</div>
+            <div class="field-error-msg" id="fullNameError">
+              Full name is required.
+            </div>
           </div>
 
           <div class="form-group">
@@ -67,8 +78,12 @@
               class="form-input"
               placeholder="you@example.com"
               autocomplete="email"
+              aria-describedby="emailError"
+              required
             />
-            <div class="field-error-msg" id="emailError">Enter a valid email address.</div>
+            <div class="field-error-msg" id="emailError">
+              Enter a valid email address.
+            </div>
           </div>
 
           <div class="form-group">
@@ -81,11 +96,24 @@
                 class="form-input"
                 placeholder="At least 6 characters"
                 autocomplete="new-password"
+                minlength="6"
+                aria-describedby="passwordError"
+                required
               />
-              <button type="button" class="password-toggle" data-target="password">SHOW</button>
+              <button
+                type="button"
+                class="password-toggle"
+                data-target="password"
+                aria-label="Show password"
+                aria-controls="password"
+              >
+                SHOW
+              </button>
             </div>
 
-            <div class="field-error-msg" id="passwordError">Password must be at least 6 characters.</div>
+            <div class="field-error-msg" id="passwordError">
+              Password must be at least 6 characters.
+            </div>
           </div>
 
           <div class="form-group">
@@ -96,44 +124,46 @@
               class="form-input"
               placeholder="70123456"
               autocomplete="tel"
+              aria-describedby="phoneError"
+              required
             />
-            <div class="field-error-msg" id="phoneError">Phone number is required.</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">I am a...</label>
-
-            <div class="role-select-grid">
-              <div class="role-option">
-                <input type="radio" name="role" id="roleClient" value="CLIENT" checked />
-                <label for="roleClient">
-                  <span class="role-icon">🙋</span>
-                  <span>Client</span>
-                </label>
-              </div>
-
-              <div class="role-option">
-                <input type="radio" name="role" id="roleOwner" value="OWNER" />
-                <label for="roleOwner">
-                  <span class="role-icon">🏢</span>
-                  <span>Business Owner</span>
-                </label>
-              </div>
+            <div class="field-error-msg" id="phoneError">
+              Phone number is required.
             </div>
-
-            <div class="field-error-msg" id="roleError">Please select a role.</div>
           </div>
+
+          <p class="auth-subtitle">
+            All new accounts are client accounts. Business owner access
+            requires approval from a Booky administrator.
+          </p>
 
           <div class="form-group">
-            <label class="checkbox-row" for="agreeTerms">
-              <input type="checkbox" id="agreeTerms" />
-              I agree to the <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
-              and <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>
-            </label>
-            <div class="field-error-msg" id="agreeTermsError">You must agree to the Terms and Privacy Policy to continue.</div>
-          </div>
+  <label class="checkbox-row" for="agreeTerms">
+    <input
+      type="checkbox"
+      id="agreeTerms"
+      aria-describedby="agreeTermsError"
+      required
+    />
 
-          <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
+    <span>
+      I agree to the
+      <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
+      and
+      <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.
+    </span>
+  </label>
+
+  <div class="field-error-msg" id="agreeTermsError">
+    You must agree to the Terms and Privacy Policy to continue.
+  </div>
+</div>
+
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            id="submitBtn"
+          >
             <span class="spinner"></span>
             <span class="btn-label">Create account</span>
           </button>
@@ -145,8 +175,13 @@
         </p>
       </section>
 
-      <p class="auth-footer-text" style="margin-top: var(--sp-4); font-size: 0.8rem;">
-        <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="faq.html">FAQ</a>
+      <p
+        class="auth-footer-text"
+        style="margin-top: var(--sp-4); font-size: 0.8rem;"
+      >
+        <a href="privacy.html">Privacy Policy</a> ·
+        <a href="terms.html">Terms</a> ·
+        <a href="faq.html">FAQ</a>
       </p>
     </div>
   </main>

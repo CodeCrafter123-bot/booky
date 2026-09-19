@@ -13,10 +13,11 @@ const fullNameError = document.getElementById("fullNameError");
 const emailError = document.getElementById("emailError");
 const passwordError = document.getElementById("passwordError");
 const phoneError = document.getElementById("phoneError");
-const roleError = document.getElementById("roleError");
 
 const agreeTermsInput = document.getElementById("agreeTerms");
 const agreeTermsError = document.getElementById("agreeTermsError");
+
+let isSubmitting = false;
 
 document.querySelectorAll(".password-toggle").forEach((toggleButton) => {
   toggleButton.addEventListener("click", () => {
@@ -25,8 +26,13 @@ document.querySelectorAll(".password-toggle").forEach((toggleButton) => {
     if (!input) return;
 
     const isPassword = input.type === "password";
+
     input.type = isPassword ? "text" : "password";
     toggleButton.textContent = isPassword ? "HIDE" : "SHOW";
+    toggleButton.setAttribute(
+      "aria-label",
+      isPassword ? "Hide password" : "Show password"
+    );
   });
 });
 
@@ -36,21 +42,27 @@ function showMessage(text, type = "error") {
   if (!alertBox) return;
 
   alertBox.textContent = text;
-  alertBox.className = type === "success"
-    ? "alert alert-success show"
-    : "alert alert-error show";
 
   if (!text) {
     alertBox.className = "alert alert-error";
+    return;
   }
+
+  alertBox.className = type === "success"
+    ? "alert alert-success show"
+    : "alert alert-error show";
 }
 
 function setFieldError(input, errorElement, message) {
   if (!input || !errorElement) return;
 
-  input.classList.toggle("field-error", Boolean(message));
+  const hasError = Boolean(message);
+
+  input.classList.toggle("field-error", hasError);
+  input.setAttribute("aria-invalid", String(hasError));
+
   errorElement.textContent = message;
-  errorElement.classList.toggle("show", Boolean(message));
+  errorElement.classList.toggle("show", hasError);
 }
 
 function validateForm(data) {
@@ -60,60 +72,66 @@ function validateForm(data) {
   setFieldError(emailInput, emailError, "");
   setFieldError(passwordInput, passwordError, "");
   setFieldError(phoneInput, phoneError, "");
-
-  if (roleError) {
-    roleError.textContent = "";
-    roleError.classList.remove("show");
-  }
-
-  if (agreeTermsError) {
-    agreeTermsError.textContent = "";
-    agreeTermsError.classList.remove("show");
-  }
+  setFieldError(agreeTermsInput, agreeTermsError, "");
 
   showMessage("");
 
   if (!data.fullName) {
-    setFieldError(fullNameInput, fullNameError, "Full name is required.");
+    setFieldError(
+      fullNameInput,
+      fullNameError,
+      "Full name is required."
+    );
     isValid = false;
   }
 
   if (!data.email) {
-    setFieldError(emailInput, emailError, "Email is required.");
+    setFieldError(
+      emailInput,
+      emailError,
+      "Email is required."
+    );
     isValid = false;
   } else if (!/^\S+@\S+\.\S+$/.test(data.email)) {
-    setFieldError(emailInput, emailError, "Enter a valid email address.");
+    setFieldError(
+      emailInput,
+      emailError,
+      "Enter a valid email address."
+    );
     isValid = false;
   }
 
   if (!data.password) {
-    setFieldError(passwordInput, passwordError, "Password is required.");
+    setFieldError(
+      passwordInput,
+      passwordError,
+      "Password is required."
+    );
     isValid = false;
   } else if (data.password.length < 6) {
-    setFieldError(passwordInput, passwordError, "Password must be at least 6 characters.");
+    setFieldError(
+      passwordInput,
+      passwordError,
+      "Password must be at least 6 characters."
+    );
     isValid = false;
   }
 
   if (!data.phone) {
-    setFieldError(phoneInput, phoneError, "Phone number is required.");
+    setFieldError(
+      phoneInput,
+      phoneError,
+      "Phone number is required."
+    );
     isValid = false;
   }
 
-  if (!data.role) {
-    if (roleError) {
-      roleError.textContent = "Please select a role.";
-      roleError.classList.add("show");
-    }
-
-    isValid = false;
-  }
-
-  if (agreeTermsInput && !agreeTermsInput.checked) {
-    if (agreeTermsError) {
-      agreeTermsError.textContent = "You must agree to the Terms and Privacy Policy to continue.";
-      agreeTermsError.classList.add("show");
-    }
-
+  if (!agreeTermsInput.checked) {
+    setFieldError(
+      agreeTermsInput,
+      agreeTermsError,
+      "You must agree to the Terms and Privacy Policy to continue."
+    );
     isValid = false;
   }
 
@@ -127,22 +145,32 @@ function setLoading(isLoading) {
   button.classList.toggle("is-loading", isLoading);
 
   const label = button.querySelector(".btn-label");
-  if (label) label.textContent = isLoading ? "Creating account..." : "Create account";
+
+  if (label) {
+    label.textContent = isLoading
+      ? "Creating account..."
+      : "Create account";
+  }
 }
 
 async function register(event) {
   event.preventDefault();
+
+  if (isSubmitting) return;
 
   const data = {
     fullName: fullNameInput.value.trim(),
     email: emailInput.value.trim(),
     password: passwordInput.value,
     phone: phoneInput.value.trim(),
-    role: document.querySelector('input[name="role"]:checked')?.value
+    // Required by the current DTO.
+    // The backend independently enforces CLIENT registration.
+    role: "CLIENT"
   };
 
   if (!validateForm(data)) return;
 
+  isSubmitting = true;
   setLoading(true);
 
   try {
@@ -160,14 +188,19 @@ async function register(event) {
       throw new Error(responseData.message || "Registration failed.");
     }
 
-    showMessage("Account created successfully! Redirecting...", "success");
+    showMessage(
+      "Account created successfully! Redirecting...",
+      "success"
+    );
 
+    // Keep submission disabled until navigation completes.
     setTimeout(() => {
       window.location.href = "login.html";
     }, 1200);
   } catch (error) {
     showMessage(error.message || "Registration failed.");
-  } finally {
+
+    isSubmitting = false;
     setLoading(false);
   }
 }
