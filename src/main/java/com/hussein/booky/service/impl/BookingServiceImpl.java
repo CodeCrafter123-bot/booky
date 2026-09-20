@@ -6,7 +6,7 @@ import com.hussein.booky.entity.Booking;
 import com.hussein.booky.entity.BookyService;
 import com.hussein.booky.entity.BusinessHours;
 import com.hussein.booky.entity.User;
-
+import com.hussein.booky.util.BookyTime;
 import com.hussein.booky.repository.BookingRepository;
 import com.hussein.booky.repository.BookyServiceRepository;
 import com.hussein.booky.repository.BusinessHoursRepository;
@@ -129,13 +129,12 @@ public class BookingServiceImpl implements BookingService {
         LocalDateTime start = request.getAppointmentTime();
         Integer duration = service.getDurationMinutes();
 
-        if (start == null || !start.isAfter(LocalDateTime.now())) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Appointment time must be in the future"
-            );
-        }
-
+       if (!BookyTime.isFuture(start)) {
+    throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST,
+            "Appointment must be a valid future time in Lebanon"
+    );
+}
         if (!Boolean.TRUE.equals(service.getActive())) {
             throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST,

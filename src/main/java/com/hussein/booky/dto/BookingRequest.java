@@ -1,17 +1,19 @@
 package com.hussein.booky.dto;
 
-import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+
 import java.time.LocalDateTime;
 
 public class BookingRequest {
-    //date and time selected by the user and cannot be null and must be in the future
 
+    // Interpreted as Lebanon local time.
+    // Future-time validation is performed in BookingServiceImpl.
     @NotNull(message = "Appointment time is required")
-    @Future(message = "Appointment time must be in the future")
     private LocalDateTime appointmentTime;
 
     @NotNull(message = "Service ID is required")
+    @Positive(message = "Service ID must be positive")
     private Integer serviceId;
 
     public LocalDateTime getAppointmentTime() {
