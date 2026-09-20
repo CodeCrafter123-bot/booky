@@ -36,4 +36,19 @@ public final class BookyTime {
         return appointment.toInstant(offsets.get(0))
                 .isAfter(CLOCK.instant());
     }
+public static boolean hasPassed(LocalDateTime appointment) {
+    if (appointment == null) {
+        return false;
+    }
+
+    List<ZoneOffset> offsets =
+            ZONE.getRules().getValidOffsets(appointment);
+
+    if (offsets.size() != 1) {
+        return false;
+    }
+
+    return !appointment.toInstant(offsets.get(0))
+            .isAfter(CLOCK.instant());
+}
 }

@@ -10,7 +10,7 @@ import com.hussein.booky.repository.BusinessRepository;
 import com.hussein.booky.repository.ReviewRepository;
 import com.hussein.booky.service.OwnerDashboardService;
 import org.springframework.stereotype.Service;
-
+import com.hussein.booky.util.BookyTime;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,7 +38,7 @@ public class OwnerDashboardServiceImpl implements OwnerDashboardService {
     @Override
     public OwnerDashboardResponse getDashboard(Integer ownerId) {
 
-        LocalDate today = LocalDate.now();
+        LocalDate today = BookyTime.today();
         LocalDateTime startOfDay = today.atStartOfDay();
         LocalDateTime endOfDay = today.plusDays(1).atStartOfDay();
 

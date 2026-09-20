@@ -11,11 +11,11 @@ import com.hussein.booky.repository.BookingRepository;
 import com.hussein.booky.repository.BusinessRepository;
 import com.hussein.booky.repository.ReviewRepository;
 import com.hussein.booky.repository.UserRepository;
-
+import com.hussein.booky.util.BookyTime;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -111,13 +111,12 @@ public class ReviewService {
             );
         }
 
-        if (booking.getAppointmentTime()
-                .isAfter(LocalDateTime.now())) {
-
-            throw new RuntimeException(
-                    "You can only review an appointment after it has passed"
-            );
-        }
+        if (!BookyTime.hasPassed(booking.getAppointmentTime())) {
+    throw new ResponseStatusException(
+            HttpStatus.BAD_REQUEST,
+            "You can only review an appointment after its start time in Lebanon"
+    );
+}
 
         if (reviewRepository.existsByBookingId(
                 booking.getId()
