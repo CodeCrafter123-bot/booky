@@ -1,6 +1,6 @@
 
 const API_URL = "";
-
+const BOOKY_TIME_ZONE = "Asia/Beirut";
 const token = localStorage.getItem("booky_token");
 const currentUser = JSON.parse(
   localStorage.getItem("booky_user") || "null"
@@ -132,19 +132,87 @@ function escapeHTML(value) {
     .replaceAll("'", "&#039;");
 }
 
-function formatDateTime(dateTime) {
-  if (!dateTime) return "No date";
+function lebanonDateTimeKey(date) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: BOOKY_TIME_ZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23"
+  }).formatToParts(date);
 
-  const date = new Date(dateTime);
+  const values = Object.fromEntries(
+    parts.map(({ type, value }) => [type, value])
+  );
 
-  if (Number.isNaN(date.getTime())) {
-    return dateTime;
+  return (
+    `${values.year}-${values.month}-${values.day}` +
+    `T${values.hour}:${values.minute}:${values.second}`
+  );
+}
+
+function parseAppointmentTime(value) {
+  if (typeof value !== "string") return null;
+
+  // The API returns a Lebanon local datetime without a timezone suffix.
+  const match =
+    /^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2})(?::(\d{2})(?:\.(\d{1,9}))?)?$/.exec(value);
+
+  if (!match) return null;
+
+  const localKey =
+    `${match[1]}T${match[2]}:${match[3] || "00"}`;
+
+  // Temporary reference for calculating the Beirut offset.
+  // This is not yet the appointment's actual instant.
+  const reference = Date.parse(`${localKey}Z`);
+
+  if (
+    !Number.isFinite(reference) ||
+    new Date(reference).toISOString().slice(0, 19) !== localKey
+  ) {
+    return null;
   }
 
-  return date.toLocaleString("en-US", {
+  const milliseconds = Number(
+    (match[4] || "").padEnd(3, "0").slice(0, 3)
+  );
+
+  const candidates = new Set();
+
+  // Check offsets around the appointment to account for clock changes.
+  for (const hours of [-36, 0, 36]) {
+    const probe = reference + hours * 60 * 60 * 1000;
+
+    const offset =
+      Date.parse(`${lebanonDateTimeKey(new Date(probe))}Z`) - probe;
+
+    const candidate = reference - offset;
+
+    if (lebanonDateTimeKey(new Date(candidate)) === localKey) {
+      candidates.add(candidate);
+    }
+  }
+
+  // Match the backend: reject nonexistent or ambiguous local times.
+  if (candidates.size !== 1) return null;
+
+  return new Date([...candidates][0] + milliseconds);
+}
+
+function formatDateTime(dateTime) {
+  const date = parseAppointmentTime(dateTime);
+
+  if (!date) return "Invalid appointment time";
+
+  return new Intl.DateTimeFormat("en-US", {
+    timeZone: BOOKY_TIME_ZONE,
     dateStyle: "medium",
     timeStyle: "short"
-  });
+  }).format(date) + " (Lebanon time)";
 }
 
 function getServiceName(booking) {
@@ -161,19 +229,13 @@ function getBusinessName(booking) {
 }
 
 function isPastAppointment(booking) {
-  if (!booking.appointmentTime) {
-    return false;
-  }
-
-  const appointmentDate = new Date(
+  const appointment = parseAppointmentTime(
     booking.appointmentTime
   );
 
-  if (Number.isNaN(appointmentDate.getTime())) {
-    return false;
-  }
+  if (!appointment) return false;
 
-  return appointmentDate.getTime() < Date.now();
+  return appointment.getTime() <= Date.now();
 }
 
 function findReviewForBooking(bookingId) {
@@ -391,9 +453,9 @@ function renderBookings(list) {
 
             ${
               appointmentPassed
-                ? `<span class="booking-time-label">Completed</span>`
-                : `<span class="booking-time-label">Upcoming</span>`
-            }
+  ? `<span class="booking-time-label">Start time passed</span>`
+  : `<span class="booking-time-label">Upcoming</span>`
+}
           </div>
 
           <h3>${escapeHTML(serviceName)}</h3>
