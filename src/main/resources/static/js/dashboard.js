@@ -106,12 +106,12 @@ OWNER: {
       icon: "🛠️",
       href: "owner-add-service.html"
     },
-    {
-      title: "Manage Services",
-      description: "View services after selecting a business.",
-      icon: "⚙️",
-      href: "services.html"
-    },
+  {
+  title: "Manage Services",
+  description: "Choose your business and view its services.",
+  icon: "⚙️",
+  href: "owner-services.html"
+},
     {
       title: "Booking Activity",
       description: "View bookings for your businesses.",

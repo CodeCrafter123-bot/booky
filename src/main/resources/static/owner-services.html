@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>My Services — Booky</title>
+  <meta
+    name="description"
+    content="View services for your Booky businesses."
+  />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#7c5cff" />
+
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/owner-services.css" />
+</head>
+
+<body class="owner-services-page">
+
+  <header class="services-header">
+    <div class="services-header-inner">
+      <a href="dashboard.html" class="logo" aria-label="Booky dashboard">
+        <span class="logo-mark" aria-hidden="true">📅</span>
+        <span>Booky</span>
+      </a>
+
+      <button
+        id="logoutBtn"
+        type="button"
+        class="btn btn-danger btn-sm"
+      >
+        Log out
+      </button>
+    </div>
+  </header>
+
+  <main class="container services-main">
+
+    <nav class="workspace-navigation" aria-label="Owner workspace">
+      <a href="dashboard.html">Dashboard</a>
+      <a href="owner-dashboard.html">Analytics</a>
+      <a href="owner-services.html" aria-current="page">Services</a>
+    </nav>
+
+    <header class="services-intro">
+      <span class="eyebrow">Your business</span>
+      <h1>My Services</h1>
+      <p>Keep your offerings organized, one business at a time.</p>
+    </header>
+
+    <div
+      id="message"
+      class="message"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <section
+      class="business-picker"
+      aria-labelledby="businessPickerTitle"
+    >
+      <div class="business-picker-heading">
+        <span class="business-picker-icon" aria-hidden="true">🏢</span>
+
+        <div>
+          <h2 id="businessPickerTitle">Choose your business</h2>
+          <p>View the services offered at each location.</p>
+        </div>
+      </div>
+
+      <label for="businessSelect">Business</label>
+
+      <select
+        id="businessSelect"
+        class="form-select"
+        aria-describedby="businessDetails"
+        disabled
+      >
+        <option value="">Loading your businesses...</option>
+      </select>
+
+      <p id="businessDetails" class="business-picker-details"></p>
+
+      <a
+        id="createBusinessLink"
+        href="admin-add-business.html"
+        class="btn btn-primary"
+        hidden
+      >
+        Add a business
+      </a>
+    </section>
+
+    <section
+      id="servicesSection"
+      class="services-results"
+      aria-labelledby="servicesHeading"
+      hidden
+    >
+      <div class="services-toolbar">
+        <div class="services-toolbar-title">
+          <span class="eyebrow">Service collection</span>
+          <h2 id="servicesHeading">Services</h2>
+          <p id="serviceCount" aria-live="polite"></p>
+        </div>
+
+        <button
+          id="addServiceBtn"
+          type="button"
+          class="btn btn-primary"
+        >
+          <span aria-hidden="true">+</span>
+          Add service
+        </button>
+      </div>
+
+      <div id="servicesGrid" class="items-grid"></div>
+    </section>
+
+  </main>
+
+  <script src="/js/owner-services.js"></script>
+  <script src="/js/cookie-consent.js"></script>
+  <script src="/js/responsive.js"></script>
+</body>
+</html>
