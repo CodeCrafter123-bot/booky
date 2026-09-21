@@ -208,21 +208,6 @@ renderDashboard();
 
 logoutBtn?.addEventListener("click", logout);
 
-mobileMenuBtn?.addEventListener("click", () => {
-  sidebar?.classList.toggle("mobile-open");
-});
-
-document.addEventListener("click", (event) => {
-  if (!sidebar?.classList.contains("mobile-open")) return;
-
-  const clickedInsideSidebar = sidebar.contains(event.target);
-  const clickedMenuButton = mobileMenuBtn?.contains(event.target);
-
-  if (!clickedInsideSidebar && !clickedMenuButton) {
-    sidebar.classList.remove("mobile-open");
-  }
-});
-
 function renderUserInfo() {
   if (userName) userName.textContent = fullName;
   if (userRole) userRole.textContent = role;

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,96 +5,126 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>Admin Reviews — Booky</title>
-  <meta name="description" content="Moderate reviews across the Booky platform." />
+  <meta name="description" content="Moderate reviews across Booky." />
   <meta name="robots" content="noindex, nofollow" />
+
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#7c5cff" />
 
-
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
+  <link rel="stylesheet" href="/css/admin-reviews.css" />
 </head>
-<body>
 
-<header class="navbar">
-  <div class="navbar-inner">
-    <a href="dashboard.html" class="logo">
-      <span class="logo-mark">📅</span>
-      <span>Booky</span>
-    </a>
+<body class="admin-reviews-page">
 
-    <nav class="nav-links">
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">
-        Dashboard
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo" aria-label="Booky dashboard">
+        <span class="logo-mark" aria-hidden="true">📅</span>
+        <span>Booky</span>
       </a>
 
-      <a href="admin-users.html" class="btn btn-ghost btn-sm">
-        Users
-      </a>
+      <nav class="nav-links" aria-label="Account navigation">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">
+          Dashboard
+        </a>
 
-      <button id="logoutBtn" class="btn btn-danger btn-sm">
-        Log out
-      </button>
-    </nav>
-  </div>
-</header>
+        <a href="admin-users.html" class="btn btn-ghost btn-sm">
+          Users
+        </a>
 
-<main class="container section">
-  <div class="section-head">
-    <span class="eyebrow">Admin Panel</span>
-    <h2>Review Management</h2>
-    <p>
-      View all customer reviews and remove inappropriate content.
-    </p>
-  </div>
+        <button
+          id="logoutBtn"
+          type="button"
+          class="btn btn-danger btn-sm"
+        >
+          Log out
+        </button>
+      </nav>
+    </div>
+  </header>
 
-  <div id="message" class="message"></div>
+  <main class="container reviews-main">
+    <header class="reviews-heading">
+      <span class="eyebrow">Admin workspace</span>
+      <h1>Review Management</h1>
+      <p>Read customer feedback and remove inappropriate reviews.</p>
+    </header>
 
-  <section class="glass-card admin-users-card">
-    <div class="admin-users-top">
-      <div>
-        <h3>All Reviews</h3>
-        <p id="reviewCount">Loading reviews...</p>
+    <div
+      id="message"
+      class="message"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+
+    <section
+      class="glass-card reviews-panel"
+      aria-labelledby="reviewsListTitle"
+    >
+      <div class="reviews-toolbar">
+        <div>
+          <h2 id="reviewsListTitle">Customer reviews</h2>
+          <p id="reviewCount" aria-live="polite">
+            Loading reviews...
+          </p>
+        </div>
+
+        <div class="reviews-search">
+          <label for="searchInput">Search feedback</label>
+
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Business, client or comment"
+            autocomplete="off"
+            aria-controls="reviewsTableBody"
+            aria-describedby="reviewsSearchHint"
+          />
+
+          <p id="reviewsSearchHint">
+            You can also search by service, email, rating, or review ID.
+          </p>
+        </div>
       </div>
 
-      <input
-        id="searchInput"
-      aria-label="Search reviews"
-        type="text"
-        class="admin-search"
-        placeholder="Search reviews..."
-      />
-    </div>
+      <div class="table-wrap reviews-table-wrap">
+        <table
+          class="admin-table reviews-table"
+          role="table"
+          aria-label="Customer reviews"
+        >
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col">ID</th>
+              <th scope="col">Business</th>
+              <th scope="col">Service</th>
+              <th scope="col">Client</th>
+              <th scope="col">Rating</th>
+              <th scope="col">Comment</th>
+              <th scope="col">Date</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
 
-    <div class="table-wrap">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Business</th>
-            <th>Service</th>
-            <th>Client</th>
-            <th>Rating</th>
-            <th>Comment</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
+          <tbody id="reviewsTableBody" role="rowgroup">
+            <tr>
+              <td colspan="8">Loading reviews...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-        <tbody id="reviewsTableBody">
-          <tr>
-            <td colspan="8">Loading reviews...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</main>
-
-<script src="js/admin-reviews.js"></script>
+  <script src="/js/admin-reviews.js"></script>
   <script src="/js/cookie-consent.js"></script>
+  <script src="/js/responsive.js"></script>
 </body>
 </html>
