@@ -7,141 +7,191 @@
   <title>Admin Users — Booky</title>
   <meta name="description" content="Manage user accounts on Booky." />
   <meta name="robots" content="noindex, nofollow" />
+
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="manifest" href="/site.webmanifest" />
   <meta name="theme-color" content="#7c5cff" />
 
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/dashboard.css" />
+  <link rel="stylesheet" href="/css/responsive.css" />
 
-  <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/dashboard.css" />
+  <!-- Keep this last so the user-management styles take priority. -->
+  <link rel="stylesheet" href="/css/admin-users.css" />
 </head>
-<body>
 
-<header class="navbar">
-  <div class="navbar-inner">
-    <a href="dashboard.html" class="logo">
-      <span class="logo-mark">📅</span>
-      <span>Booky</span>
-    </a>
+<body class="users-page">
 
-    <nav class="nav-links">
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
-    </nav>
-  </div>
-</header>
+  <header class="navbar">
+    <div class="navbar-inner">
+      <a href="dashboard.html" class="logo" aria-label="Booky dashboard">
+        <span class="logo-mark" aria-hidden="true">📅</span>
+        <span>Booky</span>
+      </a>
 
-<main class="container section">
-  <div class="section-head">
-    <span class="eyebrow">Admin Panel</span>
-    <h2>User Management</h2>
-    <p>View, search, edit, freeze, and unfreeze Booky accounts.</p>
-  </div>
+      <nav class="nav-links" aria-label="Account navigation">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm">
+          Dashboard
+        </a>
 
-  <div id="message" class="message"></div>
+        <button
+          id="logoutBtn"
+          type="button"
+          class="btn btn-danger btn-sm"
+        >
+          Log out
+        </button>
+      </nav>
+    </div>
+  </header>
 
-  <section class="glass-card admin-users-card">
-    <div class="admin-users-top">
-      <div>
-        <h3>All Users</h3>
-        <p id="userCount">Loading users...</p>
+  <main class="container users-main">
+
+    <header class="users-heading">
+      <span class="eyebrow">Admin workspace</span>
+      <h1>User Management</h1>
+      <p>Find accounts, update user details, and manage account access.</p>
+    </header>
+
+    <div
+      id="message"
+      class="message"
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    ></div>
+
+    <section
+      class="glass-card admin-users-card"
+      aria-labelledby="usersListTitle"
+    >
+      <div class="admin-users-top">
+        <div class="users-list-heading">
+          <h2 id="usersListTitle">All users</h2>
+          <p id="userCount" aria-live="polite">Loading users...</p>
+        </div>
+
+        <div class="users-search-field">
+          <label for="searchInput">Search accounts</label>
+
+          <input
+            type="search"
+            id="searchInput"
+            class="admin-search"
+            placeholder="Name, email, phone or role"
+            autocomplete="off"
+            aria-controls="usersTableBody"
+            aria-describedby="usersSearchHint"
+          />
+
+          <p id="usersSearchHint">
+            You can also search by ID, active, or frozen.
+          </p>
+        </div>
       </div>
 
-      <input
-        type="text"
-        id="searchInput"
-      aria-label="Search users"
-        class="admin-search"
-        placeholder="Search by name, email, phone, role, or status..."
-      />
-    </div>
+      <div class="table-wrap">
+        <table
+          class="admin-table"
+          role="table"
+          aria-label="Booky user accounts"
+        >
+          <thead role="rowgroup">
+            <tr role="row">
+              <th scope="col">ID</th>
+              <th scope="col">Full name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone</th>
+              <th scope="col">Role</th>
+              <th scope="col">Status</th>
+              <th scope="col">Freeze reason</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
 
-    <div class="table-wrap">
-      <table class="admin-table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Freeze Reason</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+          <tbody id="usersTableBody" role="rowgroup">
+            <tr>
+              <td colspan="8">Loading users...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-        <tbody id="usersTableBody">
-          <tr>
-            <td colspan="8">Loading...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-</main>
+  <div id="freezeModal" class="admin-modal hidden">
+    <div
+      class="admin-modal-backdrop"
+      id="freezeModalBackdrop"
+    ></div>
 
-<!-- Freeze account modal -->
-<div id="freezeModal" class="admin-modal hidden">
-  <div class="admin-modal-backdrop" id="freezeModalBackdrop"></div>
+    <section
+      class="admin-modal-content glass-card"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="freezeModalTitle"
+      aria-describedby="freezeUserText"
+    >
+      <div class="admin-modal-head">
+        <div>
+          <span class="eyebrow">Account access</span>
+          <h2 id="freezeModalTitle">Freeze account</h2>
+        </div>
 
-  <section
-    class="admin-modal-content glass-card"
-    role="dialog"
-    aria-modal="true"
-    aria-labelledby="freezeModalTitle"
-  >
-    <div class="admin-modal-head">
-      <div>
-        <span class="eyebrow">Account Action</span>
-        <h3 id="freezeModalTitle">Freeze Account</h3>
+        <button
+          type="button"
+          id="closeFreezeModalBtn"
+          class="modal-close-btn"
+          aria-label="Close freeze account dialog"
+        >
+          ×
+        </button>
       </div>
 
-      <button
-        type="button"
-        id="closeFreezeModalBtn"
-        class="modal-close-btn"
-        aria-label="Close"
-      >
-        ×
-      </button>
-    </div>
+      <p id="freezeUserText" class="modal-user-text"></p>
 
-    <p id="freezeUserText" class="modal-user-text"></p>
+      <label class="freeze-reason-label" for="freezeReason">
+        Reason for freezing
+      </label>
 
-    <label for="freezeReason">Reason</label>
+      <textarea
+        id="freezeReason"
+        class="admin-textarea"
+        rows="4"
+        maxlength="500"
+        required
+        aria-describedby="freezeReasonHint"
+        placeholder="Explain why this account is being frozen..."
+      ></textarea>
 
-    <textarea
-      id="freezeReason"
-      class="admin-textarea"
-      rows="5"
-      maxlength="500"
-      placeholder="Explain why this account is being frozen..."
-    ></textarea>
+      <p id="freezeReasonHint" class="freeze-reason-hint">
+        Enter a clear reason. Maximum 500 characters.
+      </p>
 
-    <div class="modal-footer">
-      <button
-        type="button"
-        id="cancelFreezeBtn"
-        class="btn btn-ghost"
-      >
-        Cancel
-      </button>
+      <div class="modal-footer">
+        <button
+          type="button"
+          id="cancelFreezeBtn"
+          class="btn btn-ghost"
+        >
+          Cancel
+        </button>
 
-      <button
-        type="button"
-        id="confirmFreezeBtn"
-        class="btn btn-danger"
-      >
-        Freeze Account
-      </button>
-    </div>
-  </section>
-</div>
+        <button
+          type="button"
+          id="confirmFreezeBtn"
+          class="btn btn-danger"
+        >
+          Freeze Account
+        </button>
+      </div>
+    </section>
+  </div>
 
-<script src="js/admin-users.js"></script>
+  <script src="/js/admin-users.js"></script>
   <script src="/js/cookie-consent.js"></script>
+  <script src="/js/responsive.js"></script>
 </body>
 </html>

@@ -1,0 +1,531 @@
+/* =========================================================
+   Booky — User Management
+   Load after style.css, dashboard.css, and responsive.css.
+   ========================================================= */
+
+.users-page {
+  color: var(--white);
+}
+
+.users-page .users-main {
+  padding-top: 32px;
+  padding-bottom: 64px;
+}
+
+.users-page .users-heading {
+  max-width: 680px;
+  margin-bottom: 28px;
+}
+
+.users-page .users-heading h1 {
+  margin-bottom: 12px;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  line-height: 1.2;
+}
+
+.users-page .users-heading p {
+  color: var(--grey-300);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.users-page .admin-users-card {
+  min-width: 0;
+  padding: 28px;
+  overflow-wrap: normal;
+}
+
+.users-page .admin-users-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 28px;
+}
+
+.users-page .users-list-heading {
+  min-width: 0;
+}
+
+.users-page .users-list-heading h2 {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+}
+
+.users-page #userCount {
+  margin: 0;
+  color: var(--grey-400);
+  font-size: 0.9rem;
+}
+
+.users-page .users-search-field {
+  width: min(100%, 420px);
+  min-width: 0;
+}
+
+.users-page .users-search-field label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--grey-300);
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.users-page .admin-search {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: rgba(9, 12, 22, 0.55);
+  color: var(--white);
+  font-size: 16px;
+}
+
+.users-page .admin-search::placeholder {
+  color: var(--grey-400);
+}
+
+.users-page .admin-search:focus {
+  border-color: var(--purple-400);
+  outline: 2px solid rgba(155, 128, 255, 0.35);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+
+.users-page #usersSearchHint {
+  margin: 8px 0 0;
+  color: var(--grey-400);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+/* Desktop table */
+
+.users-page .table-wrap {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.users-page .admin-table {
+  width: 100%;
+  min-width: 1040px;
+  table-layout: auto;
+  border-collapse: collapse;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.users-page .admin-table th {
+  padding: 14px 12px;
+  color: var(--grey-400);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.users-page .admin-table td {
+  padding: 18px 12px;
+  color: var(--grey-300);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  vertical-align: middle;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.users-page .admin-table td:nth-child(2) {
+  min-width: 150px;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.users-page .admin-table td:nth-child(3) {
+  min-width: 200px;
+}
+
+.users-page .admin-table td:nth-child(4) {
+  min-width: 115px;
+}
+
+.users-page .admin-table td:nth-child(7) {
+  min-width: 170px;
+  max-width: 280px;
+  overflow-wrap: anywhere;
+}
+
+.users-page .admin-table td:last-child {
+  min-width: 200px;
+}
+
+.users-page .role-pill,
+.users-page .account-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-width: 0;
+  margin: 0;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.4;
+  white-space: nowrap;
+  word-break: normal;
+  overflow-wrap: normal;
+}
+
+.users-page .status-active {
+  color: var(--cyan-300);
+  background: rgba(76, 224, 210, 0.1);
+  border: 1px solid rgba(76, 224, 210, 0.25);
+}
+
+.users-page .status-frozen {
+  color: #ffb3ba;
+  background: rgba(255, 107, 122, 0.1);
+  border: 1px solid rgba(255, 107, 122, 0.25);
+}
+
+.users-page .admin-user-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 0;
+}
+
+.users-page .admin-user-actions .btn {
+  min-height: 44px;
+  padding: 10px 16px;
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+.users-page .btn-success {
+  color: var(--cyan-300);
+  background: rgba(76, 224, 210, 0.1);
+  border: 1px solid rgba(76, 224, 210, 0.3);
+}
+
+.users-page .btn-success:hover {
+  background: rgba(76, 224, 210, 0.18);
+}
+
+.users-page .admin-table td[colspan] {
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--grey-400);
+}
+
+/* Freeze dialog */
+
+.users-page .admin-modal {
+  z-index: 1200;
+  padding: 16px;
+}
+
+.users-page .admin-modal-content {
+  width: min(100%, 500px);
+  max-height: calc(100vh - 32px);
+  max-height: calc(100dvh - 32px);
+  padding: 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--navy-900);
+  border-radius: 20px;
+}
+
+.users-page .admin-modal-head {
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.users-page .admin-modal-head h2 {
+  font-size: 1.3rem;
+}
+
+.users-page .modal-close-btn {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+}
+
+.users-page .modal-user-text {
+  margin-bottom: 20px;
+  color: var(--grey-300);
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.users-page .freeze-reason-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--white);
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.users-page .admin-textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 120px;
+  padding: 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: 12px;
+  background: var(--navy-950);
+  color: var(--white);
+  font-size: 16px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.users-page .admin-textarea:focus {
+  outline: 2px solid var(--purple-400);
+  outline-offset: 2px;
+}
+
+.users-page .freeze-reason-hint {
+  margin-top: 8px;
+  color: var(--grey-400);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.users-page .modal-footer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.users-page .modal-footer .btn {
+  min-width: 0;
+  min-height: 46px;
+  white-space: normal;
+}
+
+/* Mobile and tablet: each user becomes a card. */
+
+@media (max-width: 900px) {
+  .users-page .users-main {
+    padding-top: 24px;
+    padding-bottom: 40px;
+  }
+
+  .users-page .users-heading {
+    margin-bottom: 24px;
+  }
+
+  .users-page .admin-users-card {
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .users-page .admin-users-top {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+
+  .users-page .users-search-field {
+    width: 100%;
+  }
+
+  .users-page .table-wrap {
+    overflow: visible;
+  }
+
+  .users-page .admin-table {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /*
+   * Visually hide column headings while retaining them
+   * in the document for assistive technology.
+   */
+  .users-page .admin-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .users-page .admin-table tbody {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+
+  .users-page .admin-table tbody tr {
+    display: block;
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: 16px;
+    background: rgba(9, 12, 22, 0.42);
+  }
+
+  .users-page .admin-table tbody tr.frozen-user-row {
+    border-color: rgba(255, 107, 122, 0.3);
+    background: rgba(255, 107, 122, 0.035);
+  }
+
+  .users-page .admin-table tbody td {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    padding: 12px 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    color: var(--grey-300);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    white-space: normal;
+    word-break: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .users-page .admin-table tbody tr:hover td {
+    background: transparent;
+  }
+
+  .users-page .admin-table tbody td::before {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--grey-400);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+  }
+
+  .users-page .admin-table tbody td:nth-child(1)::before {
+    content: "User ID";
+  }
+
+  .users-page .admin-table tbody td:nth-child(2)::before {
+    content: "Full name";
+  }
+
+  .users-page .admin-table tbody td:nth-child(3)::before {
+    content: "Email";
+  }
+
+  .users-page .admin-table tbody td:nth-child(4)::before {
+    content: "Phone";
+  }
+
+  .users-page .admin-table tbody td:nth-child(5)::before {
+    content: "Role";
+  }
+
+  .users-page .admin-table tbody td:nth-child(6)::before {
+    content: "Account status";
+  }
+
+  .users-page .admin-table tbody td:nth-child(7)::before {
+    content: "Freeze reason";
+  }
+
+  .users-page .admin-table tbody td:nth-child(8)::before {
+    content: "Manage account";
+  }
+
+  .users-page .admin-table tbody td:first-child {
+    padding-top: 0;
+    color: var(--cyan-300);
+    font-size: 0.8rem;
+  }
+
+  .users-page .admin-table tbody td:nth-child(2) {
+    color: var(--white);
+    font-size: 1.15rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .users-page .admin-table tbody td:last-child {
+    padding-bottom: 0;
+    border-bottom: 0;
+  }
+
+  .users-page .admin-table tbody td:last-child::before {
+    margin-bottom: 10px;
+  }
+
+  .users-page .admin-user-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
+  }
+
+  .users-page .admin-user-actions .btn {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    padding: 10px 12px;
+    white-space: normal;
+  }
+
+  /* Loading, error, and empty-state rows are not user cards. */
+  .users-page .admin-table tbody td[colspan] {
+    padding: 24px 0;
+    border: 0;
+    color: var(--grey-400);
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-align: center;
+  }
+
+  .users-page .admin-table tbody td[colspan]::before {
+    display: none;
+    content: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .users-page .admin-users-card {
+    padding: 14px;
+  }
+
+  .users-page .admin-users-top {
+    padding: 4px;
+  }
+
+  .users-page .admin-table tbody tr {
+    padding: 16px;
+  }
+
+  .users-page .users-heading h1 {
+    font-size: 1.8rem;
+  }
+
+  .users-page .users-heading p {
+    font-size: 0.9rem;
+  }
+
+  .users-page .admin-modal-content {
+    padding: 20px;
+  }
+}
