@@ -35,9 +35,7 @@ public ResponseEntity<BookingResponse> createBooking(
 
 //read user id from the jwt 
     Integer userId = jwtService.extractUserId(token);
-
-    System.out.println("USER ID = " + userId);
-//returns http status code 200 ok 
+//returns http status code 200 ok
     return ResponseEntity.ok(bookingService.createBooking(request, userId));
 }
 

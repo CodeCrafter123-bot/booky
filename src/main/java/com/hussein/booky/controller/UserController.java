@@ -81,28 +81,7 @@ generate a jwt
 retunr the jwt and safe user info  */
         return userService.updateProfile(userId, request);
     }
-/*temporary testing endpoint 
-
-does not access mysql and dont create a real jwt 
-return hard coded test data
-*/
-    @GetMapping("/jwt-test")
-    public LoginResponse jwtTest() {
-//temp user respone manually 
-        UserResponse user = new UserResponse(
-                1,
-                "Hussein",
-                "test@test.com",
-                "70123456",
-                "OWNER",
-                false,
-                null,
-                null
-        );
-
-        return new LoginResponse("TEST_TOKEN", user);
-    }
-//admin  freeze a user account 
+//admin  freeze a user account
     @PutMapping("/{userId}/freeze")
     public ResponseEntity<?> freezeUser(
 //reads the target user from the url 
