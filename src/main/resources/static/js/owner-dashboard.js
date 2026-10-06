@@ -152,7 +152,7 @@ function renderRecentBookings(bookings) {
         .map(booking => `
             <article class="recent-booking-card">
 
-                <div class="booking-main">
+                <div class="recent-booking-details">
                     <strong>
                         ${escapeHtml(booking.clientName)}
                     </strong>
@@ -166,12 +166,12 @@ function renderRecentBookings(bookings) {
                     </small>
                 </div>
 
-                <div class="booking-meta">
+                <div class="recent-booking-meta">
                     <span class="status-badge status-${booking.status.toLowerCase()}">
                         ${escapeHtml(booking.status)}
                     </span>
 
-                    <time>
+                    <time class="recent-booking-time">
                         ${formatAppointmentTime(
                             booking.appointmentTime
                         )}

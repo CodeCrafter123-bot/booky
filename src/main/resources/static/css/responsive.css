@@ -88,3 +88,21 @@ body { padding-bottom: var(--cookie-banner-height, 0px); }
   .form-row-between { flex-wrap: wrap; }
   .modal-close, .modal-close-btn, .review-modal-close { min-width: 44px; min-height: 44px; flex-shrink: 0; }
 }
+
+/* Phone polish: tidy multi-link nav, touch feedback, cheaper rendering. */
+@media (max-width: 720px) {
+  .nav-links:has(> :nth-child(4)) { display: grid; grid-template-columns: 1fr 1fr; }
+  .nav-links .btn { padding: 10px 12px; font-size: .85rem; }
+  body::before { animation: none; }
+  .glass-card, .item-card { backdrop-filter: none; background-color: rgba(19, 26, 44, 0.8); }
+  #slotsContainer { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .slot-btn { padding: 12px 6px; }
+  .hours-row input[type="time"] { padding-inline: 8px; }
+  .hours-row input[type="time"]::-webkit-calendar-picker-indicator { margin-inline-start: 0; padding: 0; }
+}
+@media (hover: none) {
+  a, button { -webkit-tap-highlight-color: transparent; }
+  .btn-primary:hover, .glass-card.hoverable:hover, .item-card:hover, .slot-btn:hover, #saveBtn:hover, .role-option label:hover { transform: none; }
+  .btn:active, .slot-btn:active { transform: scale(.97); }
+  .glass-card.hoverable:active, .item-card:active, a.action-card:active { transform: scale(.985); }
+}

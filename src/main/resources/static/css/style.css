@@ -165,7 +165,7 @@ h4 {
 }
 
 .section {
-  padding: var(--sp-8) 0;
+  padding-block: var(--sp-8);
 }
 
 .section-head {
@@ -923,7 +923,7 @@ h4 {
 
 .site-footer {
   border-top: 1px solid var(--line);
-  padding: var(--sp-7) 0 var(--sp-6);
+  padding-block: var(--sp-7) var(--sp-6);
   margin-top: var(--sp-9);
 }
 
@@ -977,7 +977,7 @@ h4 {
   }
 
   .section {
-    padding: var(--sp-7) 0;
+    padding-block: var(--sp-7);
   }
 
   .navbar {
@@ -1077,7 +1077,23 @@ h4 {
 
 @media (max-width: 760px) {
   .hours-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hours-day {
+    min-width: 0;
+  }
+
+  .hours-closed {
+    justify-self: end;
+  }
+
+  .hours-row > :nth-child(n + 5) {
+    grid-column: 1 / -1;
+  }
+
+  .hours-row input[type="time"] {
+    padding-inline: 10px;
   }
 }
 

@@ -470,11 +470,6 @@ function renderBookings(list) {
             ${escapeHTML(appointmentTime)}
           </p>
 
-          <p>
-            <strong>Status:</strong>
-            ${escapeHTML(status)}
-          </p>
-
           ${reviewDisplay}
 
           <div class="booking-actions">

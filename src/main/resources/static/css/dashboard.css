@@ -1126,7 +1126,7 @@
   padding: 16px;
   border: 1px solid rgba(234, 179, 8, 0.3);
   border-radius: 14px;
-  background: rgba(254, 249, 195, 0.42);
+  background: rgba(234, 179, 8, 0.08);
 }
 
 .submitted-review-head {
@@ -2002,5 +2002,172 @@
 
   .popular-service-main {
     align-items: flex-start;
+  }
+}
+
+/* ===================== BOOKING ITEMS (owner / admin lists) ===================== */
+
+.admin-item {
+  padding: var(--sp-5);
+  margin-bottom: var(--sp-4);
+  background: rgba(9, 12, 22, 0.42);
+  box-shadow: none;
+}
+
+.admin-item:last-child {
+  margin-bottom: 0;
+}
+
+.admin-item-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  padding-bottom: var(--sp-4);
+  margin-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--line);
+}
+
+.admin-item-header h3 {
+  font-size: 1.05rem;
+  margin-bottom: 4px;
+}
+
+.admin-item-header p {
+  color: var(--grey-400);
+  font-size: 0.86rem;
+}
+
+.booking-status {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-full);
+  color: var(--grey-300);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.booking-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--sp-3) var(--sp-5);
+}
+
+.booking-details p {
+  min-width: 0;
+  color: var(--white);
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.booking-details strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--grey-400);
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.admin-item-actions {
+  display: flex;
+  gap: var(--sp-3);
+  margin-top: var(--sp-5);
+}
+
+@media (max-width: 600px) {
+  .admin-item {
+    padding: var(--sp-4);
+  }
+
+  .booking-details {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  /* Email is the one value that never fits half a phone screen. */
+  .booking-details p:nth-child(2) {
+    grid-column: 1 / -1;
+    font-size: 0.86rem;
+  }
+
+  /* Keep Accept / Decline side by side (beats the generic wrap rule). */
+  .admin-item .admin-item-actions {
+    flex-wrap: nowrap;
+  }
+
+  .admin-item .admin-item-actions .btn {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* ---- Dashboard stat tiles: two per row, never split a word ---- */
+  .stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .stat-grid > :last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+
+  .stat-card {
+    padding: var(--sp-4);
+  }
+
+  .professional-stat {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-3);
+  }
+
+  .stat-grid > :last-child:nth-child(odd).professional-stat {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .stat-value {
+    font-size: 1.3rem;
+    overflow-wrap: normal;
+  }
+
+  /* ---- Action cards: drop the desktop minimum height ---- */
+  .action-card,
+  .professional-action {
+    min-height: 0;
+    padding: var(--sp-4);
+    gap: var(--sp-3);
+  }
+
+  .action-card h3 {
+    margin-bottom: 4px;
+  }
+
+  /* ---- Analytics tiles: two per row instead of eight stacked ---- */
+  .analytics-stat-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  .analytics-stat-card {
+    min-height: 0;
+    padding: var(--sp-4);
+  }
+
+  .analytics-stat-icon {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+
+  .analytics-stat-value {
+    font-size: 1.6rem;
+  }
+
+  .analytics-stat-note {
+    font-size: 0.72rem;
   }
 }
