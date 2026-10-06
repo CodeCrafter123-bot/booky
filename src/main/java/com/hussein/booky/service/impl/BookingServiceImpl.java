@@ -13,6 +13,7 @@ import com.hussein.booky.repository.BusinessHoursRepository;
 import com.hussein.booky.repository.BusinessRepository;
 import com.hussein.booky.repository.UserRepository;
 
+import com.hussein.booky.service.BookingAvailabilityRules;
 import com.hussein.booky.service.BookingService;
 import com.hussein.booky.service.EmailService;
 
@@ -161,68 +162,14 @@ public class BookingServiceImpl implements BookingService {
                         "Business hours are not set for this day"
                 ));
 
-        if (hours.isClosed()) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Business is closed on this day"
-            );
-        }
-
-        if (hours.getOpenTime() == null
-                || hours.getCloseTime() == null
-                || !hours.getOpenTime().isBefore(hours.getCloseTime())) {
-
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Business hours are invalid"
-            );
-        }
-
         LocalDateTime end = start.plusMinutes(duration);
 
-        LocalDateTime opening =
-                start.toLocalDate().atTime(hours.getOpenTime());
-
-        LocalDateTime closing =
-                start.toLocalDate().atTime(hours.getCloseTime());
-
-        if (start.isBefore(opening)) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Booking time is before business opening time"
-            );
-        }
-
-        // Date-aware comparison also rejects services ending
-        // after midnight when the business closes the same day.
-        if (end.isAfter(closing)) {
-            throw new ResponseStatusException(
-                    HttpStatus.BAD_REQUEST,
-                    "Service exceeds business closing time"
-            );
-        }
+        BookingAvailabilityRules.validateBusinessHours(start, end, hours);
 
         List<Booking> activeBookings =
                 bookingRepository.findActiveBookingsByBusinessId(businessId);
 
-        for (Booking existing : activeBookings) {
-            LocalDateTime existingStart = existing.getAppointmentTime();
-
-            LocalDateTime existingEnd = existingStart.plusMinutes(
-                    existing.getService().getDurationMinutes()
-            );
-
-            boolean overlaps =
-                    start.isBefore(existingEnd)
-                    && end.isAfter(existingStart);
-
-            if (overlaps) {
-                throw new ResponseStatusException(
-                        HttpStatus.CONFLICT,
-                        "This time slot is already booked"
-                );
-            }
-        }
+        BookingAvailabilityRules.ensureNoOverlap(start, end, activeBookings);
     }
 
     @Override
