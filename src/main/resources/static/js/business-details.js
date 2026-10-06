@@ -238,7 +238,7 @@ function renderServices(services) {
 async function loadBusinessHours() {
   try {
     const response = await fetch(
-      `${API_BASE_URL}/business-hours/${businessId}`,
+      `${API_BASE_URL}/business-hours/business/${businessId}`,
       {
         method: "GET",
         headers: getAuthHeaders()
