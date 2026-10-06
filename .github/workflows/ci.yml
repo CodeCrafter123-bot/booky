@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: booky_db
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping -h 127.0.0.1 -u root -proot"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Make mvnw executable
+        run: chmod +x mvnw
+
+      - name: Run tests
+        env:
+          # Throwaway values for the CI MySQL service container only -
+          # never used for anything real.
+          BOOKY_DB_URL: jdbc:mysql://127.0.0.1:3306/booky_db
+          BOOKY_DB_USERNAME: root
+          BOOKY_DB_PASSWORD: root
+          BOOKY_JWT_SECRET: nVnCiFHS21vxV84mSaXyLldCMovudNxLU3dupQE/m6xZQB4ofI73pgqM+WYGE2J1
+        run: ./mvnw -B test
