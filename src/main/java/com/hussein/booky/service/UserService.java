@@ -9,6 +9,8 @@ import com.hussein.booky.entity.User;
 import com.hussein.booky.repository.UserRepository;
 import com.hussein.booky.security.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.hussein.booky.dto.AdminUpdateUserRequest;
@@ -27,6 +29,13 @@ public class UserService {
     private JwtService jwtService;
 
     public UserResponse register(RegisterRequest request) {
+        if (userRepository.findByEmail(request.getEmail()) != null) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "An account with this email already exists"
+            );
+        }
+
         String encryptedPassword = passwordEncoder.encode(request.getPassword());
 
        // Public registration must never grant privileged roles.
@@ -47,7 +56,10 @@ User user = new User(
     User user = userRepository.findByEmail(request.getEmail());
 
     if (user == null) {
-        throw new RuntimeException("Invalid email or password");
+        throw new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "Invalid email or password"
+        );
     }
 
     boolean passwordMatches = passwordEncoder.matches(
@@ -56,7 +68,10 @@ User user = new User(
     );
 
     if (!passwordMatches) {
-        throw new RuntimeException("Invalid email or password");
+        throw new ResponseStatusException(
+                HttpStatus.UNAUTHORIZED,
+                "Invalid email or password"
+        );
     }
 
     if (user.isFrozen()) {
