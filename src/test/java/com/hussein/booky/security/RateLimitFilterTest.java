@@ -98,6 +98,22 @@ class RateLimitFilterTest {
     }
 
     @Test
+    void ignoresClientSuppliedForwardedEntries() throws Exception {
+        HttpServletResponse response = responseCapturing(new StringWriter());
+
+        // The attacker changes the first (self-reported) entry every time;
+        // the entry appended by the proxy stays the same.
+        for (int i = 0; i < 11; i++) {
+            HttpServletRequest request = loginRequestFrom("127.0.0.1");
+            when(request.getHeader("X-Forwarded-For"))
+                    .thenReturn("198.51.100." + i + ", 203.0.113.9");
+            filter.doFilter(request, response, chain);
+        }
+
+        verify(response).setStatus(429);
+    }
+
+    @Test
     void doesNotLimitUnrelatedEndpoints() throws Exception {
         HttpServletRequest request = mock(HttpServletRequest.class);
         when(request.getMethod()).thenReturn("GET");

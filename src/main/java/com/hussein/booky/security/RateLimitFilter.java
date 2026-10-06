@@ -72,11 +72,23 @@ public class RateLimitFilter implements Filter {
     // Behind a reverse proxy (Render/Railway/etc.), getRemoteAddr() is the
     // proxy's own address for every request, which would put every client
     // in the same bucket. Prefer the client IP the proxy forwarded.
+    //
+    // Only trust what the proxy itself wrote: X-Real-IP, or the LAST entry
+    // of X-Forwarded-For (the proxy appends it). Earlier entries are sent by
+    // the client and could be changed on every request to dodge the limit.
     private String clientIp(HttpServletRequest request) {
+        String realIp = request.getHeader("X-Real-IP");
+
+        if (realIp != null && !realIp.isBlank()) {
+            return realIp.trim();
+        }
+
         String forwarded = request.getHeader("X-Forwarded-For");
 
         if (forwarded != null && !forwarded.isBlank()) {
-            return forwarded.split(",")[0].trim();
+            String[] hops = forwarded.split(",");
+
+            return hops[hops.length - 1].trim();
         }
 
         return request.getRemoteAddr();
