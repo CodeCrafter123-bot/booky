@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -18,7 +20,7 @@ if (!token || !currentUser) {
 }
 
 if (currentUser?.role !== "ADMIN") {
-  alert("Access denied. Admins only.");
+  alert(t("admin.adminsOnly", "Access denied. Admins only."));
   location.href = "dashboard.html";
 }
 
@@ -64,7 +66,7 @@ function formatDateTime(value) {
     return value;
   }
 
-  return date.toLocaleString("en-US", {
+  return date.toLocaleString(bookyI18n.locale || "en-US", {
     dateStyle: "medium",
     timeStyle: "short"
   });
@@ -99,8 +101,10 @@ async function authenticatedFetch(url, options = {}) {
       localStorage.removeItem("booky_user");
 
       alert(
-        `${data.message || "Your account has been frozen."}\n` +
-        `Reason: ${data.reason || "Contact the administrator."}`
+        `${bookyI18n.tm(data.message) || t("common.frozen", "Your account has been frozen.")}\n` +
+        t("common.frozenReason", "Reason: {reason}", {
+          reason: data.reason || t("common.contactAdmin", "Contact the administrator.")
+        })
       );
 
       location.href = "login.html";
@@ -111,7 +115,7 @@ async function authenticatedFetch(url, options = {}) {
       localStorage.removeItem("booky_token");
       localStorage.removeItem("booky_user");
 
-      alert("Your session has expired. Please log in again.");
+      alert(t("common.sessionExpired", "Your session has expired. Please log in again."));
 
       location.href = "login.html";
       throw new Error("Session expired");
@@ -122,11 +126,11 @@ async function authenticatedFetch(url, options = {}) {
 }
 
 async function loadReviews() {
-  showMessage("Loading reviews...", "success");
+  showMessage(t("details.reviews.loading", "Loading reviews..."), "success");
 
   reviewsTableBody.innerHTML = `
     <tr>
-      <td colspan="8">Loading reviews...</td>
+      <td colspan="8">${t("details.reviews.loading", "Loading reviews...")}</td>
     </tr>
   `;
 
@@ -144,9 +148,9 @@ async function loadReviews() {
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
-        data?.error ||
-        "Could not load reviews."
+        bookyI18n.tm(data?.message) ||
+        bookyI18n.tm(data?.error) ||
+        t("details.reviews.loadError", "Could not load reviews.")
       );
     }
 
@@ -164,24 +168,26 @@ async function loadReviews() {
 
     reviewsTableBody.innerHTML = `
       <tr>
-        <td colspan="8">Could not load reviews.</td>
+        <td colspan="8">${t("details.reviews.loadError", "Could not load reviews.")}</td>
       </tr>
     `;
 
     showMessage(
-      error.message || "Could not load reviews."
+      error.message || t("details.reviews.loadError", "Could not load reviews.")
     );
   }
 }
 
 function renderReviews(list) {
   reviewCount.textContent =
-    `${list.length} review${list.length === 1 ? "" : "s"} found`;
+    bookyI18n.lang === "ar"
+      ? bookyI18n.tn("count.reviewsFound", list.length, "review", "reviews")
+      : `${list.length} review${list.length === 1 ? "" : "s"} found`;
 
   if (!list.length) {
     reviewsTableBody.innerHTML = `
       <tr>
-        <td colspan="8">No reviews found.</td>
+        <td colspan="8">${t("adminreviews.empty", "No reviews found.")}</td>
       </tr>
     `;
     return;
@@ -217,7 +223,7 @@ function renderReviews(list) {
         ${
           review.comment
             ? escapeHTML(review.comment)
-            : "No written comment."
+            : t("review.noComment", "No written comment.")
         }
       </td>
 
@@ -231,7 +237,7 @@ function renderReviews(list) {
           class="btn btn-danger btn-sm"
           onclick="deleteReview(${Number(review.id)})"
         >
-          Delete
+          ${t("common.delete", "Delete")}
         </button>
       </td>
     </tr>
@@ -270,17 +276,17 @@ async function deleteReview(reviewId) {
     review => Number(review.id) === Number(reviewId)
   );
 
-  const reviewName = selectedReview
-    ? `${selectedReview.clientName || "this client"}'s review`
-    : "this review";
-
   const confirmed = confirm(
-    `Are you sure you want to delete ${reviewName}?`
+    selectedReview && selectedReview.clientName
+      ? t("adminreviews.confirmNamed", "Are you sure you want to delete {name}'s review?", {
+          name: selectedReview.clientName
+        })
+      : t("adminreviews.confirm", "Are you sure you want to delete this review?")
   );
 
   if (!confirmed) return;
 
-  showMessage("Deleting review...", "success");
+  showMessage(t("adminreviews.deleting", "Deleting review..."), "success");
 
   try {
     const response = await authenticatedFetch(
@@ -296,9 +302,9 @@ async function deleteReview(reviewId) {
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
-        data?.error ||
-        "Could not delete review."
+        bookyI18n.tm(data?.message) ||
+        bookyI18n.tm(data?.error) ||
+        t("adminreviews.deleteError", "Could not delete review.")
       );
     }
 
@@ -309,7 +315,7 @@ async function deleteReview(reviewId) {
     filterReviews();
 
     showMessage(
-      data?.message || "Review deleted successfully.",
+      bookyI18n.tm(data?.message) || t("adminreviews.deleted", "Review deleted successfully."),
       "success"
     );
   } catch (error) {
@@ -321,7 +327,7 @@ async function deleteReview(reviewId) {
     }
 
     showMessage(
-      error.message || "Could not delete review."
+      error.message || t("adminreviews.deleteError", "Could not delete review.")
     );
   }
 }

@@ -9,6 +9,9 @@
 (function () {
   const STORAGE_KEY = "booky_cookie_consent";
 
+  // Pages that do not load js/i18n.js yet fall back to the English text.
+  const t = window.bookyI18n ? window.bookyI18n.t : (key, fallback) => fallback;
+
   function getStoredConsent() {
     try {
       const raw = localStorage.getItem(STORAGE_KEY);
@@ -35,17 +38,16 @@
     banner.id = "cookieConsentBanner";
     banner.setAttribute("role", "dialog");
     banner.setAttribute("aria-live", "polite");
-    banner.setAttribute("aria-label", "Cookie consent");
+    banner.setAttribute("aria-label", t("cookie.label", "Cookie consent"));
     banner.innerHTML = `
       <div class="cookie-consent-inner">
         <p class="cookie-consent-text">
-          We use cookies that are strictly necessary to run Booky (keeping you signed in),
-          and, if you agree, optional analytics cookies to help us improve the product.
-          Read our <a href="/privacy.html#cookies">Cookie policy</a>.
+          ${t("cookie.text", "We use cookies that are strictly necessary to run Booky (keeping you signed in), and, if you agree, optional analytics cookies to help us improve the product. Read our")}
+          <a href="/privacy.html#cookies">${t("cookie.policy", "Cookie policy")}</a>.
         </p>
         <div class="cookie-consent-actions">
-          <button type="button" class="btn btn-ghost btn-sm" id="cookieRejectBtn">Necessary only</button>
-          <button type="button" class="btn btn-primary btn-sm" id="cookieAcceptBtn">Accept all</button>
+          <button type="button" class="btn btn-ghost btn-sm" id="cookieRejectBtn">${t("cookie.necessaryOnly", "Necessary only")}</button>
+          <button type="button" class="btn btn-primary btn-sm" id="cookieAcceptBtn">${t("cookie.acceptAll", "Accept all")}</button>
         </div>
       </div>
     `;

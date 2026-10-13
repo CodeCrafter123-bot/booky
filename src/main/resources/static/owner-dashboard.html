@@ -14,7 +14,7 @@
         content="Booky owner analytics dashboard"
     >
 
-    <title>Owner Analytics — Booky</title>
+    <title data-i18n="ownerdash.title">Owner Analytics — Booky</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   <link rel="icon" href="/favicon.ico" sizes="32x32" />
@@ -24,6 +24,8 @@
 
 
     <link rel="stylesheet" href="css/style.css">
+    <script src="/js/i18n/ar.js"></script>
+    <script src="/js/i18n.js"></script>
     <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -37,7 +39,7 @@
             id="mobileMenuBtn"
             class="mobile-menu-btn"
             type="button"
-            aria-label="Open navigation menu"
+            aria-label="Open navigation menu" data-i18n-attr="aria-label:menu.open"
         >
             ☰
         </button>
@@ -61,7 +63,7 @@
                 </a>
             </div>
 
-            <p class="sidebar-section-label">
+            <p class="sidebar-section-label" data-i18n="dash.owner.actionsTitle">
                 Owner Workspace
             </p>
 
@@ -72,7 +74,7 @@
                     class="sidebar-link active"
                 >
                     <span class="ico">📊</span>
-                    <span>Analytics</span>
+                    <span data-i18n="menu.analyticsShort">Analytics</span>
                 </a>
 
                 <a
@@ -80,7 +82,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">🏠</span>
-                    <span>Main Dashboard</span>
+                    <span data-i18n="menu.mainDashboard">Main Dashboard</span>
                 </a>
 
                 <a
@@ -88,7 +90,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">🏢</span>
-                    <span>Browse Businesses</span>
+                    <span data-i18n="menu.browse">Browse Businesses</span>
                 </a>
 
                 <a
@@ -96,7 +98,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">➕</span>
-                    <span>Add Business</span>
+                    <span data-i18n="menu.addBusiness">Add Business</span>
                 </a>
 
                 <a
@@ -104,7 +106,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">🛠️</span>
-                    <span>Add Service</span>
+                    <span data-i18n="menu.addService">Add Service</span>
                 </a>
 
                 <a
@@ -112,7 +114,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">⏰</span>
-                    <span>Business Hours</span>
+                    <span data-i18n="menu.businessHours">Business Hours</span>
                 </a>
 
                 <a
@@ -120,7 +122,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">📅</span>
-                    <span>Booking Activity</span>
+                    <span data-i18n="menu.bookingActivity">Booking Activity</span>
                 </a>
 
                 <a
@@ -128,7 +130,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">⭐</span>
-                    <span>Customer Reviews</span>
+                    <span data-i18n="menu.customerReviews">Customer Reviews</span>
                 </a>
 
                 <a
@@ -136,7 +138,7 @@
                     class="sidebar-link"
                 >
                     <span class="ico">👤</span>
-                    <span>Profile</span>
+                    <span data-i18n="menu.profile">Profile</span>
                 </a>
 
             </nav>
@@ -157,14 +159,14 @@
                         <div
                             id="userName"
                             class="user-chip-name"
-                        >
+                        data-i18n="role.owner">
                             Owner
                         </div>
 
                         <div
                             id="userRole"
                             class="user-chip-role"
-                        >
+                        data-i18n="role.owner">
                             OWNER
                         </div>
 
@@ -172,11 +174,13 @@
 
                 </div>
 
+                <button type="button" class="btn btn-ghost btn-block btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
                 <button
                     id="logoutBtn"
                     class="logout-btn"
                     type="button"
-                >
+                data-i18n="nav.logout">
                     Logout
                 </button>
 
@@ -192,15 +196,15 @@
 
                 <div class="analytics-hero-content">
 
-                    <p class="analytics-eyebrow">
+                    <p class="analytics-eyebrow" data-i18n="ownerdash.eyebrow">
                         Live Business Analytics
                     </p>
 
-                    <h1 id="welcomeHeading">
+                    <h1 id="welcomeHeading" data-i18n="ownerdash.welcomeShort">
                         Welcome back
                     </h1>
 
-                    <p>
+                    <p data-i18n="ownerdash.text">
                         Track your bookings, business performance,
                         customer reviews, and most popular services.
                     </p>
@@ -211,7 +215,7 @@
                     id="refreshBtn"
                     class="analytics-refresh-btn"
                     type="button"
-                >
+                data-i18n="ownerdash.refresh">
                     ↻ Refresh Data
                 </button>
 
@@ -231,7 +235,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="ownerdash.stat.today">
                             Today's Bookings
                         </span>
 
@@ -248,7 +252,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.todayNote">
                         Appointments scheduled today
                     </p>
 
@@ -258,7 +262,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="ownerdash.stat.pending">
                             Pending Bookings
                         </span>
 
@@ -275,7 +279,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.pendingNote">
                         Waiting for approval
                     </p>
 
@@ -285,7 +289,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="ownerdash.stat.confirmed">
                             Confirmed Bookings
                         </span>
 
@@ -302,7 +306,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.confirmedNote">
                         Approved appointments
                     </p>
 
@@ -312,7 +316,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="ownerdash.stat.cancelled">
                             Cancelled Bookings
                         </span>
 
@@ -329,7 +333,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.cancelledNote">
                         Cancelled appointments
                     </p>
 
@@ -339,7 +343,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="ownerdash.stat.rating">
                             Average Rating
                         </span>
 
@@ -356,7 +360,7 @@
                         0.0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.ratingNote">
                         Average customer satisfaction
                     </p>
 
@@ -366,7 +370,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="ownerdash.stat.reviews">
                             Total Reviews
                         </span>
 
@@ -383,7 +387,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.reviewsNote">
                         Customer feedback received
                     </p>
 
@@ -393,7 +397,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="dash.stat.businesses">
                             Businesses
                         </span>
 
@@ -410,7 +414,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.businessesNote">
                         Businesses owned by you
                     </p>
 
@@ -420,7 +424,7 @@
 
                     <div class="analytics-stat-top">
 
-                        <span class="analytics-stat-label">
+                        <span class="analytics-stat-label" data-i18n="services.eyebrow">
                             Services
                         </span>
 
@@ -437,7 +441,7 @@
                         0
                     </strong>
 
-                    <p class="analytics-stat-note">
+                    <p class="analytics-stat-note" data-i18n="ownerdash.stat.servicesNote">
                         Active services available
                     </p>
 
@@ -455,9 +459,9 @@
 
                         <div class="analytics-panel-title">
 
-                            <h2>Popular Services</h2>
+                            <h2 data-i18n="ownerdash.popular">Popular Services</h2>
 
-                            <p>
+                            <p data-i18n="ownerdash.popularText">
                                 Your most frequently booked services.
                             </p>
 
@@ -466,7 +470,7 @@
                         <a
                             href="owner-services.html"
                             class="analytics-panel-link"
-                        >
+                        data-i18n="ownerdash.manageServices">
                             Manage services →
                         </a>
 
@@ -485,7 +489,7 @@
                                     📊
                                 </span>
 
-                                <p>
+                                <p data-i18n="ownerdash.popularEmpty">
                                     No service booking data is available yet.
                                 </p>
 
@@ -504,9 +508,9 @@
 
                         <div class="analytics-panel-title">
 
-                            <h2>Recent Bookings</h2>
+                            <h2 data-i18n="ownerdash.recent">Recent Bookings</h2>
 
-                            <p>
+                            <p data-i18n="ownerdash.recentText">
                                 Latest appointments across your businesses.
                             </p>
 
@@ -515,7 +519,7 @@
                         <a
                             href="owner-bookings.html"
                             class="analytics-panel-link"
-                        >
+                        data-i18n="ownerdash.viewAll">
                             View all →
                         </a>
 
@@ -534,7 +538,7 @@
                                     📅
                                 </span>
 
-                                <p>
+                                <p data-i18n="ownerdash.recentEmpty">
                                     No recent bookings are available.
                                 </p>
 

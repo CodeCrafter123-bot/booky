@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -16,10 +18,10 @@ const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
 const avatarInitial = document.getElementById("avatarInitial");
 
-const displayName = user.fullName || user.name || user.email || "Owner";
+const displayName = user.fullName || user.name || user.email || t("role.owner", "Owner");
 
 userName.textContent = displayName;
-userRole.textContent = user.role;
+userRole.textContent = t(`role.${String(user.role).toLowerCase()}`, user.role);
 avatarInitial.textContent = displayName.charAt(0).toUpperCase();
 
 logoutBtn?.addEventListener("click", logout);
@@ -63,14 +65,14 @@ async function loadBusinesses() {
 
     if (!ownerBusinesses.length) {
       businessSelect.innerHTML = `
-        <option value="">No businesses found. Add a business first.</option>
+        <option value="">${t("addservice.noBusinesses", "No businesses found. Add a business first.")}</option>
       `;
-      showMessage("You need to add a business before adding services.");
+      showMessage(t("addservice.needBusiness", "You need to add a business before adding services."));
       return;
     }
 
     businessSelect.innerHTML = `
-      <option value="">Select your business</option>
+      <option value="">${t("addservice.select", "Select your business")}</option>
       ${ownerBusinesses.map(business => `
         <option value="${business.id}">
           ${business.name}
@@ -79,7 +81,7 @@ async function loadBusinesses() {
     `;
 
   } catch (error) {
-    showMessage("Could not load your businesses.");
+    showMessage(t("addservice.loadError", "Could not load your businesses."));
   }
 }
 
@@ -96,27 +98,27 @@ async function addService(event) {
   };
 
   if (!serviceData.businessId) {
-    showMessage("Please select a business.");
+    showMessage(t("addservice.pickBusiness", "Please select a business."));
     return;
   }
 
   if (!serviceData.name || !serviceData.description) {
-    showMessage("Service name and description are required.");
+    showMessage(t("addservice.required", "Service name and description are required."));
     return;
   }
 
   if (serviceData.durationMinutes <= 0) {
-    showMessage("Duration must be greater than 0.");
+    showMessage(t("addservice.durationPositive", "Duration must be greater than 0."));
     return;
   }
 
   if (serviceData.price <= 0) {
-    showMessage("Price must be greater than 0.");
+    showMessage(t("addservice.pricePositive", "Price must be greater than 0."));
     return;
   }
 
   try {
-    showMessage("Adding service...", "success");
+    showMessage(t("addservice.adding", "Adding service..."), "success");
 
     const response = await fetch(`${API_URL}/services/add`, {
       method: "POST",
@@ -127,13 +129,13 @@ async function addService(event) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.message || "Could not add service.");
+      throw new Error(bookyI18n.tm(data.message) || t("addservice.addError", "Could not add service."));
     }
 
-    showMessage("Service added successfully!", "success");
+    showMessage(t("addservice.added", "Service added successfully!"), "success");
     serviceForm.reset();
 
   } catch (error) {
-    showMessage(error.message || "Could not add service.");
+    showMessage(error.message || t("addservice.addError", "Could not add service."));
   }
 }

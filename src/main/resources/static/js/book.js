@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 (() => {
   const token = localStorage.getItem("booky_token");
   const serviceId = Number(
@@ -68,7 +70,7 @@
     loadSlotsBtn.disabled = !validService();
 
     showMessage(
-      "Load available times for the selected date. Times are in Lebanon time.",
+      t("book.msg.loadForDate", "Load available times for the selected date. Times are in Lebanon time."),
       "success"
     );
   });
@@ -87,22 +89,22 @@
     const date = appointmentDateInput.value;
 
     if (!validService()) {
-      showMessage("Please go back and choose a service.");
+      showMessage(t("book.msg.chooseService", "Please go back and choose a service."));
       return;
     }
 
     if (!date) {
-      showMessage("Please choose a date first.");
+      showMessage(t("book.msg.chooseDate", "Please choose a date first."));
       return;
     }
 
     if (date < appointmentDateInput.min) {
-      showMessage("Please choose today or a future date.");
+      showMessage(t("book.msg.futureDate", "Please choose today or a future date."));
       return;
     }
 
     loadSlotsBtn.disabled = true;
-    showMessage("Loading available times...", "success");
+    showMessage(t("book.msg.loading", "Loading available times..."), "success");
 
     try {
       const params = new URLSearchParams({
@@ -130,16 +132,16 @@
 
       if (!response.ok) {
         throw new Error(
-          data?.message || "Could not load available times."
+          bookyI18n.tm(data?.message) || t("book.msg.loadError", "Could not load available times.")
         );
       }
 
       if (!Array.isArray(data)) {
-        throw new Error("Unexpected availability response.");
+        throw new Error(t("book.msg.unexpected", "Unexpected availability response."));
       }
 
       if (data.length === 0) {
-        showMessage("No available times for this date.");
+        showMessage(t("book.msg.none", "No available times for this date."));
         return;
       }
 
@@ -147,14 +149,14 @@
       renderSlots(data);
 
       showMessage(
-        "Choose a time. All appointment times are Lebanon time.",
+        t("book.msg.chooseTime", "Choose a time. All appointment times are Lebanon time."),
         "success"
       );
     } catch (error) {
       if (version === requestVersion) {
         clearSlots();
         showMessage(
-          error.message || "Could not load available times."
+          error.message || t("book.msg.loadError", "Could not load available times.")
         );
       }
     } finally {
@@ -219,17 +221,17 @@
     const date = appointmentDateInput.value;
 
     if (!validService()) {
-      showMessage("Please go back and choose a service.");
+      showMessage(t("book.msg.chooseService", "Please go back and choose a service."));
       return;
     }
 
     if (!date || date < appointmentDateInput.min) {
-      showMessage("Please choose today or a future date.");
+      showMessage(t("book.msg.futureDate", "Please choose today or a future date."));
       return;
     }
 
     if (!selectedSlot || loadedDate !== date) {
-      showMessage("Load and select an available time for this date.");
+      showMessage(t("book.msg.selectTime", "Load and select an available time for this date."));
       return;
     }
 
@@ -242,7 +244,7 @@
     const appointmentTime = `${date}T${time}`;
 
     setSubmitting(true);
-    showMessage("Creating booking...", "success");
+    showMessage(t("book.msg.creating", "Creating booking..."), "success");
 
     try {
       const response = await fetch("/bookings/create", {
@@ -268,17 +270,17 @@
         clearSlots();
 
         throw new Error(
-          "That time is no longer available. Load available times again."
+          t("book.msg.taken", "That time is no longer available. Load available times again.")
         );
       }
 
       if (!response.ok) {
         throw new Error(
-          data.message || "Could not create booking."
+          bookyI18n.tm(data.message) || t("book.msg.createError", "Could not create booking.")
         );
       }
 
-      showMessage("Booking created successfully!", "success");
+      showMessage(t("book.msg.created", "Booking created successfully!"), "success");
 
       // Keep the form disabled until navigation completes.
       setTimeout(() => {
@@ -286,7 +288,7 @@
       }, 1000);
     } catch (error) {
       setSubmitting(false);
-      showMessage(error.message || "Could not create booking.");
+      showMessage(error.message || t("book.msg.createError", "Could not create booking."));
     }
   }
 
@@ -295,6 +297,6 @@
 
   if (!validService()) {
     loadSlotsBtn.disabled = true;
-    showMessage("No service selected. Please go back and choose a service.");
+    showMessage(t("book.msg.noService", "No service selected. Please go back and choose a service."));
   }
 })();

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Something went wrong — Booky</title>
+  <title data-i18n="error.500.title">Something went wrong — Booky</title>
   <meta name="description" content="Something went wrong on our end. Please try again shortly." />
   <meta name="robots" content="noindex, nofollow" />
 
@@ -14,6 +14,8 @@
   <meta name="theme-color" content="#7c5cff" />
 
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
 
   <style>
     .error-hero {
@@ -55,20 +57,22 @@
         <span class="logo-mark">📅</span>
         <span>Booky</span>
       </a>
+
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
     </div>
   </header>
 
   <main class="container">
     <section class="error-hero">
       <div class="error-code">500</div>
-      <h1>Something went wrong on our end</h1>
-      <p>
+      <h1 data-i18n="error.500.heading">Something went wrong on our end</h1>
+      <p data-i18n-html="error.500.text">
         Please try again in a moment. If this keeps happening, let us know at
         <a href="mailto:support@booky.example">support@booky.example</a>.
       </p>
       <div class="error-ctas">
-        <a href="/index.html" class="btn btn-primary">Go home</a>
-        <a href="javascript:location.reload()" class="btn btn-ghost">Try again</a>
+        <a href="/index.html" class="btn btn-primary" data-i18n="error.home">Go home</a>
+        <a href="javascript:location.reload()" class="btn btn-ghost" data-i18n="error.500.retry">Try again</a>
       </div>
     </section>
   </main>

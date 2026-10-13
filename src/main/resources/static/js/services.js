@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -12,7 +14,7 @@ if (!token) {
 }
 
 if (!businessId) {
-  showMessage("No business selected. Go back and choose a business.");
+  showMessage(t("services.noBusiness", "No business selected. Go back and choose a business."));
 }
 
 logoutBtn?.addEventListener("click", logout);
@@ -52,7 +54,7 @@ function escapeHTML(value) {
 
 function formatPrice(price) {
   if (price === null || price === undefined || price === "") {
-    return "N/A";
+    return t("common.na", "N/A");
   }
 
   return `$${Number(price).toFixed(2)}`;
@@ -65,8 +67,8 @@ function renderServices(services) {
     servicesGrid.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">🛠️</div>
-        <h3>No services found</h3>
-        <p>This business does not have services yet.</p>
+        <h3>${t("services.empty.title", "No services found")}</h3>
+        <p>${t("services.empty.text", "This business does not have services yet.")}</p>
       </div>
     `;
     return;
@@ -74,7 +76,9 @@ function renderServices(services) {
 
   servicesGrid.innerHTML = services.map((service) => {
     const isActive = service.active !== false;
-    const status = isActive ? "Active" : "Inactive";
+    const status = isActive
+      ? t("common.active", "Active")
+      : t("common.inactive", "Inactive");
 
     return `
       <article class="item-card">
@@ -84,14 +88,14 @@ function renderServices(services) {
           </span>
         </div>
 
-        <h3>${escapeHTML(service.name || "Unnamed Service")}</h3>
+        <h3>${escapeHTML(service.name || t("services.unnamed", "Unnamed Service"))}</h3>
 
         <p class="item-desc">
-          ${escapeHTML(service.description || "No description available.")}
+          ${escapeHTML(service.description || t("common.noDescription", "No description available."))}
         </p>
 
         <div class="item-meta">
-          <span>⏱️ ${escapeHTML(service.durationMinutes || "N/A")} minutes</span>
+          <span>⏱️ ${escapeHTML(service.durationMinutes || t("common.na", "N/A"))} ${t("common.minutes", "minutes")}</span>
           <span>💵 ${escapeHTML(formatPrice(service.price))}</span>
         </div>
 
@@ -101,7 +105,7 @@ function renderServices(services) {
             onclick="bookService(${Number(service.id)})"
             ${!isActive ? "disabled" : ""}
           >
-            ${isActive ? "Book Now" : "Unavailable"}
+            ${isActive ? t("services.bookNow", "Book Now") : t("services.unavailable", "Unavailable")}
           </button>
         </div>
       </article>
@@ -117,7 +121,7 @@ function bookService(serviceId) {
 async function loadServices() {
   if (!businessId) return;
 
-  showMessage("Loading services...", "success");
+  showMessage(t("services.loading", "Loading services..."), "success");
 
   try {
     const response = await fetch(`${API_URL}/services/business/${businessId}`, {
@@ -128,7 +132,7 @@ async function loadServices() {
     const data = await response.json().catch(() => []);
 
     if (response.status === 401 || response.status === 403) {
-      showMessage("Session expired. Please log in again.");
+      showMessage(t("common.sessionExpired", "Session expired. Please log in again."));
       localStorage.clear();
 
       setTimeout(() => {
@@ -139,13 +143,13 @@ async function loadServices() {
     }
 
     if (!response.ok) {
-      throw new Error(data.message || "Could not load services.");
+      throw new Error(bookyI18n.tm(data.message) || t("services.loadError", "Could not load services."));
     }
 
     showMessage("");
     renderServices(Array.isArray(data) ? data : []);
   } catch (error) {
-    showMessage(error.message || "Could not load services.");
+    showMessage(error.message || t("services.loadError", "Could not load services."));
     servicesGrid.innerHTML = "";
   }
 }

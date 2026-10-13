@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Login — Booky</title>
-  <meta name="description" content="Log in to your Booky account to book appointments or manage your business." />
+  <title data-i18n="login.title">Login — Booky</title>
+  <meta name="description" data-i18n-attr="content:login.description" content="Log in to your Booky account to book appointments or manage your business." />
   <link rel="canonical" href="https://booky.example/login.html" />
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Login — Booky" />
@@ -23,13 +23,18 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
 <body>
 
   <main class="auth-page">
     <div class="auth-shell">
-      <a href="index.html" class="auth-back">← Back to home</a>
+      <div class="auth-top">
+        <a href="index.html" class="auth-back" data-i18n="auth.back">← Back to home</a>
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+      </div>
 
       <section class="glass-card auth-card">
         <div class="auth-logo">
@@ -40,16 +45,16 @@
         </div>
 
         <div class="auth-heading">
-          <span class="eyebrow">Welcome Back</span>
-          <h1 class="auth-title">Log in to your account</h1>
-          <p class="auth-subtitle">Continue managing appointments, services, and bookings.</p>
+          <span class="eyebrow" data-i18n="login.eyebrow">Welcome Back</span>
+          <h1 class="auth-title" data-i18n="login.heading">Log in to your account</h1>
+          <p class="auth-subtitle" data-i18n="login.subtitle">Continue managing appointments, services, and bookings.</p>
         </div>
 
         <div id="formAlert" class="alert alert-error"></div>
 
         <form id="loginForm" class="form-stack" novalidate>
           <div class="form-group">
-            <label class="form-label" for="email">Email</label>
+            <label class="form-label" for="email" data-i18n="auth.email">Email</label>
             <input
               type="email"
               id="email"
@@ -57,11 +62,11 @@
               placeholder="you@example.com"
               autocomplete="email"
             />
-            <div class="field-error-msg" id="emailError">Enter a valid email address.</div>
+            <div class="field-error-msg" id="emailError" data-i18n="auth.error.emailInvalid">Enter a valid email address.</div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="password">Password</label>
+            <label class="form-label" for="password" data-i18n="auth.password">Password</label>
 
             <div class="password-field">
               <input
@@ -69,35 +74,36 @@
                 id="password"
                 class="form-input"
                 placeholder="Your password"
+                data-i18n-attr="placeholder:login.passwordPlaceholder"
                 autocomplete="current-password"
               />
-              <button type="button" class="password-toggle" data-target="password">SHOW</button>
+              <button type="button" class="password-toggle" data-target="password" data-i18n="auth.show">SHOW</button>
             </div>
 
-            <div class="field-error-msg" id="passwordError">Password is required.</div>
+            <div class="field-error-msg" id="passwordError" data-i18n="auth.error.passwordRequired">Password is required.</div>
           </div>
 
           <div class="form-row-between">
             <label class="checkbox-row" for="rememberMe">
               <input type="checkbox" id="rememberMe" />
-              Remember me
+              <span data-i18n="login.remember">Remember me</span>
             </label>
           </div>
 
           <button type="submit" class="btn btn-primary btn-block" id="submitBtn">
             <span class="spinner"></span>
-            <span class="btn-label">Log in</span>
+            <span class="btn-label" data-i18n="login.submit">Log in</span>
           </button>
         </form>
 
         <p class="auth-footer-text">
-          Don't have an account?
-          <a href="register.html">Create one</a>
+          <span data-i18n="login.noAccount">Don't have an account?</span>
+          <a href="register.html" data-i18n="login.createOne">Create one</a>
         </p>
       </section>
 
       <p class="auth-footer-text" style="margin-top: var(--sp-4); font-size: 0.8rem;">
-        <a href="privacy.html">Privacy Policy</a> · <a href="terms.html">Terms</a> · <a href="faq.html">FAQ</a>
+        <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a> · <a href="terms.html" data-i18n="footer.termsShort">Terms</a> · <a href="faq.html" data-i18n="footer.faq">FAQ</a>
       </p>
     </div>
   </main>

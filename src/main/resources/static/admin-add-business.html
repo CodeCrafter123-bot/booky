@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Add Business — Booky Admin</title>
+  <title data-i18n="addbusiness.title">Add Business — Booky Admin</title>
   <meta name="description" content="Add a new business to the Booky platform." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -14,6 +14,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -31,27 +33,29 @@
       <nav class="sidebar-nav">
         <a href="dashboard.html" class="sidebar-link">
           <span class="ico">🏠</span>
-          <span>Dashboard</span>
+          <span data-i18n="nav.dashboard">Dashboard</span>
         </a>
 
         <a href="admin.html" class="sidebar-link">
           <span class="ico">🛡️</span>
-          <span>Admin Panel</span>
+          <span data-i18n="menu.adminPanel">Admin Panel</span>
         </a>
 
         <a href="admin-add-business.html" class="sidebar-link active">
           <span class="ico">➕</span>
-          <span>Add Business</span>
+          <span data-i18n="menu.addBusiness">Add Business</span>
         </a>
 
         <a href="browse.html" class="sidebar-link">
           <span class="ico">🏢</span>
-          <span>Businesses</span>
+          <span data-i18n="dash.stat.businesses">Businesses</span>
         </a>
       </nav>
 
       <div class="sidebar-footer">
-        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+        <button type="button" class="btn btn-ghost btn-block btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn" data-i18n="nav.logout">
           Log out
         </button>
       </div>
@@ -60,19 +64,19 @@
     <main class="main-content">
       <div class="page-header">
         <div>
-          <span class="eyebrow">Admin Action</span>
-          <h1>Add New Business</h1>
-          <p>Create and publish a new business on the Booky platform.</p>
+          <span class="eyebrow" data-i18n="addbusiness.eyebrow">Admin Action</span>
+          <h1 data-i18n="addbusiness.heading">Add New Business</h1>
+          <p data-i18n="addbusiness.text">Create and publish a new business on the Booky platform.</p>
         </div>
 
-        <a href="admin.html" class="btn btn-ghost btn-sm">← Back to Admin</a>
+        <a href="admin.html" class="btn btn-ghost btn-sm" data-i18n="addbusiness.back">← Back to Admin</a>
       </div>
 
       <section class="glass-card admin-form-card">
         <div class="card-header">
           <div>
-            <h2>Business Information</h2>
-            <p>Fill in the details below. All fields are required.</p>
+            <h2 data-i18n="addbusiness.info">Business Information</h2>
+            <p data-i18n="addbusiness.infoText">Fill in the details below. All fields are required.</p>
           </div>
         </div>
 
@@ -80,26 +84,26 @@
 
         <form id="businessForm" class="form-stack">
           <div class="form-group">
-            <label class="form-label" for="name">Business Name</label>
-            <input class="form-input" type="text" id="name" required placeholder="Example: Booky Barber">
+            <label class="form-label" for="name" data-i18n="addbusiness.name">Business Name</label>
+            <input class="form-input" type="text" id="name" required placeholder="Example: Booky Barber" data-i18n-attr="placeholder:addbusiness.namePlaceholder">
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="type">Business Type</label>
-            <input class="form-input" type="text" id="type" required placeholder="Barber, Clinic, Gym...">
+            <label class="form-label" for="type" data-i18n="addbusiness.type">Business Type</label>
+            <input class="form-input" type="text" id="type" required placeholder="Barber, Clinic, Gym..." data-i18n-attr="placeholder:addbusiness.typePlaceholder">
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="location">Location</label>
-            <input class="form-input" type="text" id="location" required placeholder="Beirut, Lebanon">
+            <label class="form-label" for="location" data-i18n="common.location">Location</label>
+            <input class="form-input" type="text" id="location" required placeholder="Beirut, Lebanon" data-i18n-attr="placeholder:addbusiness.locationPlaceholder">
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="description">Description</label>
-            <textarea class="form-input" id="description" rows="5" required placeholder="Write a short description about this business..."></textarea>
+            <label class="form-label" for="description" data-i18n="common.description">Description</label>
+            <textarea class="form-input" id="description" rows="5" required placeholder="Write a short description about this business..." data-i18n-attr="placeholder:addbusiness.descPlaceholder"></textarea>
           </div>
 
-          <button class="btn btn-primary btn-block" type="submit">
+          <button class="btn btn-primary btn-block" type="submit" data-i18n="menu.addBusiness">
             Add Business
           </button>
         </form>

@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -8,7 +10,7 @@ if (!token || !user) {
 }
 
 if (user?.role !== "ADMIN" && user?.role !== "OWNER") {
-  alert("Access denied. Owners or Admins only.");
+  alert(t("addbusiness.denied", "Access denied. Owners or Admins only."));
   location.href = "dashboard.html";
 }
 
@@ -47,10 +49,10 @@ function getInputValue(id) {
 }
 
 function validateBusiness(data) {
-  if (!data.name) return "Business name is required.";
-  if (!data.type) return "Business type is required.";
-  if (!data.location) return "Location is required.";
-  if (!data.description) return "Description is required.";
+  if (!data.name) return t("addbusiness.nameRequired", "Business name is required.");
+  if (!data.type) return t("addbusiness.typeRequired", "Business type is required.");
+  if (!data.location) return t("addbusiness.locationRequired", "Location is required.");
+  if (!data.description) return t("addbusiness.descRequired", "Description is required.");
   return "";
 }
 
@@ -72,7 +74,7 @@ async function addBusiness(event) {
   }
 
   try {
-    showMessage("Adding business...", "success");
+    showMessage(t("addbusiness.adding", "Adding business..."), "success");
 
     const response = await fetch(`${API_URL}/businesses/add`, {
       method: "POST",
@@ -83,20 +85,20 @@ async function addBusiness(event) {
     const data = await response.json().catch(() => ({}));
 
     if (response.status === 401 || response.status === 403) {
-      throw new Error(data.message ||"Access denied. Please log in again as owner or admin.");
+      throw new Error(bookyI18n.tm(data.message) ||t("addbusiness.loginAgain", "Access denied. Please log in again as owner or admin."));
     }
 
     if (!response.ok) {
-      throw new Error(data.message || "Could not add business.");
+      throw new Error(bookyI18n.tm(data.message) || t("addbusiness.addError", "Could not add business."));
     }
 
-    showMessage("Business added successfully!", "success");
+    showMessage(t("addbusiness.added", "Business added successfully!"), "success");
     businessForm.reset();
 
     setTimeout(() => {
       location.href = user.role === "ADMIN" ? "admin.html" : "dashboard.html";
     }, 900);
   } catch (error) {
-    showMessage(error.message || "Could not add business.");
+    showMessage(error.message || t("addbusiness.addError", "Could not add business."));
   }
 }

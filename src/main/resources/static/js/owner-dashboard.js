@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -10,7 +12,7 @@ if (!token || !user) {
 }
 
 if (user?.role !== "OWNER") {
-    alert("Access denied. Owners only.");
+    alert(t("owner.ownersOnly", "Access denied. Owners only."));
     window.location.href = "dashboard.html";
 }
 
@@ -37,15 +39,15 @@ document
     .getElementById("logoutBtn")
     ?.addEventListener("click", logout);
 
-const ownerName = user.fullName || user.name || "Owner";
+const ownerName = user.fullName || user.name || t("role.owner", "Owner");
 
 elements.welcomeHeading.textContent =
-    `Welcome back, ${ownerName}`;
+    t("ownerdash.welcome", "Welcome back, {name}", { name: ownerName });
 
 loadDashboard();
 
 async function loadDashboard() {
-    showMessage("Loading dashboard...", "info");
+    showMessage(t("ownerdash.loading", "Loading dashboard..."), "info");
 
     try {
         const response = await fetch(
@@ -75,7 +77,7 @@ async function loadDashboard() {
         console.error("Dashboard error:", error);
 
         showMessage(
-            "Could not connect to the backend.",
+            t("common.offline", "Could not connect to the backend."),
             "error"
         );
     }
@@ -111,7 +113,7 @@ function renderPopularServices(services) {
     if (!services.length) {
         elements.popularServices.innerHTML = `
             <p class="empty-state">
-                No service booking data available.
+                ${t("ownerdash.popularEmptyShort", "No service booking data available.")}
             </p>
         `;
         return;
@@ -131,7 +133,7 @@ function renderPopularServices(services) {
                 </div>
 
                 <span class="booking-count">
-                    ${service.bookingCount} booking${service.bookingCount === 1 ? "" : "s"}
+                    ${bookyI18n.tn("count.bookings", service.bookingCount, "booking", "bookings")}
                 </span>
             </div>
         `)
@@ -142,7 +144,7 @@ function renderRecentBookings(bookings) {
     if (!bookings.length) {
         elements.recentBookings.innerHTML = `
             <p class="empty-state">
-                No recent bookings available.
+                ${t("ownerdash.recentEmptyShort", "No recent bookings available.")}
             </p>
         `;
         return;
@@ -168,7 +170,7 @@ function renderRecentBookings(bookings) {
 
                 <div class="recent-booking-meta">
                     <span class="status-badge status-${booking.status.toLowerCase()}">
-                        ${escapeHtml(booking.status)}
+                        ${escapeHtml(t(`status.${booking.status}`, booking.status))}
                     </span>
 
                     <time class="recent-booking-time">
@@ -208,9 +210,10 @@ function handleApiError(response, data) {
         localStorage.removeItem("booky_user");
 
         alert(
-            `${data.message}\nReason: ${
-                data.reason || "No reason provided"
-            }`
+            `${bookyI18n.tm(data.message)}\n` +
+            t("common.frozenReason", "Reason: {reason}", {
+                reason: data.reason || t("common.noReason", "No reason provided")
+            })
         );
 
         window.location.href = "login.html";
@@ -223,14 +226,14 @@ function handleApiError(response, data) {
     }
 
     showMessage(
-        data.message || "Could not load dashboard.",
+        bookyI18n.tm(data.message) || t("ownerdash.loadError", "Could not load dashboard."),
         "error"
     );
 }
 
 function formatAppointmentTime(value) {
     if (!value) {
-        return "No date";
+        return t("common.noDate", "No date");
     }
 
     const appointmentDate = new Date(value);
@@ -257,14 +260,14 @@ function formatAppointmentTime(value) {
     let dateLabel;
 
     if (dayDifference === 0) {
-        dateLabel = "Today";
+        dateLabel = t("common.today", "Today");
     } else if (dayDifference === -1) {
-        dateLabel = "Yesterday";
+        dateLabel = t("common.yesterday", "Yesterday");
     } else if (dayDifference === 1) {
-        dateLabel = "Tomorrow";
+        dateLabel = t("common.tomorrow", "Tomorrow");
     } else {
         dateLabel = appointmentDate.toLocaleDateString(
-            "en-GB",
+            bookyI18n.locale || "en-GB",
             {
                 day: "2-digit",
                 month: "short",
@@ -275,14 +278,14 @@ function formatAppointmentTime(value) {
 
     const timeLabel =
         appointmentDate.toLocaleTimeString(
-            "en-US",
+            bookyI18n.locale || "en-US",
             {
                 hour: "numeric",
                 minute: "2-digit"
             }
         );
 
-    return `${dateLabel}, ${timeLabel}`;
+    return t("common.dateTime", "{date}, {time}", { date: dateLabel, time: timeLabel });
 }
 
 function showMessage(text, type) {

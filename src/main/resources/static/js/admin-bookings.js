@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 (() => {
     const token = localStorage.getItem("booky_token");
     let user = null;
@@ -18,10 +20,11 @@
     const refreshBtn = document.getElementById("refreshBtn");
     const logoutBtn = document.getElementById("logoutBtn");
 
-    const displayName = user.fullName || user.name || user.email || "Admin";
+    const displayName = user.fullName || user.name || user.email || t("role.admin", "Admin");
 
     document.getElementById("userName").textContent = displayName;
-    document.getElementById("userRole").textContent = user.role;
+    document.getElementById("userRole").textContent =
+        t(`role.${String(user.role).toLowerCase()}`, user.role);
     document.getElementById("avatarInitial").textContent =
         String(displayName).charAt(0).toUpperCase();
 
@@ -74,13 +77,13 @@
     }
 
     function formatDate(value) {
-        if (!value) return "N/A";
+        if (!value) return t("common.na", "N/A");
 
         const date = new Date(value);
 
-        if (Number.isNaN(date.getTime())) return "N/A";
+        if (Number.isNaN(date.getTime())) return t("common.na", "N/A");
 
-        return date.toLocaleString([], {
+        return date.toLocaleString(bookyI18n.locale, {
             year: "numeric",
             month: "short",
             day: "numeric",
@@ -91,8 +94,8 @@
 
     function appendDetail(container, label, value) {
         const paragraph = document.createElement("p");
-        const heading = createElement("strong", "", `${label}: `);
-        const text = createElement("span", "", value ?? "N/A");
+        const heading = createElement("strong", "", t("common.labelColon", "{label}: ", { label }));
+        const text = createElement("span", "", value ?? t("common.na", "N/A"));
 
         paragraph.append(heading, text);
         container.append(paragraph);
@@ -104,42 +107,42 @@
         const titleGroup = document.createElement("div");
 
         titleGroup.append(
-            createElement("h3", "", booking.serviceName || "Service"),
-            createElement("p", "", `Booking #${booking.id ?? "N/A"}`)
+            createElement("h3", "", booking.serviceName || t("common.service", "Service")),
+            createElement("p", "", t("adminbookings.number", "Booking #{id}", { id: booking.id ?? t("common.na", t("common.na", "N/A")) }))
         );
 
         const status = createElement(
             "span",
             `booking-status ${getStatusClass(booking.status)}`,
-            booking.status || "UNKNOWN"
+            t(`status.${booking.status || "UNKNOWN"}`, booking.status || "UNKNOWN")
         );
 
         header.append(titleGroup, status);
 
         const details = createElement("div", "booking-details");
 
-        appendDetail(details, "👤 Client", booking.clientName || "N/A");
-        appendDetail(details, "📧 Email", booking.clientEmail || "N/A");
-        appendDetail(details, "🏢 Business", booking.businessName || "N/A");
-        appendDetail(details, "📍 Location", booking.businessLocation || "N/A");
+        appendDetail(details, t("adminbookings.client", "👤 Client"), booking.clientName || t("common.na", "N/A"));
+        appendDetail(details, t("adminbookings.email", "📧 Email"), booking.clientEmail || t("common.na", "N/A"));
+        appendDetail(details, t("adminbookings.business", "🏢 Business"), booking.businessName || t("common.na", "N/A"));
+        appendDetail(details, t("adminbookings.location", "📍 Location"), booking.businessLocation || t("common.na", "N/A"));
 
         appendDetail(
             details,
-            "💰 Price",
-            booking.servicePrice == null ? "N/A" : `$${booking.servicePrice}`
+            t("adminbookings.price", "💰 Price"),
+            booking.servicePrice == null ? t("common.na", "N/A") : `$${booking.servicePrice}`
         );
 
         appendDetail(
             details,
-            "⏱ Duration",
+            t("adminbookings.duration", "⏱ Duration"),
             booking.serviceDuration == null
-                ? "N/A"
-                : `${booking.serviceDuration} minutes`
+                ? t("common.na", "N/A")
+                : bookyI18n.tn("count.minutes", Number(booking.serviceDuration), "minute", "minutes")
         );
 
         appendDetail(
             details,
-            "📅 Appointment",
+            t("adminbookings.appointment", "📅 Appointment"),
             formatDate(booking.appointmentTime)
         );
 
@@ -148,13 +151,13 @@
         const acceptButton = createElement(
             "button",
             "btn btn-primary btn-sm",
-            "✓ Accept"
+            t("adminbookings.accept", "✓ Accept")
         );
 
         const declineButton = createElement(
             "button",
             "btn btn-danger btn-sm",
-            "✕ Decline"
+            t("adminbookings.decline", "✕ Decline")
         );
 
         acceptButton.type = "button";
@@ -191,7 +194,7 @@
     }
 
     async function loadBookings() {
-        showPlaceholder("Loading bookings...");
+        showPlaceholder(t("mybookings.loading", "Loading bookings..."));
         refreshBtn.disabled = true;
 
         try {
@@ -207,17 +210,17 @@
             }
 
             if (!response.ok) {
-                throw new Error("Unable to load bookings.");
+                throw new Error(t("bookings.loadError", "Unable to load bookings."));
             }
 
             const bookings = await response.json();
 
             if (!Array.isArray(bookings)) {
-                throw new Error("Unexpected booking response.");
+                throw new Error(t("bookings.unexpected", "Unexpected booking response."));
             }
 
             if (bookings.length === 0) {
-                showPlaceholder("No bookings found.");
+                showPlaceholder(t("bookings.empty", "No bookings found."));
                 return;
             }
 
@@ -229,8 +232,8 @@
 
             bookingsContainer.replaceChildren(fragment);
         } catch (error) {
-            showPlaceholder("Unable to load bookings.");
-            showMessage(error.message || "Unable to load bookings.", "error");
+            showPlaceholder(t("bookings.loadError", "Unable to load bookings."));
+            showMessage(error.message || t("bookings.loadError", "Unable to load bookings."), "error");
         } finally {
             refreshBtn.disabled = false;
         }
@@ -258,18 +261,22 @@
             }
 
             if (!response.ok) {
-                throw new Error(`Failed to ${action} booking.`);
+                throw new Error(
+                    action === "accept"
+                        ? t("adminbookings.acceptError", "Failed to accept booking.")
+                        : t("adminbookings.declineError", "Failed to decline booking.")
+                );
             }
 
             showMessage(
                 action === "accept"
-                    ? "Booking accepted successfully."
-                    : "Booking declined successfully."
+                    ? t("adminbookings.accepted", "Booking accepted successfully.")
+                    : t("adminbookings.declined", "Booking declined successfully.")
             );
 
             await loadBookings();
         } catch (error) {
-            showMessage(error.message || "Booking update failed.", "error");
+            showMessage(error.message || t("adminbookings.updateError", "Booking update failed."), "error");
 
             buttons.forEach((button) => {
                 button.disabled = false;

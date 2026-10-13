@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Edit User — Booky</title>
+  <title data-i18n="edituser.title">Edit User — Booky</title>
   <meta name="description" content="Edit a user account on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -28,18 +30,20 @@
     </a>
 
     <nav class="nav-links">
-      <a href="admin-users.html" class="btn btn-ghost btn-sm">Users</a>
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+      <a href="admin-users.html" class="btn btn-ghost btn-sm" data-i18n="menu.usersShort">Users</a>
+      <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">Dashboard</a>
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+      <button id="logoutBtn" class="btn btn-danger btn-sm" data-i18n="nav.logout">Log out</button>
     </nav>
   </div>
 </header>
 
 <main class="container section">
   <div class="section-head">
-    <span class="eyebrow">Admin Panel</span>
-    <h2>Edit User</h2>
-    <p>Update user information and account role.</p>
+    <span class="eyebrow" data-i18n="menu.adminPanel">Admin Panel</span>
+    <h2 data-i18n="edituser.heading">Edit User</h2>
+    <p data-i18n="edituser.text">Update user information and account role.</p>
   </div>
 
   <div id="message" class="message"></div>
@@ -48,42 +52,42 @@
     <div class="glass-card profile-card">
       <div class="card-header">
         <div>
-          <h3>User Details</h3>
-          <p>Change the selected user's information.</p>
+          <h3 data-i18n="edituser.details">User Details</h3>
+          <p data-i18n="edituser.detailsText">Change the selected user's information.</p>
         </div>
       </div>
 
       <form id="editUserForm" class="form-grid">
         <div class="form-group">
-          <label for="fullName">Full Name</label>
+          <label for="fullName" data-i18n="auth.fullName">Full Name</label>
           <input type="text" id="fullName" required />
         </div>
 
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="email" data-i18n="profile.email">Email Address</label>
           <input type="email" id="email" required />
         </div>
 
         <div class="form-group">
-          <label for="phone">Phone Number</label>
+          <label for="phone" data-i18n="auth.phone">Phone Number</label>
           <input type="text" id="phone" required />
         </div>
 
         <div class="form-group">
-          <label for="role">Role</label>
+          <label for="role" data-i18n="dash.stat.role">Role</label>
           <select id="role" required>
-            <option value="CLIENT">CLIENT</option>
-            <option value="OWNER">OWNER</option>
-            <option value="ADMIN">ADMIN</option>
+            <option value="CLIENT" data-i18n="role.client">CLIENT</option>
+            <option value="OWNER" data-i18n="role.owner">OWNER</option>
+            <option value="ADMIN" data-i18n="role.admin">ADMIN</option>
           </select>
-          <small class="input-note">Only admins can change user roles.</small>
+          <small class="input-note" data-i18n="edituser.roleNote">Only admins can change user roles.</small>
         </div>
 
-        <button type="submit" id="saveBtn" class="btn btn-primary btn-block">
+        <button type="submit" id="saveBtn" class="btn btn-primary btn-block" data-i18n="common.saveChanges">
           Save Changes
         </button>
 
-        <button type="button" class="btn btn-ghost btn-block" onclick="location.href='admin-users.html'">
+        <button type="button" class="btn btn-ghost btn-block" onclick="location.href='admin-users.html'" data-i18n="edituser.back">
           Back to Users
         </button>
       </form>
@@ -92,34 +96,34 @@
     <div class="glass-card profile-card">
       <div class="card-header">
         <div>
-          <h3>Selected User</h3>
-          <p>Current user summary.</p>
+          <h3 data-i18n="edituser.selected">Selected User</h3>
+          <p data-i18n="edituser.selectedText">Current user summary.</p>
         </div>
       </div>
 
       <div class="profile-summary">
         <div>
-          <span>ID</span>
+          <span data-i18n="common.id">ID</span>
           <strong id="summaryId">-</strong>
         </div>
 
         <div>
-          <span>Name</span>
+          <span data-i18n="common.name">Name</span>
           <strong id="summaryName">-</strong>
         </div>
 
         <div>
-          <span>Email</span>
+          <span data-i18n="auth.email">Email</span>
           <strong id="summaryEmail">-</strong>
         </div>
 
         <div>
-          <span>Phone</span>
+          <span data-i18n="common.phone">Phone</span>
           <strong id="summaryPhone">-</strong>
         </div>
 
         <div>
-          <span>Role</span>
+          <span data-i18n="dash.stat.role">Role</span>
           <strong id="summaryRole">-</strong>
         </div>
       </div>

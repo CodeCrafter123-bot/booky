@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const token = localStorage.getItem("booky_token");
 const user = JSON.parse(localStorage.getItem("booky_user") || "null");
 
@@ -29,110 +31,110 @@ const role = (user.role || "CLIENT").toUpperCase();
 
 const dashboardConfig = {
   CLIENT: {
-    subtitle: "Book appointments, explore businesses, and manage your reservations.",
-    actionsTitle: "Client Workspace",
-    actionsSubtitle: "Everything you need to book and manage your appointments.",
+    subtitle: t("dash.client.subtitle", "Book appointments, explore businesses, and manage your reservations."),
+    actionsTitle: t("dash.client.actionsTitle", "Client Workspace"),
+    actionsSubtitle: t("dash.client.actionsSubtitle", "Everything you need to book and manage your appointments."),
     stats: [
-      { label: "Booking Flow", value: "Live", icon: "✅" },
-      { label: "My Bookings", value: "Active", icon: "📅" },
-      { label: "Role", value: "Client", icon: "👤" }
+      { label: t("dash.stat.bookingFlow", "Booking Flow"), value: t("dash.stat.live", "Live"), icon: "✅" },
+      { label: t("menu.myBookings", "My Bookings"), value: t("dash.stat.active", "Active"), icon: "📅" },
+      { label: t("dash.stat.role", "Role"), value: t("role.client", "Client"), icon: "👤" }
     ],
     links: [
       {
-        title: "Browse Businesses",
-        description: "Find barbers, clinics, gyms, tutors, salons, and more.",
+        title: t("menu.browse", "Browse Businesses"),
+        description: t("dash.client.browseDesc", "Find barbers, clinics, gyms, tutors, salons, and more."),
         icon: "🏢",
         href: "browse.html"
       },
       {
-        title: "My Bookings",
-        description: "View appointment status and cancel bookings.",
+        title: t("menu.myBookings", "My Bookings"),
+        description: t("dash.client.bookingsDesc", "View appointment status and cancel bookings."),
         icon: "📅",
         href: "my-bookings.html"
       },
       {
-        title: "Profile",
-        description: "View your personal account information.",
+        title: t("menu.profile", "Profile"),
+        description: t("dash.client.profileDesc", "View your personal account information."),
         icon: "👤",
         href: "profile.html"
       }
     ]
   },
 OWNER: {
-  subtitle: "Manage your services, monitor appointment activity, and grow your business.",
-  actionsTitle: "Owner Workspace",
-  actionsSubtitle: "Manage your businesses, services, bookings, reviews, and analytics.",
+  subtitle: t("dash.owner.subtitle", "Manage your services, monitor appointment activity, and grow your business."),
+  actionsTitle: t("dash.owner.actionsTitle", "Owner Workspace"),
+  actionsSubtitle: t("dash.owner.actionsSubtitle", "Manage your businesses, services, bookings, reviews, and analytics."),
 
   stats: [
     {
-      label: "Analytics Dashboard",
-      value: "Live",
+      label: t("menu.analytics", "Analytics Dashboard"),
+      value: t("dash.stat.live", "Live"),
       icon: "📊"
     },
     {
-      label: "Bookings",
-      value: "Tracking",
+      label: t("dash.stat.bookings", "Bookings"),
+      value: t("dash.stat.tracking", "Tracking"),
       icon: "📅"
     },
     {
-      label: "Role",
-      value: "Owner",
+      label: t("dash.stat.role", "Role"),
+      value: t("role.owner", "Owner"),
       icon: "👤"
     }
   ],
 
   links: [
     {
-      title: "Analytics Dashboard",
-      description: "View bookings, ratings, businesses, services, and recent activity.",
+      title: t("menu.analytics", "Analytics Dashboard"),
+      description: t("dash.owner.analyticsDesc", "View bookings, ratings, businesses, services, and recent activity."),
       icon: "📊",
       href: "owner-dashboard.html"
     },
     {
-      title: "Browse Businesses",
-      description: "View businesses currently listed on Booky.",
+      title: t("menu.browse", "Browse Businesses"),
+      description: t("dash.owner.browseDesc", "View businesses currently listed on Booky."),
       icon: "🏢",
       href: "browse.html"
     },
     {
-      title: "Add Business",
-      description: "Create your own business profile on Booky.",
+      title: t("menu.addBusiness", "Add Business"),
+      description: t("dash.owner.addBusinessDesc", "Create your own business profile on Booky."),
       icon: "➕",
       href: "admin-add-business.html"
     },
     {
-      title: "Add Service",
-      description: "Create services for your business.",
+      title: t("menu.addService", "Add Service"),
+      description: t("dash.owner.addServiceDesc", "Create services for your business."),
       icon: "🛠️",
       href: "owner-add-service.html"
     },
   {
-  title: "Manage Services",
-  description: "Choose your business and view its services.",
+  title: t("menu.manageServices", "Manage Services"),
+  description: t("dash.owner.manageServicesDesc", "Choose your business and view its services."),
   icon: "⚙️",
   href: "owner-services.html"
 },
     {
-      title: "Booking Activity",
-      description: "View bookings for your businesses.",
+      title: t("menu.bookingActivity", "Booking Activity"),
+      description: t("dash.owner.bookingsDesc", "View bookings for your businesses."),
       icon: "📅",
       href: "owner-bookings.html"
     },
     {
-      title: "Business Hours",
-      description: "Set weekly opening and closing times for your business.",
+      title: t("menu.businessHours", "Business Hours"),
+      description: t("dash.owner.hoursDesc", "Set weekly opening and closing times for your business."),
       icon: "⏰",
       href: "owner-business-hours.html"
     },
     {
-      title: "Customer Reviews",
-      description: "View ratings and feedback for your businesses.",
+      title: t("menu.customerReviews", "Customer Reviews"),
+      description: t("dash.owner.reviewsDesc", "View ratings and feedback for your businesses."),
       icon: "⭐",
       href: "owner-reviews.html"
     },
     {
-      title: "Profile",
-      description: "View your owner account information.",
+      title: t("menu.profile", "Profile"),
+      description: t("dash.owner.profileDesc", "View your owner account information."),
       icon: "👤",
       href: "profile.html"
     }
@@ -140,60 +142,60 @@ OWNER: {
 },
 
   ADMIN: {
-    subtitle: "Control platform activity, manage businesses, and prepare for full admin operations.",
-    actionsTitle: "Admin Control Center",
-    actionsSubtitle: "Manage platform data and monitor Booky activity.",
+    subtitle: t("dash.admin.subtitle", "Control platform activity, manage businesses, and prepare for full admin operations."),
+    actionsTitle: t("dash.admin.actionsTitle", "Admin Control Center"),
+    actionsSubtitle: t("dash.admin.actionsSubtitle", "Manage platform data and monitor Booky activity."),
     stats: [
-      { label: "Admin Panel", value: "Online", icon: "🛡️" },
-      { label: "Businesses", value: "Connected", icon: "🏢" },
-      { label: "Role", value: "Admin", icon: "👑" }
+      { label: t("menu.adminPanel", "Admin Panel"), value: t("dash.stat.online", "Online"), icon: "🛡️" },
+      { label: t("dash.stat.businesses", "Businesses"), value: t("dash.stat.connected", "Connected"), icon: "🏢" },
+      { label: t("dash.stat.role", "Role"), value: t("role.admin", "Admin"), icon: "👑" }
     ],
     links: [
       {
-        title: "Admin Panel",
-        description: "View platform overview and recent businesses.",
+        title: t("menu.adminPanel", "Admin Panel"),
+        description: t("dash.admin.panelDesc", "View platform overview and recent businesses."),
         icon: "🛡️",
         href: "admin.html"
       },
      
       {
-        title: "Add Business",
-        description: "Create a new business from the admin dashboard.",
+        title: t("menu.addBusiness", "Add Business"),
+        description: t("dash.admin.addBusinessDesc", "Create a new business from the admin dashboard."),
         icon: "➕",
         href: "admin-add-business.html"
       },
       {
-        title: "All Businesses",
-        description: "Review all businesses registered on the platform.",
+        title: t("menu.allBusinesses", "All Businesses"),
+        description: t("dash.admin.businessesDesc", "Review all businesses registered on the platform."),
         icon: "🏢",
         href: "browse.html"
       },
       {
-  title: "All Bookings",
-  description: "Review, approve and decline client bookings.",
+  title: t("menu.allBookings", "All Bookings"),
+  description: t("dash.admin.bookingsDesc", "Review, approve and decline client bookings."),
   icon: "📅",
   href: "admin-bookings.html"
 },
      {
-  title: "Users Management",
-  description: "View all users, edit profiles, and manage roles.",
+  title: t("menu.users", "Users Management"),
+  description: t("dash.admin.usersDesc", "View all users, edit profiles, and manage roles."),
   icon: "👥",
   href: "admin-users.html"
 },
       {
-        title: "Platform Statistics",
-        description: "Future analytics and reporting section.",
+        title: t("menu.platformStats", "Platform Statistics"),
+        description: t("dash.admin.statsDesc", "Future analytics and reporting section."),
         icon: "📊",
         href: "#"
       },
-       { title: "Review Management", 
-        description: "View and moderate all customer reviews.", 
+       { title: t("menu.reviewManagement", "Review Management"), 
+        description: t("dash.admin.reviewsDesc", "View and moderate all customer reviews."), 
         href: "admin-reviews.html",
          icon: "⭐" 
         },
       {
-        title: "Profile",
-        description: "View your admin account information.",
+        title: t("menu.profile", "Profile"),
+        description: t("dash.admin.profileDesc", "View your admin account information."),
         icon: "👤",
         href: "profile.html"
       }
@@ -210,11 +212,11 @@ logoutBtn?.addEventListener("click", logout);
 
 function renderUserInfo() {
   if (userName) userName.textContent = fullName;
-  if (userRole) userRole.textContent = role;
+  if (userRole) userRole.textContent = t(`role.${role.toLowerCase()}`, role);
   if (avatarInitial) avatarInitial.textContent = fullName.charAt(0).toUpperCase();
 
-  if (rolePill) rolePill.textContent = role;
-  if (welcomeHeading) welcomeHeading.textContent = `Welcome back, ${fullName} 👋`;
+  if (rolePill) rolePill.textContent = t(`role.${role.toLowerCase()}`, role);
+  if (welcomeHeading) welcomeHeading.textContent = t("dash.welcome", "Welcome back, {name} 👋", { name: fullName });
   if (welcomeSub) welcomeSub.textContent = config.subtitle;
 
   if (actionsTitle) actionsTitle.textContent = config.actionsTitle;
@@ -237,7 +239,7 @@ function renderDashboard() {
   document.querySelectorAll(".disabled-card, .disabled-link").forEach((item) => {
     item.addEventListener("click", (event) => {
       event.preventDefault();
-      alert("This feature needs backend support first.");
+      alert(t("dash.notAvailable", "This feature needs backend support first."));
     });
   });
 }

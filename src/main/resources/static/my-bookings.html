@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>My Bookings — Booky</title>
+  <title data-i18n="mybookings.title">My Bookings — Booky</title>
   <meta name="description" content="View and manage your upcoming and past appointments on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -16,6 +16,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -29,18 +31,19 @@
       </a>
 
       <nav class="nav-links">
-        <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-        <a href="browse.html" class="btn btn-ghost btn-sm">Browse</a>
-        <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+        <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">Dashboard</a>
+        <a href="browse.html" class="btn btn-ghost btn-sm" data-i18n="nav.browse">Browse</a>
+        <button id="logoutBtn" class="btn btn-danger btn-sm" data-i18n="nav.logout">Log out</button>
       </nav>
     </div>
   </header>
 
   <main class="container section">
     <div class="section-head">
-      <span class="eyebrow">Appointments</span>
-      <h2>My Bookings</h2>
-      <p>
+      <span class="eyebrow" data-i18n="mybookings.eyebrow">Appointments</span>
+      <h2 data-i18n="menu.myBookings">My Bookings</h2>
+      <p data-i18n="mybookings.text">
         View your appointments, cancel bookings, and review completed services.
       </p>
     </div>
@@ -64,15 +67,15 @@
     >
       <div class="review-modal-head">
         <div>
-          <span class="eyebrow">Share Your Experience</span>
-          <h3 id="reviewModalTitle">Leave a Review</h3>
+          <span class="eyebrow" data-i18n="review.eyebrow">Share Your Experience</span>
+          <h3 id="reviewModalTitle" data-i18n="review.heading">Leave a Review</h3>
         </div>
 
         <button
           id="closeReviewModalBtn"
           type="button"
           class="review-modal-close"
-          aria-label="Close review form"
+          aria-label="Close review form" data-i18n-attr="aria-label:review.close"
         >
           ×
         </button>
@@ -81,28 +84,28 @@
       <p id="reviewBookingText" class="review-booking-text"></p>
 
       <div class="review-field">
-        <label>Your rating</label>
+        <label data-i18n="review.rating">Your rating</label>
 
         <div id="starRating" class="star-rating" role="radiogroup">
-          <button type="button" class="star-btn" data-rating="1" aria-label="1 star">★</button>
-          <button type="button" class="star-btn" data-rating="2" aria-label="2 stars">★</button>
-          <button type="button" class="star-btn" data-rating="3" aria-label="3 stars">★</button>
-          <button type="button" class="star-btn" data-rating="4" aria-label="4 stars">★</button>
-          <button type="button" class="star-btn" data-rating="5" aria-label="5 stars">★</button>
+          <button type="button" class="star-btn" data-rating="1" aria-label="1 star" data-i18n-attr="aria-label:review.stars.1">★</button>
+          <button type="button" class="star-btn" data-rating="2" aria-label="2 stars" data-i18n-attr="aria-label:review.stars.2">★</button>
+          <button type="button" class="star-btn" data-rating="3" aria-label="3 stars" data-i18n-attr="aria-label:review.stars.3">★</button>
+          <button type="button" class="star-btn" data-rating="4" aria-label="4 stars" data-i18n-attr="aria-label:review.stars.4">★</button>
+          <button type="button" class="star-btn" data-rating="5" aria-label="5 stars" data-i18n-attr="aria-label:review.stars.5">★</button>
         </div>
 
-        <p id="ratingText" class="rating-text">Select a rating</p>
+        <p id="ratingText" class="rating-text" data-i18n="review.select">Select a rating</p>
       </div>
 
       <div class="review-field">
-        <label for="reviewComment">Comment</label>
+        <label for="reviewComment" data-i18n="review.comment">Comment</label>
 
         <textarea
           id="reviewComment"
           class="review-textarea"
           rows="5"
           maxlength="1000"
-          placeholder="Tell us about your experience..."
+          placeholder="Tell us about your experience..." data-i18n-attr="placeholder:review.placeholder"
         ></textarea>
 
         <p class="review-character-count">
@@ -115,7 +118,7 @@
           id="cancelReviewBtn"
           type="button"
           class="btn btn-ghost"
-        >
+        data-i18n="common.cancel">
           Cancel
         </button>
 
@@ -123,7 +126,7 @@
           id="submitReviewBtn"
           type="button"
           class="btn btn-primary"
-        >
+        data-i18n="review.submit">
           Submit Review
         </button>
       </div>

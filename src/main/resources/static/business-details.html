@@ -15,7 +15,7 @@
     content="View business details, services, opening hours, and reviews on Booky."
   >
 
-  <title>Business Details — Booky</title>
+  <title data-i18n="details.title">Business Details — Booky</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,6 +33,8 @@
 
 
   <link rel="stylesheet" href="css/style.css">
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
 <link rel="stylesheet" href="css/business-details.css">
 
   <link rel="stylesheet" href="/css/responsive.css" />
@@ -48,7 +50,9 @@
       </a>
 
       <nav class="details-navigation">
-        <a href="browse.html" class="back-link">
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+        <a href="browse.html" class="back-link" data-i18n="details.back">
           ← Back to businesses
         </a>
 
@@ -56,7 +60,7 @@
           type="button"
           id="logoutBtn"
           class="btn btn-secondary"
-        >
+        data-i18n="nav.logout">
           Logout
         </button>
       </nav>
@@ -78,9 +82,9 @@
     >
       <div class="loading-spinner"></div>
 
-      <h2>Loading business details</h2>
+      <h2 data-i18n="details.loading.title">Loading business details</h2>
 
-      <p>
+      <p data-i18n="details.loading.text">
         Please wait while we prepare the business information.
       </p>
     </section>
@@ -92,13 +96,13 @@
     >
       <div class="state-icon">!</div>
 
-      <h2>Business could not be loaded</h2>
+      <h2 data-i18n="details.error.title">Business could not be loaded</h2>
 
-      <p id="errorText">
+      <p id="errorText" data-i18n="details.error.text">
         Something went wrong while loading this business.
       </p>
 
-      <a href="browse.html" class="btn btn-primary">
+      <a href="browse.html" class="btn btn-primary" data-i18n="details.error.return">
         Return to businesses
       </a>
     </section>
@@ -139,7 +143,7 @@
               type="button"
               id="bookNowBtn"
               class="btn btn-primary hero-book-button"
-            >
+            data-i18n="browse.viewServices">
               View Services
             </button>
 
@@ -183,11 +187,11 @@
             <div class="panel-heading">
 
               <div>
-                <span class="section-label">
+                <span class="section-label" data-i18n="details.services.label">
                   Available services
                 </span>
 
-                <h2>Choose a service</h2>
+                <h2 data-i18n="details.services.heading">Choose a service</h2>
               </div>
 
               <span
@@ -203,7 +207,7 @@
               id="servicesList"
               class="services-list"
             >
-              <p class="content-loading">
+              <p class="content-loading" data-i18n="services.loading">
                 Loading services...
               </p>
             </div>
@@ -215,11 +219,11 @@
             <div class="panel-heading">
 
               <div>
-                <span class="section-label">
+                <span class="section-label" data-i18n="details.reviews.label">
                   Customer feedback
                 </span>
 
-                <h2>Reviews</h2>
+                <h2 data-i18n="details.reviews.heading">Reviews</h2>
               </div>
 
             </div>
@@ -228,7 +232,7 @@
               id="reviewsList"
               class="reviews-list"
             >
-              <p class="content-loading">
+              <p class="content-loading" data-i18n="details.reviews.loading">
                 Loading reviews...
               </p>
             </div>
@@ -244,11 +248,11 @@
             <div class="panel-heading">
 
               <div>
-                <span class="section-label">
+                <span class="section-label" data-i18n="details.hours.label">
                   Weekly schedule
                 </span>
 
-                <h2>Business Hours</h2>
+                <h2 data-i18n="menu.businessHours">Business Hours</h2>
               </div>
 
             </div>
@@ -257,7 +261,7 @@
               id="businessHours"
               class="business-hours"
             >
-              <p class="content-loading">
+              <p class="content-loading" data-i18n="details.hours.loading">
                 Loading hours...
               </p>
             </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Browse Businesses — Booky</title>
+  <title data-i18n="browse.title">Browse Businesses — Booky</title>
   <meta name="description" content="Browse available businesses and services on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -14,6 +14,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
 <body>
@@ -25,15 +27,18 @@
         <span>Booky</span>
       </a>
 
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
+      <nav class="nav-links">
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+        <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">Dashboard</a>
+      </nav>
     </div>
   </header>
 
   <main class="container section">
     <div class="section-head">
-      <span class="eyebrow">Browse</span>
-      <h2>Available Businesses</h2>
-      <p>Search businesses and choose one to view its services.</p>
+      <span class="eyebrow" data-i18n="browse.eyebrow">Browse</span>
+      <h2 data-i18n="browse.heading">Available Businesses</h2>
+      <p data-i18n="browse.text">Search businesses and choose one to view its services.</p>
     </div>
 
     <section class="glass-card browse-toolbar">
@@ -41,12 +46,12 @@
         <input
           type="text"
           id="searchInput"
-      aria-label="Search businesses"
+      aria-label="Search businesses" data-i18n-attr="aria-label:browse.searchLabel;placeholder:browse.searchPlaceholder"
           class="form-input"
           placeholder="Search by name, type, or location..."
         >
 
-        <button id="refreshBtn" class="btn btn-ghost">
+        <button id="refreshBtn" class="btn btn-ghost" data-i18n="common.refresh">
           Refresh
         </button>
       </div>

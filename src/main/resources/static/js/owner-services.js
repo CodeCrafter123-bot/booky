@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 (() => {
   "use strict";
 
@@ -82,26 +84,26 @@
 
     if (response.status === 401) {
       logout();
-      throw new Error("Please log in again.");
+      throw new Error(t("common.loginAgain", "Please log in again."));
     }
 
     if (response.status === 403 && data?.code === "ACCOUNT_FROZEN") {
-      alert(data.message || "Your account has been frozen.");
+      alert(bookyI18n.tm(data.message) || t("common.frozen", "Your account has been frozen."));
       logout();
-      throw new Error("Account frozen.");
+      throw new Error(t("common.frozenShort", "Account frozen."));
     }
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
+        bookyI18n.tm(data?.message) ||
         (response.status === 403
-          ? "You do not have permission to access this information."
-          : "Could not load the requested information.")
+          ? t("common.forbidden", "You do not have permission to access this information.")
+          : t("common.loadError", "Could not load the requested information."))
       );
     }
 
     if (!Array.isArray(data)) {
-      throw new Error("The server returned an unexpected response.");
+      throw new Error(t("common.unexpected", "The server returned an unexpected response."));
     }
 
     return data;
@@ -116,17 +118,17 @@
       businessSelect.replaceChildren();
 
       if (!businesses.length) {
-        businessSelect.add(new Option("No businesses available", ""));
+        businessSelect.add(new Option(t("ownerservices.noBusinesses", "No businesses available"), ""));
         businessDetails.textContent =
-          "You do not own a business yet. Add one to start offering services.";
+          t("ownerservices.noBusinessesText", "You do not own a business yet. Add one to start offering services.");
         createBusinessLink.hidden = false;
         return;
       }
 
-      businessSelect.add(new Option("Choose a business", ""));
+      businessSelect.add(new Option(t("ownerservices.chooseOption", "Choose a business"), ""));
 
       businesses.forEach(business => {
-        const name = business.name || "Unnamed business";
+        const name = business.name || t("browse.unnamed", "Unnamed business");
         const label = business.location
           ? `${name} — ${business.location}`
           : name;
@@ -136,7 +138,7 @@
 
       businessSelect.disabled = false;
       businessDetails.textContent =
-        "Select the business whose services you want to view.";
+        t("ownerservices.selectHint", "Select the business whose services you want to view.");
 
       // A single business can be selected automatically.
       // Multiple businesses require an explicit choice.
@@ -146,7 +148,7 @@
       }
     } catch (error) {
       businessSelect.replaceChildren(
-        new Option("Could not load businesses", "")
+        new Option(t("ownerservices.businessesError", "Could not load businesses"), "")
       );
 
       showMessage(error.message);
@@ -164,18 +166,18 @@
     if (!business) {
       servicesSection.hidden = true;
       businessDetails.textContent =
-        "Select the business whose services you want to view.";
+        t("ownerservices.selectHint", "Select the business whose services you want to view.");
       return;
     }
 
     servicesSection.hidden = false;
-    servicesHeading.textContent = business.name || "Business services";
+    servicesHeading.textContent = business.name || t("ownerservices.businessServices", "Business services");
     businessDetails.textContent = [
       business.type,
       business.location
     ].filter(Boolean).join(" · ");
 
-    serviceCount.textContent = "Loading services...";
+    serviceCount.textContent = t("services.loading", "Loading services...");
     servicesGrid.setAttribute("aria-busy", "true");
 
     try {
@@ -188,11 +190,11 @@
       renderServices(services);
 
       serviceCount.textContent =
-        `${services.length} service${services.length === 1 ? "" : "s"}`;
+        bookyI18n.tn("count.services", services.length, "service", "services");
     } catch (error) {
       if (version !== requestVersion) return;
 
-      serviceCount.textContent = "Services could not be loaded.";
+      serviceCount.textContent = t("services.loadError", "Services could not be loaded.");
       showMessage(error.message);
     } finally {
       if (version === requestVersion) {
@@ -212,7 +214,7 @@
 
   function formatPrice(value) {
     if (value === null || value === undefined || value === "") {
-      return "Price not set";
+      return t("ownerservices.noPrice", "Price not set");
     }
 
     const price = Number(value);
@@ -222,7 +224,7 @@
           style: "currency",
           currency: "USD"
         }).format(price)
-      : "Price not set";
+      : t("ownerservices.noPrice", "Price not set");
   }
 
   function renderServices(services) {
@@ -232,11 +234,11 @@
       const empty = makeElement("div", "empty-state");
 
       empty.append(
-        makeElement("h3", "", "No services yet"),
+        makeElement("h3", "", t("ownerservices.empty.title", "No services yet")),
         makeElement(
           "p",
           "",
-          "Use Add service to create the first service for this business."
+          t("ownerservices.empty.text", "Use Add service to create the first service for this business.")
         )
       );
 
@@ -253,7 +255,7 @@
       const status = makeElement(
         "span",
         `badge ${active ? "badge-confirmed" : "badge-cancelled"}`,
-        active ? "Active" : "Inactive"
+        active ? t("common.active", "Active") : t("common.inactive", "Inactive")
       );
 
       const header = makeElement("div", "item-card-top");
@@ -264,18 +266,20 @@
         makeElement(
           "span",
           "",
-          `Duration: ${service.durationMinutes ?? "Not set"} minutes`
+          t("ownerservices.duration", "Duration: {n} minutes", {
+            n: service.durationMinutes ?? t("common.notSet", "Not set")
+          })
         ),
         makeElement("span", "", formatPrice(service.price))
       );
 
       card.append(
         header,
-        makeElement("h3", "", service.name || "Unnamed service"),
+        makeElement("h3", "", service.name || t("services.unnamed", "Unnamed service")),
         makeElement(
           "p",
           "item-desc",
-          service.description || "No description available."
+          service.description || t("common.noDescription", "No description available.")
         ),
         details
       );

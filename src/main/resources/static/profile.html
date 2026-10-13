@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Profile — Booky</title>
+  <title data-i18n="profile.title">Profile — Booky</title>
   <meta name="description" content="Manage your Booky account profile and contact details." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -28,10 +30,11 @@
     </a>
 
     <nav class="nav-links">
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-      <a href="browse.html" class="btn btn-ghost btn-sm">Browse</a>
-      <a href="my-bookings.html" class="btn btn-ghost btn-sm">My Bookings</a>
-      <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+      <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">Dashboard</a>
+      <a href="browse.html" class="btn btn-ghost btn-sm" data-i18n="nav.browse">Browse</a>
+      <a href="my-bookings.html" class="btn btn-ghost btn-sm" data-i18n="menu.myBookings">My Bookings</a>
+      <button id="logoutBtn" class="btn btn-danger btn-sm" data-i18n="nav.logout">Log out</button>
     </nav>
   </div>
 </header>
@@ -42,9 +45,9 @@
     <div class="profile-avatar" id="profileAvatar">U</div>
 
     <div>
-      <span class="eyebrow">Account Settings</span>
+      <span class="eyebrow" data-i18n="profile.eyebrow">Account Settings</span>
       <h2 id="profileTitle">My Profile</h2>
-      <p>Manage your personal Booky account details.</p>
+      <p data-i18n="profile.text">Manage your personal Booky account details.</p>
     </div>
   </section>
 
@@ -55,54 +58,54 @@
     <div class="glass-card profile-card">
       <div class="card-header">
         <div>
-          <h3>Edit Profile</h3>
-          <p>Update your account information.</p>
+          <h3 data-i18n="profile.edit">Edit Profile</h3>
+          <p data-i18n="profile.editText">Update your account information.</p>
         </div>
       </div>
 
       <form id="profileForm" class="form-grid">
 
         <div class="form-group">
-          <label for="fullName">Full Name</label>
+          <label for="fullName" data-i18n="auth.fullName">Full Name</label>
           <input
             type="text"
             id="fullName"
-            placeholder="Enter your full name"
+            placeholder="Enter your full name" data-i18n-attr="placeholder:profile.fullNamePlaceholder"
             required
           />
         </div>
 
         <div class="form-group">
-          <label for="email">Email Address</label>
+          <label for="email" data-i18n="profile.email">Email Address</label>
           <input
             type="email"
             id="email"
-            placeholder="Enter your email"
+            placeholder="Enter your email" data-i18n-attr="placeholder:profile.emailPlaceholder"
             required
           />
         </div>
 
         <div class="form-group">
-          <label for="phone">Phone Number</label>
+          <label for="phone" data-i18n="auth.phone">Phone Number</label>
           <input
             type="text"
             id="phone"
-            placeholder="Enter your phone number"
+            placeholder="Enter your phone number" data-i18n-attr="placeholder:profile.phonePlaceholder"
             required
           />
         </div>
 
         <div class="form-group">
-          <label for="role">Role</label>
+          <label for="role" data-i18n="dash.stat.role">Role</label>
           <input
             type="text"
             id="role"
             disabled
           />
-          <small class="input-note">Your role cannot be changed from this page.</small>
+          <small class="input-note" data-i18n="profile.roleNote">Your role cannot be changed from this page.</small>
         </div>
 
-        <button type="submit" id="saveBtn" class="btn btn-primary btn-block">
+        <button type="submit" id="saveBtn" class="btn btn-primary btn-block" data-i18n="common.saveChanges">
           Save Changes
         </button>
 
@@ -112,39 +115,39 @@
     <div class="glass-card profile-card">
       <div class="card-header">
         <div>
-          <h3>Account Summary</h3>
-          <p>Your current Booky profile.</p>
+          <h3 data-i18n="profile.summary">Account Summary</h3>
+          <p data-i18n="profile.summaryText">Your current Booky profile.</p>
         </div>
       </div>
 
       <div class="profile-summary">
         <div>
-          <span>Name</span>
+          <span data-i18n="common.name">Name</span>
           <strong id="summaryName">-</strong>
         </div>
 
         <div>
-          <span>Email</span>
+          <span data-i18n="auth.email">Email</span>
           <strong id="summaryEmail">-</strong>
         </div>
 
         <div>
-          <span>Phone</span>
+          <span data-i18n="common.phone">Phone</span>
           <strong id="summaryPhone">-</strong>
         </div>
 
         <div>
-          <span>Role</span>
+          <span data-i18n="dash.stat.role">Role</span>
           <strong id="summaryRole">-</strong>
         </div>
       </div>
 
       <div class="profile-actions">
-        <button class="btn btn-primary btn-block" onclick="location.href='browse.html'">
+        <button class="btn btn-primary btn-block" onclick="location.href='browse.html'" data-i18n="menu.browse">
           Browse Businesses
         </button>
 
-        <button class="btn btn-ghost btn-block" onclick="location.href='my-bookings.html'">
+        <button class="btn btn-ghost btn-block" onclick="location.href='my-bookings.html'" data-i18n="menu.myBookings">
           My Bookings
         </button>
       </div>

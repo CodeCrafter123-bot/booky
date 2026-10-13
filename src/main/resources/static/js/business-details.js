@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 
 const API_BASE_URL = "";
 
@@ -49,7 +51,7 @@ function getAuthHeaders() {
 
 async function initializePage() {
   if (!Number.isInteger(businessId) || businessId <= 0) {
-    showPageError("The selected business ID is invalid.");
+    showPageError(t("details.msg.invalidId", "The selected business ID is invalid."));
     return;
   }
 
@@ -68,7 +70,7 @@ async function initializePage() {
 
     showPageError(
       error.message ||
-      "The business details could not be loaded."
+      t("details.msg.loadError", "The business details could not be loaded.")
     );
   } finally {
     loadingState.hidden = true;
@@ -90,28 +92,28 @@ async function loadBusiness() {
 
   if (!response.ok) {
     throw new Error(
-      data.message ||
-      `Business with ID ${businessId} could not be found.`
+      bookyI18n.tm(data.message) ||
+      t("details.msg.notFound", "Business with ID {id} could not be found.", { id: businessId })
     );
   }
 
   const name =
     data.name ||
     data.businessName ||
-    "Unnamed Business";
+    t("browse.unnamed", "Unnamed Business");
 
   businessName.textContent = name;
 
   businessType.textContent =
     data.type ||
-    "Business";
+    t("browse.typeFallback", "Business");
 
   businessLocation.textContent =
-    `📍 ${data.location || "Location not specified"}`;
+    `📍 ${data.location || t("details.noLocation", "Location not specified")}`;
 
   businessDescription.textContent =
     data.description ||
-    "No description is available for this business.";
+    t("details.noDescription", "No description is available for this business.");
 
   businessInitial.textContent =
     name.trim().charAt(0).toUpperCase() || "B";
@@ -135,8 +137,8 @@ async function loadServices() {
 
     if (!response.ok) {
       throw new Error(
-        data.message ||
-        "Services could not be loaded."
+        bookyI18n.tm(data.message) ||
+        t("services.loadError", "Services could not be loaded.")
       );
     }
 
@@ -145,21 +147,19 @@ async function loadServices() {
       : [];
 
     serviceCount.textContent =
-      `${services.length} ${
-        services.length === 1 ? "service" : "services"
-      }`;
+      bookyI18n.tn("count.services", services.length, "service", "services");
 
     renderServices(services);
   } catch (error) {
     console.error(error);
 
-    serviceCount.textContent = "0 services";
+    serviceCount.textContent = bookyI18n.tn("count.services", 0, "service", "services");
 
     servicesList.innerHTML = `
       <p class="content-error">
         ${escapeHTML(
           error.message ||
-          "Services could not be loaded."
+          t("services.loadError", "Services could not be loaded.")
         )}
       </p>
     `;
@@ -170,7 +170,7 @@ function renderServices(services) {
   if (!services.length) {
     servicesList.innerHTML = `
       <p class="empty-content">
-        This business does not currently have active services.
+        ${t("details.services.empty", "This business does not currently have active services.")}
       </p>
     `;
 
@@ -190,14 +190,14 @@ function renderServices(services) {
               ${escapeHTML(
                 service.name ||
                 service.serviceName ||
-                "Unnamed Service"
+                t("services.unnamed", "Unnamed Service")
               )}
             </h3>
 
             <p>
               ${escapeHTML(
                 service.description ||
-                "No description is available for this service."
+                t("details.services.noDescription", "No description is available for this service.")
               )}
             </p>
 
@@ -224,7 +224,7 @@ function renderServices(services) {
               class="btn btn-primary"
               onclick="bookService(${serviceId})"
             >
-              Book Service
+              ${t("details.services.book", "Book Service")}
             </button>
 
           </div>
@@ -251,8 +251,8 @@ async function loadBusinessHours() {
 
     if (!response.ok) {
       throw new Error(
-        data.message ||
-        "Business hours could not be loaded."
+        bookyI18n.tm(data.message) ||
+        t("details.hours.loadError", "Business hours could not be loaded.")
       );
     }
 
@@ -266,7 +266,7 @@ async function loadBusinessHours() {
       <p class="content-error">
         ${escapeHTML(
           error.message ||
-          "Business hours could not be loaded."
+          t("details.hours.loadError", "Business hours could not be loaded.")
         )}
       </p>
     `;
@@ -277,7 +277,7 @@ function renderBusinessHours(hours) {
   if (!hours.length) {
     businessHours.innerHTML = `
       <p class="empty-content">
-        Business hours have not been added yet.
+        ${t("details.hours.empty", "Business hours have not been added yet.")}
       </p>
     `;
 
@@ -321,7 +321,7 @@ function renderBusinessHours(hours) {
           <span class="hours-time ${isClosed ? "closed" : ""}">
             ${
               isClosed
-                ? "Closed"
+                ? t("common.closed", "Closed")
                 : `${formatTime(day.openTime)}
                    – ${formatTime(day.closeTime)}`
             }
@@ -349,8 +349,8 @@ async function loadReviews() {
 
     if (!response.ok) {
       throw new Error(
-        data.message ||
-        "Reviews could not be loaded."
+        bookyI18n.tm(data.message) ||
+        t("details.reviews.loadError", "Reviews could not be loaded.")
       );
     }
 
@@ -362,13 +362,13 @@ async function loadReviews() {
     console.error(error);
 
     averageRating.textContent = "0.0";
-    reviewCount.textContent = "0 reviews";
+    reviewCount.textContent = bookyI18n.tn("count.reviews", 0, "review", "reviews");
 
     reviewsList.innerHTML = `
       <p class="content-error">
         ${escapeHTML(
           error.message ||
-          "Reviews could not be loaded."
+          t("details.reviews.loadError", "Reviews could not be loaded.")
         )}
       </p>
     `;
@@ -378,7 +378,7 @@ async function loadReviews() {
 function updateRatingSummary(reviews) {
   if (!reviews.length) {
     averageRating.textContent = "0.0";
-    reviewCount.textContent = "0 reviews";
+    reviewCount.textContent = bookyI18n.tn("count.reviews", 0, "review", "reviews");
     return;
   }
 
@@ -391,16 +391,14 @@ function updateRatingSummary(reviews) {
   averageRating.textContent = average.toFixed(1);
 
   reviewCount.textContent =
-    `${reviews.length} ${
-      reviews.length === 1 ? "review" : "reviews"
-    }`;
+    bookyI18n.tn("count.reviews", reviews.length, "review", "reviews");
 }
 
 function renderReviews(reviews) {
   if (!reviews.length) {
     reviewsList.innerHTML = `
       <p class="empty-content">
-        This business does not have customer reviews yet.
+        ${t("details.reviews.empty", "This business does not have customer reviews yet.")}
       </p>
     `;
 
@@ -412,7 +410,7 @@ function renderReviews(reviews) {
       const reviewerName =
         review.clientName ||
         review.userName ||
-        "Booky Client";
+        t("details.reviews.anonymous", "Booky Client");
 
       const serviceName =
         review.serviceName ||
@@ -431,9 +429,7 @@ function renderReviews(reviews) {
 
               <div
                 class="review-stars"
-                aria-label="${normalizeRating(
-                  review.rating
-                )} out of 5 stars"
+                aria-label="${t("details.reviews.stars", "{n} out of 5 stars", { n: normalizeRating(review.rating) })}"
               >
                 ${createStars(review.rating)}
               </div>
@@ -449,7 +445,7 @@ function renderReviews(reviews) {
           <p class="review-comment">
             ${escapeHTML(
               review.comment ||
-              "The customer did not leave a written comment."
+              t("details.reviews.noComment", "The customer did not leave a written comment.")
             )}
           </p>
 
@@ -457,7 +453,7 @@ function renderReviews(reviews) {
             serviceName
               ? `
                 <div class="review-service">
-                  Service: ${escapeHTML(serviceName)}
+                  ${t("details.reviews.service", "Service:")} ${escapeHTML(serviceName)}
                 </div>
               `
               : ""
@@ -471,7 +467,7 @@ function renderReviews(reviews) {
 
 function bookService(serviceId) {
   if (!Number.isInteger(serviceId) || serviceId <= 0) {
-    showMessage("The selected service is invalid.");
+    showMessage(t("details.msg.invalidService", "The selected service is invalid."));
     return;
   }
 
@@ -536,7 +532,7 @@ function handleAuthenticationError(response) {
   location.href = "login.html";
 
   throw new Error(
-    "Your session has expired. Please log in again."
+    t("common.sessionExpired", "Your session has expired. Please log in again.")
   );
 }
 
@@ -548,28 +544,28 @@ function formatDuration(durationMinutes) {
   const duration = Number(durationMinutes);
 
   if (!Number.isFinite(duration) || duration <= 0) {
-    return "Duration not specified";
+    return t("details.noDuration", "Duration not specified");
   }
 
   if (duration < 60) {
-    return `${duration} minutes`;
+    return bookyI18n.tn("count.minutes", duration, "minute", "minutes");
   }
 
   const hours = Math.floor(duration / 60);
   const minutes = duration % 60;
 
   if (minutes === 0) {
-    return `${hours} ${hours === 1 ? "hour" : "hours"}`;
+    return bookyI18n.tn("count.hours", hours, "hour", "hours");
   }
 
-  return `${hours}h ${minutes}m`;
+  return t("duration.hm", "{h}h {m}m", { h: hours, m: minutes });
 }
 
 function formatPrice(price) {
   const numericPrice = Number(price);
 
   if (!Number.isFinite(numericPrice)) {
-    return "Price not specified";
+    return t("details.noPrice", "Price not specified");
   }
 
   return `$${numericPrice.toFixed(2)}`;
@@ -577,16 +573,16 @@ function formatPrice(price) {
 
 function formatDay(day) {
   if (!day) {
-    return "Unknown";
+    return t("common.unknown", "Unknown");
   }
 
   const normalizedDay = String(day)
     .trim()
     .toLowerCase();
 
-  return (
-    normalizedDay.charAt(0).toUpperCase() +
-    normalizedDay.slice(1)
+  return t(
+    `day.${normalizedDay.toUpperCase()}`,
+    normalizedDay.charAt(0).toUpperCase() + normalizedDay.slice(1)
   );
 }
 
@@ -610,7 +606,7 @@ function formatTime(time) {
   const date = new Date();
   date.setHours(hours, minutes, 0, 0);
 
-  return date.toLocaleTimeString([], {
+  return date.toLocaleTimeString(bookyI18n.locale, {
     hour: "numeric",
     minute: "2-digit"
   });
@@ -627,7 +623,7 @@ function formatDate(dateValue) {
     return "";
   }
 
-  return date.toLocaleDateString([], {
+  return date.toLocaleDateString(bookyI18n.locale, {
     year: "numeric",
     month: "short",
     day: "numeric"

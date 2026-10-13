@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -8,7 +10,7 @@ if (!token || !user) {
 }
 
 if (user?.role !== "ADMIN") {
-  alert("Access denied. Admins only.");
+  alert(t("admin.adminsOnly", "Access denied. Admins only."));
   location.href = "dashboard.html";
 }
 
@@ -25,19 +27,19 @@ const userName = document.getElementById("userName");
 const userRole = document.getElementById("userRole");
 const avatarInitial = document.getElementById("avatarInitial");
 
-const displayName = user.fullName || user.name || "Admin";
+const displayName = user.fullName || user.name || t("role.admin", "Admin");
 
 if (userName) userName.textContent = displayName;
-if (userRole) userRole.textContent = user.role || "ADMIN";
+if (userRole) userRole.textContent = t(`role.${String(user.role || "ADMIN").toLowerCase()}`, user.role || "ADMIN");
 if (avatarInitial) avatarInitial.textContent = displayName.charAt(0).toUpperCase();
-if (currentRole) currentRole.textContent = user.role || "ADMIN";
+if (currentRole) currentRole.textContent = t(`role.${String(user.role || "ADMIN").toLowerCase()}`, user.role || "ADMIN");
 
 logoutBtn?.addEventListener("click", logout);
 refreshBtn?.addEventListener("click", loadBusinesses);
 
 document.querySelectorAll(".disabled-card").forEach((card) => {
   card.addEventListener("click", () => {
-    alert("This admin feature needs backend support first.");
+    alert(t("dash.notAvailable", "This admin feature needs backend support first."));
   });
 });
 
@@ -76,14 +78,14 @@ function escapeHTML(value) {
 
 function renderBusinesses(businesses) {
   if (totalBusinesses) totalBusinesses.textContent = businesses.length;
-  if (apiStatus) apiStatus.textContent = "Online";
+  if (apiStatus) apiStatus.textContent = t("dash.stat.online", "Online");
 
   if (!businesses.length) {
     businessList.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">🏢</div>
-        <h3>No businesses found</h3>
-        <p>No businesses are currently registered.</p>
+        <h3>${t("browse.empty.title", "No businesses found")}</h3>
+        <p>${t("admin.empty", "No businesses are currently registered.")}</p>
       </div>
     `;
     return;
@@ -95,18 +97,18 @@ function renderBusinesses(businesses) {
     return `
       <article class="admin-list-item">
         <div>
-          <h3>${escapeHTML(business.name || business.businessName || "Unnamed Business")}</h3>
-          <p>${escapeHTML(business.description || "No description available.")}</p>
+          <h3>${escapeHTML(business.name || business.businessName || t("browse.unnamed", "Unnamed Business"))}</h3>
+          <p>${escapeHTML(business.description || t("common.noDescription", "No description available."))}</p>
 
           <div class="item-meta">
-            <span>🏷️ ${escapeHTML(business.type || "N/A")}</span>
-            <span>📍 ${escapeHTML(business.location || "N/A")}</span>
-            <span>#${escapeHTML(id || "N/A")}</span>
+            <span>🏷️ ${escapeHTML(business.type || t("common.na", "N/A"))}</span>
+            <span>📍 ${escapeHTML(business.location || t("common.na", "N/A"))}</span>
+            <span>#${escapeHTML(id || t("common.na", "N/A"))}</span>
           </div>
         </div>
 
         <button class="btn btn-ghost btn-sm" onclick="viewServices(${id})">
-          View Services
+          ${t("browse.viewServices", "View Services")}
         </button>
       </article>
     `;
@@ -120,7 +122,7 @@ function viewServices(businessId) {
 
 async function loadBusinesses() {
   try {
-    showMessage("Loading businesses...", "success");
+    showMessage(t("browse.loading", "Loading businesses..."), "success");
 
     const response = await fetch(`${API_URL}/businesses`, {
       method: "GET",
@@ -130,7 +132,7 @@ async function loadBusinesses() {
     const data = await response.json().catch(() => []);
 
     if (response.status === 401 || response.status === 403) {
-      showMessage("Session expired or access denied.");
+      showMessage(t("admin.sessionOrDenied", "Session expired or access denied."));
       localStorage.clear();
 
       setTimeout(() => {
@@ -141,13 +143,13 @@ async function loadBusinesses() {
     }
 
     if (!response.ok) {
-      throw new Error(data.message || "Could not load businesses.");
+      throw new Error(bookyI18n.tm(data.message) || t("browse.loadError", "Could not load businesses."));
     }
 
     showMessage("");
     renderBusinesses(Array.isArray(data) ? data : []);
   } catch (error) {
-    if (apiStatus) apiStatus.textContent = "Offline";
-    showMessage(error.message || "Could not connect to backend.");
+    if (apiStatus) apiStatus.textContent = t("admin.offline", "Offline");
+    showMessage(error.message || t("common.offline", "Could not connect to backend."));
   }
 }

@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Business Reviews — Booky</title>
+  <title data-i18n="ownerreviews.title">Business Reviews — Booky</title>
   <meta name="description" content="View reviews left by clients for your business on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -16,6 +16,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -29,15 +31,17 @@
     </a>
 
     <nav class="nav-links">
-      <a href="dashboard.html" class="btn btn-ghost btn-sm">
+      <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">
         Dashboard
       </a>
 
-      <a href="owner-bookings.html" class="btn btn-ghost btn-sm">
+      <a href="owner-bookings.html" class="btn btn-ghost btn-sm" data-i18n="dash.stat.bookings">
         Bookings
       </a>
 
-      <button id="logoutBtn" class="btn btn-danger btn-sm">
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+      <button id="logoutBtn" class="btn btn-danger btn-sm" data-i18n="nav.logout">
         Log out
       </button>
     </nav>
@@ -46,9 +50,9 @@
 
 <main class="container section">
   <div class="section-head">
-    <span class="eyebrow">Owner Panel</span>
-    <h2>Customer Reviews</h2>
-    <p>
+    <span class="eyebrow" data-i18n="ownerreviews.eyebrow">Owner Panel</span>
+    <h2 data-i18n="menu.customerReviews">Customer Reviews</h2>
+    <p data-i18n="ownerreviews.text">
       View ratings and feedback submitted for businesses you own.
     </p>
   </div>
@@ -57,14 +61,14 @@
 
   <section class="glass-card reviews-summary-card">
     <div>
-      <span class="eyebrow">Review Summary</span>
+      <span class="eyebrow" data-i18n="ownerreviews.summary">Review Summary</span>
       <h3 id="averageRating">0.0 ★</h3>
-      <p id="reviewCount">Loading reviews...</p>
+      <p id="reviewCount" data-i18n="details.reviews.loading">Loading reviews...</p>
     </div>
 
     <input
       id="searchInput"
-      aria-label="Search reviews"
+      aria-label="Search reviews" data-i18n-attr="aria-label:ownerreviews.searchLabel;placeholder:ownerreviews.searchPlaceholder"
       type="text"
       class="admin-search"
       placeholder="Search by business, client, service, or comment..."
@@ -73,7 +77,7 @@
 
   <section id="reviewsGrid" class="reviews-grid">
     <div class="empty-state">
-      <p>Loading reviews...</p>
+      <p data-i18n="details.reviews.loading">Loading reviews...</p>
     </div>
   </section>
 </main>

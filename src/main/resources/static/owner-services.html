@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>My Services — Booky</title>
+  <title data-i18n="ownerservices.title">My Services — Booky</title>
   <meta
     name="description"
     content="View services for your Booky businesses."
@@ -17,6 +17,8 @@
   <link rel="manifest" href="/site.webmanifest" />
 
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
   <link rel="stylesheet" href="/css/owner-services.css" />
@@ -26,16 +28,18 @@
 
   <header class="services-header">
     <div class="services-header-inner">
-      <a href="dashboard.html" class="logo" aria-label="Booky dashboard">
+      <a href="dashboard.html" class="logo" aria-label="Booky dashboard" data-i18n-attr="aria-label:ownerservices.logoLabel">
         <span class="logo-mark" aria-hidden="true">📅</span>
         <span>Booky</span>
       </a>
+
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
 
       <button
         id="logoutBtn"
         type="button"
         class="btn btn-danger btn-sm"
-      >
+      data-i18n="nav.logout">
         Log out
       </button>
     </div>
@@ -43,16 +47,16 @@
 
   <main class="container services-main">
 
-    <nav class="workspace-navigation" aria-label="Owner workspace">
-      <a href="dashboard.html">Dashboard</a>
-      <a href="owner-dashboard.html">Analytics</a>
-      <a href="owner-services.html" aria-current="page">Services</a>
+    <nav class="workspace-navigation" aria-label="Owner workspace" data-i18n-attr="aria-label:dash.owner.actionsTitle">
+      <a href="dashboard.html" data-i18n="nav.dashboard">Dashboard</a>
+      <a href="owner-dashboard.html" data-i18n="menu.analyticsShort">Analytics</a>
+      <a href="owner-services.html" aria-current="page" data-i18n="services.eyebrow">Services</a>
     </nav>
 
     <header class="services-intro">
-      <span class="eyebrow">Your business</span>
-      <h1>My Services</h1>
-      <p>Keep your offerings organized, one business at a time.</p>
+      <span class="eyebrow" data-i18n="ownerservices.eyebrow">Your business</span>
+      <h1 data-i18n="ownerservices.heading">My Services</h1>
+      <p data-i18n="ownerservices.text">Keep your offerings organized, one business at a time.</p>
     </header>
 
     <div
@@ -70,12 +74,12 @@
         <span class="business-picker-icon" aria-hidden="true">🏢</span>
 
         <div>
-          <h2 id="businessPickerTitle">Choose your business</h2>
-          <p>View the services offered at each location.</p>
+          <h2 id="businessPickerTitle" data-i18n="ownerservices.choose">Choose your business</h2>
+          <p data-i18n="ownerservices.chooseText">View the services offered at each location.</p>
         </div>
       </div>
 
-      <label for="businessSelect">Business</label>
+      <label for="businessSelect" data-i18n="common.business">Business</label>
 
       <select
         id="businessSelect"
@@ -83,7 +87,7 @@
         aria-describedby="businessDetails"
         disabled
       >
-        <option value="">Loading your businesses...</option>
+        <option value="" data-i18n="ownerservices.loadingBusinesses">Loading your businesses...</option>
       </select>
 
       <p id="businessDetails" class="business-picker-details"></p>
@@ -93,7 +97,7 @@
         href="admin-add-business.html"
         class="btn btn-primary"
         hidden
-      >
+      data-i18n="ownerservices.addBusiness">
         Add a business
       </a>
     </section>
@@ -106,8 +110,8 @@
     >
       <div class="services-toolbar">
         <div class="services-toolbar-title">
-          <span class="eyebrow">Service collection</span>
-          <h2 id="servicesHeading">Services</h2>
+          <span class="eyebrow" data-i18n="ownerservices.collection">Service collection</span>
+          <h2 id="servicesHeading" data-i18n="services.eyebrow">Services</h2>
           <p id="serviceCount" aria-live="polite"></p>
         </div>
 
@@ -117,7 +121,7 @@
           class="btn btn-primary"
         >
           <span aria-hidden="true">+</span>
-          Add service
+          <span data-i18n="ownerservices.addService">Add service</span>
         </button>
       </div>
 

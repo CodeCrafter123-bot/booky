@@ -127,7 +127,7 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   white-space: nowrap;
-  text-align: left;
+  text-align: start;
 }
 
 .users-page .admin-table td {

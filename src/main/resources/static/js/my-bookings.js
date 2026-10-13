@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 
 const API_URL = "";
 const BOOKY_TIME_ZONE = "Asia/Beirut";
@@ -40,7 +42,7 @@ if (!token || !currentUser) {
 }
 
 if (currentUser?.role !== "CLIENT") {
-  alert("Access denied. Clients only.");
+  alert(t("mybookings.clientsOnly", "Access denied. Clients only."));
   location.href = "dashboard.html";
 }
 
@@ -206,26 +208,26 @@ function parseAppointmentTime(value) {
 function formatDateTime(dateTime) {
   const date = parseAppointmentTime(dateTime);
 
-  if (!date) return "Invalid appointment time";
+  if (!date) return t("mybookings.invalidTime", "Invalid appointment time");
 
-  return new Intl.DateTimeFormat("en-US", {
+  return new Intl.DateTimeFormat(bookyI18n.locale || "en-US", {
     timeZone: BOOKY_TIME_ZONE,
     dateStyle: "medium",
     timeStyle: "short"
-  }).format(date) + " (Lebanon time)";
+  }).format(date) + " " + t("common.lebanonTime", "(Lebanon time)");
 }
 
 function getServiceName(booking) {
   return booking.service?.name ||
     booking.serviceName ||
-    "Service";
+    t("common.service", "Service");
 }
 
 function getBusinessName(booking) {
   return booking.business?.name ||
     booking.businessName ||
     booking.service?.business?.name ||
-    "Business";
+    t("browse.typeFallback", "Business");
 }
 
 function isPastAppointment(booking) {
@@ -268,8 +270,10 @@ async function authenticatedFetch(url, options = {}) {
       localStorage.removeItem("booky_user");
 
       alert(
-        `${data.message || "Your account has been frozen."}\n` +
-        `Reason: ${data.reason || "Contact the administrator."}`
+        `${bookyI18n.tm(data.message) || t("common.frozen", "Your account has been frozen.")}\n` +
+        t("common.frozenReason", "Reason: {reason}", {
+          reason: data.reason || t("common.contactAdmin", "Contact the administrator.")
+        })
       );
 
       location.href = "login.html";
@@ -280,7 +284,7 @@ async function authenticatedFetch(url, options = {}) {
       localStorage.removeItem("booky_token");
       localStorage.removeItem("booky_user");
 
-      alert("Your session has expired. Please log in again.");
+      alert(t("common.sessionExpired", "Your session has expired. Please log in again."));
       location.href = "login.html";
 
       throw new Error("Session expired");
@@ -291,7 +295,7 @@ async function authenticatedFetch(url, options = {}) {
 }
 
 async function loadPage() {
-  showMessage("Loading bookings...", "success");
+  showMessage(t("mybookings.loading", "Loading bookings..."), "success");
 
   try {
     await Promise.all([
@@ -310,7 +314,7 @@ async function loadPage() {
     }
 
     showMessage(
-      error.message || "Could not load your bookings."
+      error.message || t("mybookings.loadError", "Could not load your bookings.")
     );
 
     bookingsGrid.innerHTML = "";
@@ -331,7 +335,7 @@ async function loadBookings() {
 
   if (!response.ok) {
     throw new Error(
-      data?.message || "Could not load bookings."
+      bookyI18n.tm(data?.message) || t("bookings.loadError", "Could not load bookings.")
     );
   }
 
@@ -352,7 +356,7 @@ async function loadClientReviews() {
 
   if (!response.ok) {
     throw new Error(
-      data?.message || "Could not load reviews."
+      bookyI18n.tm(data?.message) || t("details.reviews.loadError", "Could not load reviews.")
     );
   }
 
@@ -366,8 +370,8 @@ function renderBookings(list) {
     bookingsGrid.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">📅</div>
-        <h3>No bookings found</h3>
-        <p>Your appointments will appear here after booking a service.</p>
+        <h3>${t("bookings.empty.title", "No bookings found")}</h3>
+        <p>${t("mybookings.empty.text", "Your appointments will appear here after booking a service.")}</p>
       </div>
     `;
     return;
@@ -406,7 +410,7 @@ function renderBookings(list) {
             type="button"
             onclick="cancelBooking(${Number(booking.id)})"
           >
-            Cancel Booking
+            ${t("mybookings.cancel", "Cancel Booking")}
           </button>
         `
         : "";
@@ -418,7 +422,7 @@ function renderBookings(list) {
             type="button"
             onclick="openReviewModal(${Number(booking.id)})"
           >
-            Leave Review
+            ${t("mybookings.leaveReview", "Leave Review")}
           </button>
         `
         : "";
@@ -427,7 +431,7 @@ function renderBookings(list) {
         ? `
           <div class="submitted-review">
             <div class="submitted-review-head">
-              <strong>Your Review</strong>
+              <strong>${t("mybookings.yourReview", "Your Review")}</strong>
               <span class="review-stars">
                 ${renderStars(existingReview.rating)}
               </span>
@@ -437,7 +441,7 @@ function renderBookings(list) {
               ${
                 existingReview.comment
                   ? escapeHTML(existingReview.comment)
-                  : "No written comment."
+                  : t("review.noComment", "No written comment.")
               }
             </p>
           </div>
@@ -448,25 +452,25 @@ function renderBookings(list) {
         <article class="item-card booking-card">
           <div class="booking-card-header">
             <span class="badge status-${escapeHTML(statusClass)}">
-              ${escapeHTML(status)}
+              ${escapeHTML(t(`status.${status}`, status))}
             </span>
 
             ${
               appointmentPassed
-  ? `<span class="booking-time-label">Start time passed</span>`
-  : `<span class="booking-time-label">Upcoming</span>`
+  ? `<span class="booking-time-label">${t("mybookings.passed", "Start time passed")}</span>`
+  : `<span class="booking-time-label">${t("mybookings.upcoming", "Upcoming")}</span>`
 }
           </div>
 
           <h3>${escapeHTML(serviceName)}</h3>
 
           <p>
-            <strong>Business:</strong>
+            <strong>${t("mybookings.business", "Business:")}</strong>
             ${escapeHTML(businessName)}
           </p>
 
           <p>
-            <strong>Appointment:</strong>
+            <strong>${t("mybookings.appointment", "Appointment:")}</strong>
             ${escapeHTML(appointmentTime)}
           </p>
 
@@ -498,7 +502,7 @@ function openReviewModal(bookingId) {
   );
 
   if (!booking) {
-    showMessage("Booking could not be found.");
+    showMessage(t("mybookings.notFound", "Booking could not be found."));
     return;
   }
 
@@ -506,21 +510,21 @@ function openReviewModal(bookingId) {
     booking.status?.toUpperCase() !== "CONFIRMED"
   ) {
     showMessage(
-      "Only confirmed bookings can be reviewed."
+      t("review.onlyConfirmed", "Only confirmed bookings can be reviewed.")
     );
     return;
   }
 
   if (!isPastAppointment(booking)) {
     showMessage(
-      "You can review this booking after the appointment."
+      t("review.afterAppointment", "You can review this booking after the appointment.")
     );
     return;
   }
 
   if (findReviewForBooking(bookingId)) {
     showMessage(
-      "This booking has already been reviewed."
+      t("review.already", "This booking has already been reviewed.")
     );
     return;
   }
@@ -529,9 +533,11 @@ function openReviewModal(bookingId) {
   selectedRating = 0;
 
   reviewBookingText.textContent =
-    `${getServiceName(booking)} at ` +
-    `${getBusinessName(booking)} — ` +
-    `${formatDateTime(booking.appointmentTime)}`;
+    t("review.context", "{service} at {business} — {time}", {
+      service: getServiceName(booking),
+      business: getBusinessName(booking),
+      time: formatDateTime(booking.appointmentTime)
+    });
 
   reviewComment.value = "";
   reviewCharacterCount.textContent = "0";
@@ -565,16 +571,16 @@ function selectRating(rating) {
   highlightStars(rating);
 
   const ratingLabels = {
-    0: "Select a rating",
-    1: "Poor",
-    2: "Fair",
-    3: "Good",
-    4: "Very good",
-    5: "Excellent"
+    0: t("review.select", "Select a rating"),
+    1: t("review.label.1", "Poor"),
+    2: t("review.label.2", "Fair"),
+    3: t("review.label.3", "Good"),
+    4: t("review.label.4", "Very good"),
+    5: t("review.label.5", "Excellent")
   };
 
   ratingText.textContent =
-    ratingLabels[rating] || "Select a rating";
+    ratingLabels[rating] || t("review.select", "Select a rating");
 }
 
 function highlightStars(rating) {
@@ -599,25 +605,25 @@ function highlightStars(rating) {
 
 async function submitReview() {
   if (!selectedBookingId) {
-    showMessage("No booking was selected.");
+    showMessage(t("review.noBooking", "No booking was selected."));
     closeReviewModal();
     return;
   }
 
   if (selectedRating < 1 || selectedRating > 5) {
-    alert("Please select a rating from 1 to 5 stars.");
+    alert(t("review.pickRating", "Please select a rating from 1 to 5 stars."));
     return;
   }
 
   const comment = reviewComment.value.trim();
 
   if (comment.length > 1000) {
-    alert("The review comment cannot exceed 1000 characters.");
+    alert(t("review.tooLong", "The review comment cannot exceed 1000 characters."));
     return;
   }
 
   submitReviewBtn.disabled = true;
-  submitReviewBtn.textContent = "Submitting...";
+  submitReviewBtn.textContent = t("review.submitting", "Submitting...");
 
   try {
     const response = await authenticatedFetch(
@@ -641,9 +647,9 @@ async function submitReview() {
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
-        data?.error ||
-        "Could not submit review."
+        bookyI18n.tm(data?.message) ||
+        bookyI18n.tm(data?.error) ||
+        t("review.submitError", "Could not submit review.")
       );
     }
 
@@ -653,7 +659,7 @@ async function submitReview() {
     renderBookings(bookings);
 
     showMessage(
-      "Your review was submitted successfully.",
+      t("review.submitted", "Your review was submitted successfully."),
       "success"
     );
   } catch (error) {
@@ -665,24 +671,24 @@ async function submitReview() {
     }
 
     showMessage(
-      error.message || "Could not submit review."
+      error.message || t("review.submitError", "Could not submit review.")
     );
   } finally {
     submitReviewBtn.disabled = false;
-    submitReviewBtn.textContent = "Submit Review";
+    submitReviewBtn.textContent = t("review.submit", "Submit Review");
   }
 }
 
 async function cancelBooking(bookingId) {
   const confirmCancel = confirm(
-    "Are you sure you want to cancel this booking?"
+    t("mybookings.cancelConfirm", "Are you sure you want to cancel this booking?")
   );
 
   if (!confirmCancel) return;
 
   try {
     showMessage(
-      "Cancelling booking...",
+      t("mybookings.cancelling", "Cancelling booking..."),
       "success"
     );
 
@@ -699,12 +705,12 @@ async function cancelBooking(bookingId) {
 
     if (!response.ok) {
       throw new Error(
-        data?.message || "Could not cancel booking."
+        bookyI18n.tm(data?.message) || t("mybookings.cancelError", "Could not cancel booking.")
       );
     }
 
     showMessage(
-      "Booking cancelled successfully.",
+      t("mybookings.cancelled", "Booking cancelled successfully."),
       "success"
     );
 
@@ -718,7 +724,7 @@ async function cancelBooking(bookingId) {
     }
 
     showMessage(
-      error.message || "Could not cancel booking."
+      error.message || t("mybookings.cancelError", "Could not cancel booking.")
     );
   }
 }

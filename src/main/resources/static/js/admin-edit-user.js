@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -25,7 +27,7 @@ if (!token || !adminUser) {
 }
 
 if (adminUser.role !== "ADMIN") {
-  alert("Access denied. Admins only.");
+  alert(t("admin.adminsOnly", "Access denied. Admins only."));
   location.href = "dashboard.html";
 }
 
@@ -65,13 +67,13 @@ async function loadUser() {
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-      throw new Error(data?.message || data?.error || "Failed to load user.");
+      throw new Error(bookyI18n.tm(data?.message) || bookyI18n.tm(data?.error) || t("edituser.loadError", "Failed to load user."));
     }
 
     fillForm(data);
     fillSummary(data);
   } catch (error) {
-    showMessage(error.message || "Something went wrong.");
+    showMessage(error.message || t("common.error", "Something went wrong."));
   }
 }
 
@@ -86,12 +88,12 @@ async function updateUser(event) {
   };
 
   if (!updatedUser.fullName || !updatedUser.email || !updatedUser.phone || !updatedUser.role) {
-    showMessage("All fields are required.");
+    showMessage(t("common.allRequired", "All fields are required."));
     return;
   }
 
   saveBtn.disabled = true;
-  saveBtn.textContent = "Saving...";
+  saveBtn.textContent = t("common.saving", "Saving...");
   showMessage("");
 
   try {
@@ -107,7 +109,7 @@ async function updateUser(event) {
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-      throw new Error(data?.message || data?.error || "Failed to update user.");
+      throw new Error(bookyI18n.tm(data?.message) || bookyI18n.tm(data?.error) || t("edituser.updateError", "Failed to update user."));
     }
 
     fillForm(data);
@@ -117,12 +119,12 @@ async function updateUser(event) {
       localStorage.setItem("booky_user", JSON.stringify(data));
     }
 
-    showMessage("User updated successfully.", "success");
+    showMessage(t("edituser.updated", "User updated successfully."), "success");
   } catch (error) {
-    showMessage(error.message || "Something went wrong.");
+    showMessage(error.message || t("common.error", "Something went wrong."));
   } finally {
     saveBtn.disabled = false;
-    saveBtn.textContent = "Save Changes";
+    saveBtn.textContent = t("common.saveChanges", "Save Changes");
   }
 }
 
@@ -138,5 +140,7 @@ function fillSummary(user) {
   summaryName.textContent = user.fullName || "-";
   summaryEmail.textContent = user.email || "-";
   summaryPhone.textContent = user.phone || "-";
-  summaryRole.textContent = user.role || "-";
+  summaryRole.textContent = user.role
+    ? t(`role.${String(user.role).toLowerCase()}`, user.role)
+    : "-";
 }

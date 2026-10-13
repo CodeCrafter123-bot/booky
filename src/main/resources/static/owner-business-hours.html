@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Business Hours — Booky</title>
+  <title data-i18n="hours.title">Business Hours — Booky</title>
   <meta name="description" content="Set your business hours on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
 <body>
@@ -26,22 +28,25 @@
       <span>Booky</span>
     </a>
 
-    <a href="dashboard.html" class="btn btn-ghost btn-sm">← Dashboard</a>
+    <nav class="nav-links">
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+      <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.backDashboard">← Dashboard</a>
+    </nav>
   </div>
 </header>
 
 <main class="container section">
   <div class="section-head center">
-    <span class="eyebrow">Owner</span>
-    <h2>Business Hours</h2>
-    <p>Set when your business is open or closed.</p>
+    <span class="eyebrow" data-i18n="role.owner">Owner</span>
+    <h2 data-i18n="menu.businessHours">Business Hours</h2>
+    <p data-i18n="hours.text">Set when your business is open or closed.</p>
   </div>
 
   <section class="glass-card auth-card">
     <div class="card-header">
       <div>
-        <h3>Choose Business</h3>
-        <p>Select one of your businesses and manage its schedule.</p>
+        <h3 data-i18n="hours.choose">Choose Business</h3>
+        <p data-i18n="hours.chooseText">Select one of your businesses and manage its schedule.</p>
       </div>
     </div>
 
@@ -49,9 +54,9 @@
 
     <div class="form-stack">
       <div class="form-group">
-        <label class="form-label" for="businessSelect">Business</label>
+        <label class="form-label" for="businessSelect" data-i18n="common.business">Business</label>
         <select id="businessSelect" class="form-input">
-          <option value="">Loading businesses...</option>
+          <option value="" data-i18n="browse.loading">Loading businesses...</option>
         </select>
       </div>
     </div>
@@ -60,8 +65,8 @@
   <section class="glass-card auth-card" style="margin-top: 24px;">
     <div class="card-header">
       <div>
-        <h3>Weekly Schedule</h3>
-        <p>Save opening and closing hours for each day.</p>
+        <h3 data-i18n="hours.weekly">Weekly Schedule</h3>
+        <p data-i18n="hours.weeklyText">Save opening and closing hours for each day.</p>
       </div>
     </div>
 

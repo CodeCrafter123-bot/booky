@@ -1,4 +1,5 @@
 const API_URL = "/users/login";
+const t = window.bookyI18n.start();
 
 const form = document.getElementById("loginForm");
 const alertBox = document.getElementById("formAlert");
@@ -19,7 +20,9 @@ document.querySelectorAll(".password-toggle").forEach((toggleButton) => {
 
     const isPassword = input.type === "password";
     input.type = isPassword ? "text" : "password";
-    toggleButton.textContent = isPassword ? "HIDE" : "SHOW";
+    toggleButton.textContent = isPassword
+      ? t("auth.hide", "HIDE")
+      : t("auth.show", "SHOW");
   });
 });
 
@@ -54,15 +57,15 @@ function validateForm(email, password) {
   showMessage("");
 
   if (!email) {
-    setFieldError(emailInput, emailError, "Email is required.");
+    setFieldError(emailInput, emailError, t("auth.error.emailRequired", "Email is required."));
     isValid = false;
   } else if (!/^\S+@\S+\.\S+$/.test(email)) {
-    setFieldError(emailInput, emailError, "Enter a valid email address.");
+    setFieldError(emailInput, emailError, t("auth.error.emailInvalid", "Enter a valid email address."));
     isValid = false;
   }
 
   if (!password) {
-    setFieldError(passwordInput, passwordError, "Password is required.");
+    setFieldError(passwordInput, passwordError, t("auth.error.passwordRequired", "Password is required."));
     isValid = false;
   }
 
@@ -76,7 +79,11 @@ function setLoading(isLoading) {
   button.classList.toggle("is-loading", isLoading);
 
   const label = button.querySelector(".btn-label");
-  if (label) label.textContent = isLoading ? "Logging in..." : "Log in";
+  if (label) {
+    label.textContent = isLoading
+      ? t("login.loading", "Logging in...")
+      : t("login.submit", "Log in");
+  }
 }
 
 async function login(event) {
@@ -101,7 +108,7 @@ async function login(event) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok || !data.token || !data.user) {
-      throw new Error(data.message || "Invalid email or password.");
+      throw new Error(bookyI18n.tm(data.message) || t("login.error.invalid", "Invalid email or password."));
     }
 
     localStorage.setItem("booky_token", data.token);
@@ -109,7 +116,7 @@ async function login(event) {
 
     window.location.href = "dashboard.html";
   } catch (error) {
-    showMessage(error.message || "Login failed.");
+    showMessage(error.message || t("login.error.failed", "Login failed."));
   } finally {
     setLoading(false);
   }

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Admin Bookings — Booky</title>
+  <title data-i18n="adminbookings.title">Admin Bookings — Booky</title>
   <meta name="description" content="Manage all bookings across the Booky platform." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -32,32 +34,32 @@
       <nav class="sidebar-nav">
         <a href="dashboard.html" class="sidebar-link">
           <span class="ico">🏠</span>
-          <span>Dashboard</span>
+          <span data-i18n="nav.dashboard">Dashboard</span>
         </a>
 
         <a href="admin.html" class="sidebar-link">
           <span class="ico">🛡️</span>
-          <span>Admin Panel</span>
+          <span data-i18n="menu.adminPanel">Admin Panel</span>
         </a>
 
         <a href="admin-add-business.html" class="sidebar-link">
           <span class="ico">➕</span>
-          <span>Add Business</span>
+          <span data-i18n="menu.addBusiness">Add Business</span>
         </a>
 
         <a href="admin-bookings.html" class="sidebar-link active">
           <span class="ico">📅</span>
-          <span>All Bookings</span>
+          <span data-i18n="menu.allBookings">All Bookings</span>
         </a>
 
         <a href="browse.html" class="sidebar-link">
           <span class="ico">🏢</span>
-          <span>Businesses</span>
+          <span data-i18n="dash.stat.businesses">Businesses</span>
         </a>
 
         <a href="profile.html" class="sidebar-link">
           <span class="ico">👤</span>
-          <span>Profile</span>
+          <span data-i18n="menu.profile">Profile</span>
         </a>
       </nav>
 
@@ -66,11 +68,13 @@
           <div class="avatar" id="avatarInitial">A</div>
           <div class="user-chip-info">
             <div class="user-chip-name" id="userName">Admin</div>
-            <div class="user-chip-role" id="userRole">ADMIN</div>
+            <div class="user-chip-role" id="userRole" data-i18n="role.admin">ADMIN</div>
           </div>
         </div>
 
-        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+        <button type="button" class="btn btn-ghost btn-block btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+        <button class="btn btn-danger btn-block btn-sm" id="logoutBtn" data-i18n="nav.logout">
           Log out
         </button>
       </div>
@@ -79,12 +83,12 @@
     <main class="main-content">
       <div class="page-header">
         <div>
-          <span class="eyebrow">Booking Control</span>
-          <h1>Admin Booking Management 📅</h1>
-          <p>Review appointment requests and accept or decline bookings.</p>
+          <span class="eyebrow" data-i18n="adminbookings.eyebrow">Booking Control</span>
+          <h1 data-i18n="adminbookings.heading">Admin Booking Management 📅</h1>
+          <p data-i18n="adminbookings.text">Review appointment requests and accept or decline bookings.</p>
         </div>
 
-        <button class="btn btn-ghost btn-sm" id="refreshBtn">
+        <button class="btn btn-ghost btn-sm" id="refreshBtn" data-i18n="common.refresh">
           Refresh
         </button>
       </div>
@@ -92,7 +96,7 @@
       <section class="glass-card admin-section">
         <div class="admin-section-header">
           <div>
-            <h2>All Bookings</h2>
+            <h2 data-i18n="menu.allBookings">All Bookings</h2>
           
           </div>
         </div>

@@ -1,5 +1,7 @@
 /* Mobile navigation and cookie-banner spacing; no API or booking changes. */
 (() => {
+  // Pages that do not load js/i18n.js yet fall back to the English text.
+  const t = window.bookyI18n ? window.bookyI18n.t : (key, fallback) => fallback;
   const sidebar = document.querySelector(".sidebar");
   if (sidebar) {
     sidebar.id ||= "bookySidebar";
@@ -23,7 +25,7 @@
     const close = document.createElement("button");
     close.type = "button";
     close.className = "mobile-nav-close";
-    close.textContent = "✕ Close menu";
+    close.textContent = t("menu.close", "✕ Close menu");
     sidebar.prepend(close);
     const mobile = matchMedia("(max-width: 860px)");
     const setOpen = (open, restore = true) => {
@@ -33,7 +35,7 @@
       if (open) close.focus();
       else if (restore) trigger.focus();
     };
-    trigger.setAttribute("aria-label", "Open navigation menu");
+    trigger.setAttribute("aria-label", t("menu.open", "Open navigation menu"));
     trigger.setAttribute("aria-controls", sidebar.id);
     trigger.setAttribute("aria-expanded", "false");
     trigger.addEventListener("click", () => setOpen(!sidebar.classList.contains("mobile-open")));

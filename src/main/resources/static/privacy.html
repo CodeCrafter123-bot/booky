@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Privacy Policy — Booky</title>
+  <title data-i18n="privacy.title">Privacy Policy — Booky</title>
   <meta name="description" content="How Booky collects, uses, and protects your personal data when you book appointments or manage a business on the platform." />
   <link rel="canonical" href="https://booky.example/privacy.html" />
 
@@ -24,6 +24,8 @@
   <meta name="theme-color" content="#7c5cff" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
 
   <style>
     .legal-content { max-width: 780px; margin: 0 auto; }
@@ -31,7 +33,7 @@
     .legal-content h2:first-child { margin-top: 0; }
     .legal-content h3 { font-size: 1.1rem; margin: var(--sp-5) 0 var(--sp-2); }
     .legal-content p, .legal-content li { color: var(--grey-300); line-height: 1.75; }
-    .legal-content ul { padding-left: 1.2rem; margin-bottom: var(--sp-4); }
+    .legal-content ul { padding-inline-start: 1.2rem; margin-bottom: var(--sp-4); }
     .legal-content li { margin-bottom: var(--sp-2); }
     .legal-updated { color: var(--grey-500); font-size: 0.85rem; margin-bottom: var(--sp-6); }
     .legal-placeholder { color: var(--warning); font-weight: 600; }
@@ -48,134 +50,135 @@
       </a>
 
       <nav class="nav-links">
-        <a href="login.html" class="btn btn-ghost btn-sm nav-link-text">Login</a>
-        <a href="register.html" class="btn btn-primary btn-sm">Get Started</a>
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+        <a href="login.html" class="btn btn-ghost btn-sm nav-link-text" data-i18n="nav.login">Login</a>
+        <a href="register.html" class="btn btn-primary btn-sm" data-i18n="nav.getStarted">Get Started</a>
       </nav>
     </div>
   </header>
 
   <main class="container section">
     <div class="section-head">
-      <span class="eyebrow">Legal</span>
-      <h2>Privacy Policy</h2>
+      <span class="eyebrow" data-i18n="footer.legal">Legal</span>
+      <h2 data-i18n="footer.privacy">Privacy Policy</h2>
     </div>
 
     <div class="glass-card legal-content" style="padding: var(--sp-6);">
-      <p class="legal-updated">Last updated: <span class="legal-placeholder">[DATE]</span></p>
+      <p class="legal-updated" data-i18n-html="privacy.1">Last updated: <span class="legal-placeholder">[DATE]</span></p>
 
-      <p>
+      <p data-i18n-html="privacy.2">
         This Privacy Policy explains how Booky ("we", "us", "our") collects, uses, and
         protects information when you use our website and booking platform (the "Service").
         By creating an account or using Booky, you agree to the practices described here.
       </p>
 
-      <h2>1. Information we collect</h2>
+      <h2 data-i18n-html="privacy.3">1. Information we collect</h2>
 
-      <h3>Account information</h3>
+      <h3 data-i18n-html="privacy.4">Account information</h3>
       <ul>
-        <li>Full name, email address, and phone number provided at registration</li>
-        <li>Password (stored as a secure hash — we never store plain-text passwords)</li>
-        <li>Account role (client, business owner, or admin)</li>
+        <li data-i18n-html="privacy.5">Full name, email address, and phone number provided at registration</li>
+        <li data-i18n-html="privacy.6">Password (stored as a secure hash — we never store plain-text passwords)</li>
+        <li data-i18n-html="privacy.7">Account role (client, business owner, or admin)</li>
       </ul>
 
-      <h3>Business information (for business owners)</h3>
+      <h3 data-i18n-html="privacy.8">Business information (for business owners)</h3>
       <ul>
-        <li>Business name, description, address, and category</li>
-        <li>Services offered, pricing, and business hours</li>
+        <li data-i18n-html="privacy.9">Business name, description, address, and category</li>
+        <li data-i18n-html="privacy.10">Services offered, pricing, and business hours</li>
       </ul>
 
-      <h3>Booking and usage information</h3>
+      <h3 data-i18n-html="privacy.11">Booking and usage information</h3>
       <ul>
-        <li>Appointment details: service booked, date/time, and status</li>
-        <li>Reviews and ratings you submit</li>
-        <li>Login sessions and authentication tokens</li>
+        <li data-i18n-html="privacy.12">Appointment details: service booked, date/time, and status</li>
+        <li data-i18n-html="privacy.13">Reviews and ratings you submit</li>
+        <li data-i18n-html="privacy.14">Login sessions and authentication tokens</li>
       </ul>
 
-      <h3>Automatically collected information</h3>
+      <h3 data-i18n-html="privacy.15">Automatically collected information</h3>
       <ul>
-        <li>Basic technical data such as browser type and device information</li>
-        <li>Cookies used for authentication and, where enabled, analytics — see our
+        <li data-i18n-html="privacy.16">Basic technical data such as browser type and device information</li>
+        <li data-i18n-html="privacy.17">Cookies used for authentication and, where enabled, analytics — see our
           <a href="#cookies">Cookies</a> section below</li>
       </ul>
 
-      <h2>2. How we use your information</h2>
+      <h2 data-i18n-html="privacy.18">2. How we use your information</h2>
       <ul>
-        <li>To create and manage your account and authenticate your sessions</li>
-        <li>To process and display bookings between clients and businesses</li>
-        <li>To send transactional emails (booking confirmations, status updates)</li>
-        <li>To let business owners manage their services, hours, and reviews</li>
-        <li>To maintain platform security and prevent abuse</li>
-        <li>To improve the Service based on aggregated usage patterns</li>
+        <li data-i18n-html="privacy.19">To create and manage your account and authenticate your sessions</li>
+        <li data-i18n-html="privacy.20">To process and display bookings between clients and businesses</li>
+        <li data-i18n-html="privacy.21">To send transactional emails (booking confirmations, status updates)</li>
+        <li data-i18n-html="privacy.22">To let business owners manage their services, hours, and reviews</li>
+        <li data-i18n-html="privacy.23">To maintain platform security and prevent abuse</li>
+        <li data-i18n-html="privacy.24">To improve the Service based on aggregated usage patterns</li>
       </ul>
 
-      <h2>3. How we share information</h2>
-      <p>
+      <h2 data-i18n-html="privacy.25">3. How we share information</h2>
+      <p data-i18n-html="privacy.26">
         We do not sell your personal data. Information is shared only in these situations:
       </p>
       <ul>
-        <li><strong>Between users as needed for bookings</strong> — a business you book with can see your name, contact details, and appointment details</li>
-        <li><strong>Service providers</strong> — such as email delivery providers, strictly to operate the Service</li>
-        <li><strong>Legal requirements</strong> — if required by law, regulation, or valid legal process</li>
+        <li data-i18n-html="privacy.27"><strong>Between users as needed for bookings</strong> — a business you book with can see your name, contact details, and appointment details</li>
+        <li data-i18n-html="privacy.28"><strong>Service providers</strong> — such as email delivery providers, strictly to operate the Service</li>
+        <li data-i18n-html="privacy.29"><strong>Legal requirements</strong> — if required by law, regulation, or valid legal process</li>
       </ul>
 
-      <h2>4. Data retention</h2>
-      <p>
+      <h2 data-i18n-html="privacy.30">4. Data retention</h2>
+      <p data-i18n-html="privacy.31">
         We retain account and booking data for as long as your account is active, or as
         needed to provide the Service, comply with legal obligations, resolve disputes,
         and enforce our agreements. You can request deletion of your account as described
         in Section 7.
       </p>
 
-      <h2>5. Data security</h2>
-      <p>
+      <h2 data-i18n-html="privacy.32">5. Data security</h2>
+      <p data-i18n-html="privacy.33">
         We use industry-standard measures to protect your data, including password hashing
         and token-based authentication. However, no method of transmission or storage is
         100% secure, and we cannot guarantee absolute security.
       </p>
 
-      <h2 id="cookies">6. Cookies</h2>
-      <p>
+      <h2 id="cookies" data-i18n-html="privacy.34">6. Cookies</h2>
+      <p data-i18n-html="privacy.35">
         Booky uses cookies and similar technologies that are strictly necessary to keep you
         signed in and to remember your preferences. If analytics or marketing cookies are
         enabled, they will only be set after you consent via the cookie banner. You can
         change your preference at any time — see our <a href="#" id="reopenCookiePrefs">cookie settings</a>.
       </p>
 
-      <h2>7. Your rights</h2>
-      <p>Depending on your location, you may have the right to:</p>
+      <h2 data-i18n-html="privacy.36">7. Your rights</h2>
+      <p data-i18n-html="privacy.37">Depending on your location, you may have the right to:</p>
       <ul>
-        <li>Access the personal data we hold about you</li>
-        <li>Correct inaccurate data via your <a href="profile.html">profile settings</a></li>
-        <li>Request deletion of your account and associated data</li>
-        <li>Object to or restrict certain processing</li>
-        <li>Request a copy of your data in a portable format</li>
+        <li data-i18n-html="privacy.38">Access the personal data we hold about you</li>
+        <li data-i18n-html="privacy.39">Correct inaccurate data via your <a href="profile.html">profile settings</a></li>
+        <li data-i18n-html="privacy.40">Request deletion of your account and associated data</li>
+        <li data-i18n-html="privacy.41">Object to or restrict certain processing</li>
+        <li data-i18n-html="privacy.42">Request a copy of your data in a portable format</li>
       </ul>
-      <p>
+      <p data-i18n-html="privacy.43">
         To exercise these rights, contact us at
         <a href="mailto:privacy@booky.example">privacy@booky.example</a>
         <span class="legal-placeholder">[REPLACE WITH REAL CONTACT EMAIL]</span>.
       </p>
 
-      <h2>8. Children's privacy</h2>
-      <p>
+      <h2 data-i18n-html="privacy.44">8. Children's privacy</h2>
+      <p data-i18n-html="privacy.45">
         Booky is not directed to children under 16, and we do not knowingly collect data
         from children under that age. If you believe a child has provided us with personal
         data, contact us and we will delete it.
       </p>
 
-      <h2>9. Changes to this policy</h2>
-      <p>
+      <h2 data-i18n-html="privacy.46">9. Changes to this policy</h2>
+      <p data-i18n-html="privacy.47">
         We may update this Privacy Policy from time to time. We will update the "Last
         updated" date above and, for material changes, provide additional notice.
       </p>
 
-      <h2>10. Contact us</h2>
-      <p>
+      <h2 data-i18n-html="privacy.48">10. Contact us</h2>
+      <p data-i18n-html="privacy.49">
         Questions about this policy? Email us at
         <a href="mailto:privacy@booky.example">privacy@booky.example</a>.
       </p>
 
-      <p class="legal-placeholder" style="margin-top: var(--sp-6); font-size: 0.85rem;">
+      <p class="legal-placeholder" style="margin-top: var(--sp-6); font-size: 0.85rem;" data-i18n-html="privacy.50">
         ⚠️ This is a template starting point, not legal advice. Have it reviewed by a
         lawyer familiar with your jurisdiction (e.g. GDPR, CCPA) before publishing.
       </p>
@@ -191,27 +194,27 @@
 
       <div class="footer-cols">
         <div class="footer-col">
-          <h4>Product</h4>
-          <a href="index.html#features">Features</a>
-          <a href="index.html#how-it-works">How it works</a>
+          <h4 data-i18n="footer.product">Product</h4>
+          <a href="index.html#features" data-i18n="footer.features">Features</a>
+          <a href="index.html#how-it-works" data-i18n="footer.howItWorks">How it works</a>
         </div>
 
         <div class="footer-col">
-          <h4>Account</h4>
-          <a href="login.html">Login</a>
-          <a href="register.html">Register</a>
+          <h4 data-i18n="footer.account">Account</h4>
+          <a href="login.html" data-i18n="nav.login">Login</a>
+          <a href="register.html" data-i18n="footer.register">Register</a>
         </div>
 
         <div class="footer-col">
-          <h4>Legal</h4>
-          <a href="privacy.html">Privacy Policy</a>
-          <a href="terms.html">Terms of Service</a>
-          <a href="faq.html">FAQ</a>
+          <h4 data-i18n="footer.legal">Legal</h4>
+          <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a>
+          <a href="terms.html" data-i18n="footer.terms">Terms of Service</a>
+          <a href="faq.html" data-i18n="footer.faq">FAQ</a>
         </div>
       </div>
     </div>
 
-    <div class="footer-bottom">© 2026 Booky. All rights reserved.</div>
+    <div class="footer-bottom" data-i18n="footer.copyright">© 2026 Booky. All rights reserved.</div>
   </footer>
 
   <script src="js/cookie-consent.js"></script>

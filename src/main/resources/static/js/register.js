@@ -1,4 +1,5 @@
 const API_URL = "/users/register";
+const t = window.bookyI18n.start();
 
 const form = document.getElementById("registerForm");
 const alertBox = document.getElementById("formAlert");
@@ -28,10 +29,14 @@ document.querySelectorAll(".password-toggle").forEach((toggleButton) => {
     const isPassword = input.type === "password";
 
     input.type = isPassword ? "text" : "password";
-    toggleButton.textContent = isPassword ? "HIDE" : "SHOW";
+    toggleButton.textContent = isPassword
+      ? t("auth.hide", "HIDE")
+      : t("auth.show", "SHOW");
     toggleButton.setAttribute(
       "aria-label",
-      isPassword ? "Hide password" : "Show password"
+      isPassword
+        ? t("auth.hidePassword", "Hide password")
+        : t("auth.showPassword", "Show password")
     );
   });
 });
@@ -80,7 +85,7 @@ function validateForm(data) {
     setFieldError(
       fullNameInput,
       fullNameError,
-      "Full name is required."
+      t("auth.error.fullNameRequired", "Full name is required.")
     );
     isValid = false;
   }
@@ -89,14 +94,14 @@ function validateForm(data) {
     setFieldError(
       emailInput,
       emailError,
-      "Email is required."
+      t("auth.error.emailRequired", "Email is required.")
     );
     isValid = false;
   } else if (!/^\S+@\S+\.\S+$/.test(data.email)) {
     setFieldError(
       emailInput,
       emailError,
-      "Enter a valid email address."
+      t("auth.error.emailInvalid", "Enter a valid email address.")
     );
     isValid = false;
   }
@@ -105,14 +110,14 @@ function validateForm(data) {
     setFieldError(
       passwordInput,
       passwordError,
-      "Password is required."
+      t("auth.error.passwordRequired", "Password is required.")
     );
     isValid = false;
   } else if (data.password.length < 6) {
     setFieldError(
       passwordInput,
       passwordError,
-      "Password must be at least 6 characters."
+      t("auth.error.passwordShort", "Password must be at least 6 characters.")
     );
     isValid = false;
   }
@@ -121,7 +126,7 @@ function validateForm(data) {
     setFieldError(
       phoneInput,
       phoneError,
-      "Phone number is required."
+      t("auth.error.phoneRequired", "Phone number is required.")
     );
     isValid = false;
   }
@@ -130,7 +135,7 @@ function validateForm(data) {
     setFieldError(
       agreeTermsInput,
       agreeTermsError,
-      "You must agree to the Terms and Privacy Policy to continue."
+      t("auth.error.agreeRequired", "You must agree to the Terms and Privacy Policy to continue.")
     );
     isValid = false;
   }
@@ -148,8 +153,8 @@ function setLoading(isLoading) {
 
   if (label) {
     label.textContent = isLoading
-      ? "Creating account..."
-      : "Create account";
+      ? t("register.loading", "Creating account...")
+      : t("register.submit", "Create account");
   }
 }
 
@@ -185,11 +190,13 @@ async function register(event) {
     const responseData = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(responseData.message || "Registration failed.");
+      throw new Error(
+        bookyI18n.tm(responseData.message) || t("register.error.failed", "Registration failed.")
+      );
     }
 
     showMessage(
-      "Account created successfully! Redirecting...",
+      t("register.success", "Account created successfully! Redirecting..."),
       "success"
     );
 
@@ -198,7 +205,7 @@ async function register(event) {
       window.location.href = "login.html";
     }, 1200);
   } catch (error) {
-    showMessage(error.message || "Registration failed.");
+    showMessage(error.message || t("register.error.failed", "Registration failed."));
 
     isSubmitting = false;
     setLoading(false);

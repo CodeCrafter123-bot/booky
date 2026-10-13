@@ -4,8 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Register — Booky</title>
-  <meta name="description" content="Create a free Booky account to book and manage your appointments." />
+  <title data-i18n="register.title">Register — Booky</title>
+  <meta name="description" data-i18n-attr="content:register.description" content="Create a free Booky account to book and manage your appointments." />
   <link rel="canonical" href="https://booky.example/register.html" />
 
   <meta property="og:type" content="website" />
@@ -25,12 +25,17 @@
   <meta name="theme-color" content="#7c5cff" />
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
 <body>
   <main class="auth-page">
     <div class="auth-shell">
-      <a href="index.html" class="auth-back">← Back to home</a>
+      <div class="auth-top">
+        <a href="index.html" class="auth-back" data-i18n="auth.back">← Back to home</a>
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+      </div>
 
       <section class="glass-card auth-card">
         <div class="auth-logo">
@@ -41,9 +46,9 @@
         </div>
 
         <div class="auth-heading">
-          <span class="eyebrow">Create Account</span>
-          <h1 class="auth-title">Join Booky today</h1>
-          <p class="auth-subtitle">
+          <span class="eyebrow" data-i18n="register.eyebrow">Create Account</span>
+          <h1 class="auth-title" data-i18n="register.heading">Join Booky today</h1>
+          <p class="auth-subtitle" data-i18n="register.subtitle">
             Create your account to book and manage appointments.
           </p>
         </div>
@@ -56,23 +61,24 @@
 
         <form id="registerForm" class="form-stack" novalidate>
           <div class="form-group">
-            <label class="form-label" for="fullName">Full name</label>
+            <label class="form-label" for="fullName" data-i18n="auth.fullName">Full name</label>
             <input
               type="text"
               id="fullName"
               class="form-input"
               placeholder="Jane Doe"
+              data-i18n-attr="placeholder:register.fullNamePlaceholder"
               autocomplete="name"
               aria-describedby="fullNameError"
               required
             />
-            <div class="field-error-msg" id="fullNameError">
+            <div class="field-error-msg" id="fullNameError" data-i18n="auth.error.fullNameRequired">
               Full name is required.
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="email">Email</label>
+            <label class="form-label" for="email" data-i18n="auth.email">Email</label>
             <input
               type="email"
               id="email"
@@ -82,13 +88,13 @@
               aria-describedby="emailError"
               required
             />
-            <div class="field-error-msg" id="emailError">
+            <div class="field-error-msg" id="emailError" data-i18n="auth.error.emailInvalid">
               Enter a valid email address.
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="password">Password</label>
+            <label class="form-label" for="password" data-i18n="auth.password">Password</label>
 
             <div class="password-field">
               <input
@@ -96,6 +102,7 @@
                 id="password"
                 class="form-input"
                 placeholder="At least 6 characters"
+                data-i18n-attr="placeholder:register.passwordPlaceholder"
                 autocomplete="new-password"
                 minlength="6"
                 aria-describedby="passwordError"
@@ -107,18 +114,20 @@
                 data-target="password"
                 aria-label="Show password"
                 aria-controls="password"
+                data-i18n="auth.show"
+                data-i18n-attr="aria-label:auth.showPassword"
               >
                 SHOW
               </button>
             </div>
 
-            <div class="field-error-msg" id="passwordError">
+            <div class="field-error-msg" id="passwordError" data-i18n="auth.error.passwordShort">
               Password must be at least 6 characters.
             </div>
           </div>
 
           <div class="form-group">
-            <label class="form-label" for="phone">Phone</label>
+            <label class="form-label" for="phone" data-i18n="auth.phone">Phone</label>
             <input
               type="tel"
               id="phone"
@@ -128,12 +137,12 @@
               aria-describedby="phoneError"
               required
             />
-            <div class="field-error-msg" id="phoneError">
+            <div class="field-error-msg" id="phoneError" data-i18n="auth.error.phoneRequired">
               Phone number is required.
             </div>
           </div>
 
-          <p class="auth-subtitle">
+          <p class="auth-subtitle" data-i18n="register.clientNotice">
             All new accounts are client accounts. Business owner access
             requires approval from a Booky administrator.
           </p>
@@ -147,7 +156,7 @@
       required
     />
 
-    <span>
+    <span data-i18n-html="register.agree">
       I agree to the
       <a href="terms.html" target="_blank" rel="noopener">Terms of Service</a>
       and
@@ -155,7 +164,7 @@
     </span>
   </label>
 
-  <div class="field-error-msg" id="agreeTermsError">
+  <div class="field-error-msg" id="agreeTermsError" data-i18n="auth.error.agreeRequired">
     You must agree to the Terms and Privacy Policy to continue.
   </div>
 </div>
@@ -166,13 +175,13 @@
             id="submitBtn"
           >
             <span class="spinner"></span>
-            <span class="btn-label">Create account</span>
+            <span class="btn-label" data-i18n="register.submit">Create account</span>
           </button>
         </form>
 
         <p class="auth-footer-text">
-          Already have an account?
-          <a href="login.html">Log in</a>
+          <span data-i18n="register.haveAccount">Already have an account?</span>
+          <a href="login.html" data-i18n="login.submit">Log in</a>
         </p>
       </section>
 
@@ -180,9 +189,9 @@
         class="auth-footer-text"
         style="margin-top: var(--sp-4); font-size: 0.8rem;"
       >
-        <a href="privacy.html">Privacy Policy</a> ·
-        <a href="terms.html">Terms</a> ·
-        <a href="faq.html">FAQ</a>
+        <a href="privacy.html" data-i18n="footer.privacy">Privacy Policy</a> ·
+        <a href="terms.html" data-i18n="footer.termsShort">Terms</a> ·
+        <a href="faq.html" data-i18n="footer.faq">FAQ</a>
       </p>
     </div>
   </main>

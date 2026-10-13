@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 
 const API_URL = "";
 
@@ -20,7 +22,7 @@ if (!token || !currentUser) {
 }
 
 if (currentUser?.role !== "OWNER") {
-  alert("Access denied. Owners only.");
+  alert(t("owner.ownersOnly", "Access denied. Owners only."));
   location.href = "dashboard.html";
 }
 
@@ -65,7 +67,7 @@ function formatDateTime(value) {
     return value;
   }
 
-  return date.toLocaleString("en-US", {
+  return date.toLocaleString(bookyI18n.locale || "en-US", {
     dateStyle: "medium",
     timeStyle: "short"
   });
@@ -100,9 +102,10 @@ async function authenticatedFetch(url, options = {}) {
       localStorage.clear();
 
       alert(
-        `${data.message}\nReason: ${
-          data.reason || "Contact the administrator."
-        }`
+        `${bookyI18n.tm(data.message)}\n` +
+        t("common.frozenReason", "Reason: {reason}", {
+          reason: data.reason || t("common.contactAdmin", "Contact the administrator.")
+        })
       );
 
       location.href = "login.html";
@@ -111,7 +114,7 @@ async function authenticatedFetch(url, options = {}) {
 
     if (response.status === 401) {
       localStorage.clear();
-      alert("Your session has expired.");
+      alert(t("common.sessionExpiredShort", "Your session has expired."));
       location.href = "login.html";
       throw new Error("Session expired");
     }
@@ -121,7 +124,7 @@ async function authenticatedFetch(url, options = {}) {
 }
 
 async function loadReviews() {
-  showMessage("Loading reviews...", "success");
+  showMessage(t("details.reviews.loading", "Loading reviews..."), "success");
 
   try {
     const response = await authenticatedFetch(
@@ -132,7 +135,7 @@ async function loadReviews() {
 
     if (!response.ok) {
       throw new Error(
-        data?.message || "Could not load reviews."
+        bookyI18n.tm(data?.message) || t("details.reviews.loadError", "Could not load reviews.")
       );
     }
 
@@ -150,12 +153,12 @@ async function loadReviews() {
     }
 
     showMessage(
-      error.message || "Could not load reviews."
+      error.message || t("details.reviews.loadError", "Could not load reviews.")
     );
 
     reviewsGrid.innerHTML = `
       <div class="empty-state">
-        <p>Could not load reviews.</p>
+        <p>${t("details.reviews.loadError", "Could not load reviews.")}</p>
       </div>
     `;
   }
@@ -163,7 +166,7 @@ async function loadReviews() {
 
 function updateSummary(list) {
   reviewCount.textContent =
-    `${list.length} review${list.length === 1 ? "" : "s"}`;
+    bookyI18n.tn("count.reviews", list.length, "review", "reviews");
 
   if (!list.length) {
     averageRating.textContent = "0.0 ★";
@@ -185,9 +188,9 @@ function renderReviews(list) {
     reviewsGrid.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">⭐</div>
-        <h3>No reviews yet</h3>
+        <h3>${t("ownerreviews.empty.title", "No reviews yet")}</h3>
         <p>
-          Customer feedback for your businesses will appear here.
+          ${t("ownerreviews.empty.text", "Customer feedback for your businesses will appear here.")}
         </p>
       </div>
     `;
@@ -199,11 +202,11 @@ function renderReviews(list) {
       <div class="review-card-head">
         <div>
           <span class="review-business">
-            ${escapeHTML(review.businessName || "Business")}
+            ${escapeHTML(review.businessName || t("browse.typeFallback", "Business"))}
           </span>
 
           <h3>
-            ${escapeHTML(review.serviceName || "Service")}
+            ${escapeHTML(review.serviceName || t("common.service", "Service"))}
           </h3>
         </div>
 
@@ -216,28 +219,28 @@ function renderReviews(list) {
         ${
           review.comment
             ? escapeHTML(review.comment)
-            : "No written comment."
+            : t("review.noComment", "No written comment.")
         }
       </p>
 
       <div class="review-meta">
         <span>
-          <strong>Client:</strong>
+          <strong>${t("common.clientColon", "Client:")}</strong>
           ${escapeHTML(review.clientName || "-")}
         </span>
 
         <span>
-          <strong>Email:</strong>
+          <strong>${t("common.emailColon", "Email:")}</strong>
           ${escapeHTML(review.clientEmail || "-")}
         </span>
 
         <span>
-          <strong>Appointment:</strong>
+          <strong>${t("mybookings.appointment", "Appointment:")}</strong>
           ${escapeHTML(formatDateTime(review.appointmentTime))}
         </span>
 
         <span>
-          <strong>Reviewed:</strong>
+          <strong>${t("common.reviewedColon", "Reviewed:")}</strong>
           ${escapeHTML(formatDateTime(review.createdAt))}
         </span>
       </div>

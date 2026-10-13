@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Services — Booky</title>
+  <title data-i18n="services.title">Services — Booky</title>
   <meta name="description" content="View and select services offered by a business on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -28,18 +30,19 @@
       </a>
 
       <nav class="nav-links">
-        <a href="dashboard.html" class="btn btn-ghost btn-sm">Dashboard</a>
-        <a href="browse.html" class="btn btn-ghost btn-sm">Browse</a>
-        <button id="logoutBtn" class="btn btn-danger btn-sm">Log out</button>
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
+        <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">Dashboard</a>
+        <a href="browse.html" class="btn btn-ghost btn-sm" data-i18n="nav.browse">Browse</a>
+        <button id="logoutBtn" class="btn btn-danger btn-sm" data-i18n="nav.logout">Log out</button>
       </nav>
     </div>
   </header>
 
   <main class="container section">
     <div class="section-head">
-      <span class="eyebrow">Services</span>
-      <h2>Available Services</h2>
-      <p>Select a service and continue to book your appointment.</p>
+      <span class="eyebrow" data-i18n="services.eyebrow">Services</span>
+      <h2 data-i18n="services.heading">Available Services</h2>
+      <p data-i18n="services.text">Select a service and continue to book your appointment.</p>
     </div>
 
     <div id="message" class="message"></div>

@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "/businesses";
 
 const token = localStorage.getItem("booky_token");
@@ -48,8 +50,8 @@ function render(items) {
     grid.innerHTML = `
       <div class="empty-state">
         <div class="empty-icon">🏢</div>
-        <h3>No businesses found</h3>
-        <p>Try searching by another name, type, or location.</p>
+        <h3>${t("browse.empty.title", "No businesses found")}</h3>
+        <p>${t("browse.empty.text", "Try searching by another name, type, or location.")}</p>
       </div>
     `;
     return;
@@ -64,7 +66,7 @@ function render(items) {
 
           <div class="item-card-top">
             <span class="item-tag">
-              ${escapeHTML(business.type || "Business")}
+              ${escapeHTML(business.type || t("browse.typeFallback", "Business"))}
             </span>
           </div>
 
@@ -72,7 +74,7 @@ function render(items) {
             ${escapeHTML(
               business.name ||
               business.businessName ||
-              "Unnamed Business"
+              t("browse.unnamed", "Unnamed Business")
             )}
           </h3>
 
@@ -80,7 +82,7 @@ function render(items) {
             <span>
               📍 ${escapeHTML(
                 business.location ||
-                "Not specified"
+                t("common.notSpecified", "Not specified")
               )}
             </span>
           </div>
@@ -88,7 +90,7 @@ function render(items) {
           <p class="item-desc">
             ${escapeHTML(
               business.description ||
-              "No description available."
+              t("common.noDescription", "No description available.")
             )}
           </p>
 
@@ -99,7 +101,7 @@ function render(items) {
               class="btn btn-primary btn-block"
               onclick="viewBusinessDetails(${id})"
             >
-              View Details
+              ${t("browse.viewDetails", "View Details")}
             </button>
 
             <button
@@ -107,7 +109,7 @@ function render(items) {
               class="btn btn-ghost btn-block"
               onclick="viewServices(${id})"
             >
-              View Services
+              ${t("browse.viewServices", "View Services")}
             </button>
 
           </div>
@@ -120,7 +122,7 @@ function render(items) {
 
 function viewBusinessDetails(id) {
   if (!Number.isInteger(id) || id <= 0) {
-    showMessage("Invalid business selected.");
+    showMessage(t("browse.invalid", "Invalid business selected."));
     return;
   }
 
@@ -130,7 +132,7 @@ function viewBusinessDetails(id) {
 
 function viewServices(id) {
   if (!Number.isInteger(id) || id <= 0) {
-    showMessage("Invalid business selected.");
+    showMessage(t("browse.invalid", "Invalid business selected."));
     return;
   }
 
@@ -157,7 +159,7 @@ function filterBusinesses() {
 }
 
 async function loadBusinesses() {
-  showMessage("Loading businesses...", "success");
+  showMessage(t("browse.loading", "Loading businesses..."), "success");
 
   try {
     const response = await fetch(API_URL, {
@@ -168,7 +170,7 @@ async function loadBusinesses() {
     const data = await response.json().catch(() => []);
 
     if (response.status === 401 || response.status === 403) {
-      showMessage("Session expired. Please log in again.");
+      showMessage(t("common.sessionExpired", "Session expired. Please log in again."));
 
       setTimeout(() => {
         localStorage.clear();
@@ -180,8 +182,8 @@ async function loadBusinesses() {
 
     if (!response.ok) {
       throw new Error(
-        data.message ||
-        "Could not load businesses."
+        bookyI18n.tm(data.message) ||
+        t("browse.loadError", "Could not load businesses.")
       );
     }
 
@@ -193,7 +195,7 @@ async function loadBusinesses() {
   } catch (error) {
     showMessage(
       error.message ||
-      "Could not load businesses."
+      t("browse.loadError", "Could not load businesses.")
     );
 
     if (grid) {

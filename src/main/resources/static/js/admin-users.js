@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -33,7 +35,7 @@ if (!token || !currentUser) {
 }
 
 if (currentUser?.role !== "ADMIN") {
-  alert("Access denied. Admins only.");
+  alert(t("admin.adminsOnly", "Access denied. Admins only."));
   location.href = "dashboard.html";
 }
 
@@ -110,8 +112,10 @@ async function authenticatedFetch(url, options = {}) {
       localStorage.removeItem("booky_user");
 
       alert(
-        `${data.message || "Your account has been frozen."}\n` +
-        `Reason: ${data.reason || "Contact the administrator."}`
+        `${bookyI18n.tm(data.message) || t("common.frozen", "Your account has been frozen.")}\n` +
+        t("common.frozenReason", "Reason: {reason}", {
+          reason: data.reason || t("common.contactAdmin", "Contact the administrator.")
+        })
       );
 
       location.href = "login.html";
@@ -128,7 +132,7 @@ async function loadUsers() {
 
   usersTableBody.innerHTML = `
     <tr>
-      <td colspan="8">Loading users...</td>
+      <td colspan="8">${t("adminusers.loading", "Loading users...")}</td>
     </tr>
   `;
 
@@ -141,9 +145,9 @@ async function loadUsers() {
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
-        data?.error ||
-        "Failed to load users."
+        bookyI18n.tm(data?.message) ||
+        bookyI18n.tm(data?.error) ||
+        t("adminusers.loadError", "Failed to load users.")
       );
     }
 
@@ -154,24 +158,26 @@ async function loadUsers() {
 
     usersTableBody.innerHTML = `
       <tr>
-        <td colspan="8">Could not load users.</td>
+        <td colspan="8">${t("adminusers.loadError", "Could not load users.")}</td>
       </tr>
     `;
 
     showMessage(
-      error.message || "Something went wrong."
+      error.message || t("common.error", "Something went wrong.")
     );
   }
 }
 
 function renderUsers(list) {
   userCount.textContent =
-    `${list.length} user${list.length === 1 ? "" : "s"} found`;
+    bookyI18n.lang === "ar"
+      ? bookyI18n.tn("count.usersFound", list.length, "user", "users")
+      : `${list.length} user${list.length === 1 ? "" : "s"} found`;
 
   if (!list.length) {
     usersTableBody.innerHTML = `
       <tr>
-        <td colspan="8">No users found.</td>
+        <td colspan="8">${t("adminusers.empty", "No users found.")}</td>
       </tr>
     `;
     return;
@@ -185,8 +191,8 @@ function renderUsers(list) {
         Number(user.id) === Number(currentUser.id);
 
       const statusText = isFrozen
-        ? "Frozen"
-        : "Active";
+        ? t("adminusers.frozen", "Frozen")
+        : t("adminusers.active", "Active");
 
       const statusClass = isFrozen
         ? "status-frozen"
@@ -200,9 +206,9 @@ function renderUsers(list) {
             class="btn btn-ghost btn-sm"
             type="button"
             disabled
-            title="Administrator accounts cannot be frozen"
+            title="${t("adminusers.protectedTitle", "Administrator accounts cannot be frozen")}"
           >
-            Protected
+            ${t("adminusers.protected", "Protected")}
           </button>
         `;
       } else if (isFrozen) {
@@ -212,7 +218,7 @@ function renderUsers(list) {
             type="button"
             onclick="unfreezeUser(${user.id})"
           >
-            Unfreeze
+            ${t("adminusers.unfreeze", "Unfreeze")}
           </button>
         `;
       } else {
@@ -222,7 +228,7 @@ function renderUsers(list) {
             type="button"
             onclick="openFreezeModal(${user.id})"
           >
-            Freeze
+            ${t("adminusers.freeze", "Freeze")}
           </button>
         `;
       }
@@ -249,7 +255,7 @@ function renderUsers(list) {
                 (user.role || "").toLowerCase()
               )}"
             >
-              ${escapeHtml(user.role || "-")}
+              ${escapeHtml(user.role ? t(`role.${String(user.role).toLowerCase()}`, user.role) : "-")}
             </span>
           </td>
 
@@ -264,7 +270,7 @@ function renderUsers(list) {
               isFrozen
                 ? escapeHtml(
                     user.freezeReason ||
-                    "No reason provided"
+                    t("common.noReason", "No reason provided")
                   )
                 : "-"
             }
@@ -277,7 +283,7 @@ function renderUsers(list) {
                 type="button"
                 onclick="editUser(${user.id})"
               >
-                Edit
+                ${t("common.edit", "Edit")}
               </button>
 
               ${accountAction}
@@ -337,13 +343,13 @@ function openFreezeModal(userId) {
   );
 
   if (!selectedUser) {
-    showMessage("User could not be found.");
+    showMessage(t("adminusers.notFound", "User could not be found."));
     return;
   }
 
   if (selectedUser.role === "ADMIN") {
     showMessage(
-      "Administrator accounts cannot be frozen."
+      t("adminusers.adminNoFreeze", "Administrator accounts cannot be frozen.")
     );
     return;
   }
@@ -351,7 +357,9 @@ function openFreezeModal(userId) {
   selectedFreezeUserId = userId;
 
   freezeUserText.textContent =
-    `You are about to freeze ${selectedUser.fullName || selectedUser.email}.`;
+    t("adminusers.aboutToFreeze", "You are about to freeze {name}.", {
+      name: selectedUser.fullName || selectedUser.email
+    });
 
   freezeReasonInput.value = "";
 
@@ -378,24 +386,24 @@ async function confirmFreezeUser() {
   const reason = freezeReasonInput.value.trim();
 
   if (!selectedFreezeUserId) {
-    showMessage("No user was selected.");
+    showMessage(t("adminusers.noneSelected", "No user was selected."));
     closeFreezeModal();
     return;
   }
 
   if (!reason) {
-    alert("Please enter a reason for freezing this account.");
+    alert(t("adminusers.reasonRequired", "Please enter a reason for freezing this account."));
     freezeReasonInput.focus();
     return;
   }
 
   if (reason.length > 500) {
-    alert("The freeze reason cannot exceed 500 characters.");
+    alert(t("adminusers.reasonTooLong", "The freeze reason cannot exceed 500 characters."));
     return;
   }
 
   confirmFreezeBtn.disabled = true;
-  confirmFreezeBtn.textContent = "Freezing...";
+  confirmFreezeBtn.textContent = t("adminusers.freezing", "Freezing...");
 
   try {
     const response = await authenticatedFetch(
@@ -415,16 +423,16 @@ async function confirmFreezeUser() {
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
-        data?.error ||
-        "Failed to freeze account."
+        bookyI18n.tm(data?.message) ||
+        bookyI18n.tm(data?.error) ||
+        t("adminusers.freezeError", "Failed to freeze account.")
       );
     }
 
     closeFreezeModal();
 
     showMessage(
-      data?.message || "Account frozen successfully.",
+      bookyI18n.tm(data?.message) || t("adminusers.frozenOk", "Account frozen successfully."),
       "success"
     );
 
@@ -433,11 +441,11 @@ async function confirmFreezeUser() {
     if (error.message === "Account frozen") return;
 
     showMessage(
-      error.message || "Could not freeze account."
+      error.message || t("adminusers.freezeError", "Could not freeze account.")
     );
   } finally {
     confirmFreezeBtn.disabled = false;
-    confirmFreezeBtn.textContent = "Freeze Account";
+    confirmFreezeBtn.textContent = t("adminusers.modal.confirm", "Freeze Account");
   }
 }
 
@@ -447,14 +455,14 @@ async function unfreezeUser(userId) {
   );
 
   if (!selectedUser) {
-    showMessage("User could not be found.");
+    showMessage(t("adminusers.notFound", "User could not be found."));
     return;
   }
 
   const confirmed = confirm(
-    `Unfreeze the account of ${
-      selectedUser.fullName || selectedUser.email
-    }?`
+    t("adminusers.unfreezeConfirm", "Unfreeze the account of {name}?", {
+      name: selectedUser.fullName || selectedUser.email
+    })
   );
 
   if (!confirmed) return;
@@ -473,14 +481,14 @@ async function unfreezeUser(userId) {
 
     if (!response.ok) {
       throw new Error(
-        data?.message ||
-        data?.error ||
-        "Failed to unfreeze account."
+        bookyI18n.tm(data?.message) ||
+        bookyI18n.tm(data?.error) ||
+        t("adminusers.unfreezeError", "Failed to unfreeze account.")
       );
     }
 
     showMessage(
-      data?.message || "Account unfrozen successfully.",
+      bookyI18n.tm(data?.message) || t("adminusers.unfrozenOk", "Account unfrozen successfully."),
       "success"
     );
 
@@ -489,7 +497,7 @@ async function unfreezeUser(userId) {
     if (error.message === "Account frozen") return;
 
     showMessage(
-      error.message || "Could not unfreeze account."
+      error.message || t("adminusers.unfreezeError", "Could not unfreeze account.")
     );
   }
 }

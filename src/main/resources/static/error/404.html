@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Page not found — Booky</title>
+  <title data-i18n="error.404.title">Page not found — Booky</title>
   <meta name="description" content="The page you're looking for doesn't exist or may have moved." />
   <meta name="robots" content="noindex, nofollow" />
 
@@ -14,6 +14,8 @@
   <meta name="theme-color" content="#7c5cff" />
 
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
 
   <style>
     .error-hero {
@@ -55,21 +57,23 @@
         <span class="logo-mark">📅</span>
         <span>Booky</span>
       </a>
+
+      <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
     </div>
   </header>
 
   <main class="container">
     <section class="error-hero">
       <div class="error-code">404</div>
-      <h1>This page took a day off</h1>
-      <p>
+      <h1 data-i18n="error.404.heading">This page took a day off</h1>
+      <p data-i18n="error.404.text">
         We couldn't find the page you were looking for. It may have been moved,
         renamed, or never existed.
       </p>
       <div class="error-ctas">
-        <a href="/index.html" class="btn btn-primary">Go home</a>
-        <a href="/browse.html" class="btn btn-ghost">Browse businesses</a>
-        <a href="/faq.html" class="btn btn-ghost">Visit FAQ</a>
+        <a href="/index.html" class="btn btn-primary" data-i18n="error.home">Go home</a>
+        <a href="/browse.html" class="btn btn-ghost" data-i18n="error.404.browse">Browse businesses</a>
+        <a href="/faq.html" class="btn btn-ghost" data-i18n="error.404.faq">Visit FAQ</a>
       </div>
     </section>
   </main>

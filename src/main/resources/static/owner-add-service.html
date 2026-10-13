@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Add Service — Booky</title>
+  <title data-i18n="addservice.title">Add Service — Booky</title>
   <meta name="description" content="Add a new service to your business on Booky." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -15,6 +15,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -33,32 +35,32 @@
     <nav class="sidebar-nav">
       <a href="dashboard.html" class="sidebar-link">
         <span class="ico">🏠</span>
-        <span>Dashboard</span>
+        <span data-i18n="nav.dashboard">Dashboard</span>
       </a>
 
       <a href="admin-add-business.html" class="sidebar-link">
         <span class="ico">➕</span>
-        <span>Add Business</span>
+        <span data-i18n="menu.addBusiness">Add Business</span>
       </a>
 
       <a href="owner-add-service.html" class="sidebar-link active">
         <span class="ico">🛠️</span>
-        <span>Add Service</span>
+        <span data-i18n="menu.addService">Add Service</span>
       </a>
 
       <a href="owner-bookings.html" class="sidebar-link">
         <span class="ico">📅</span>
-        <span>Booking Activity</span>
+        <span data-i18n="menu.bookingActivity">Booking Activity</span>
       </a>
 
       <a href="browse.html" class="sidebar-link">
         <span class="ico">🏢</span>
-        <span>Businesses</span>
+        <span data-i18n="dash.stat.businesses">Businesses</span>
       </a>
 
       <a href="profile.html" class="sidebar-link">
         <span class="ico">👤</span>
-        <span>Profile</span>
+        <span data-i18n="menu.profile">Profile</span>
       </a>
     </nav>
 
@@ -67,11 +69,13 @@
         <div class="avatar" id="avatarInitial">O</div>
         <div class="user-chip-info">
           <div class="user-chip-name" id="userName">Owner</div>
-          <div class="user-chip-role" id="userRole">OWNER</div>
+          <div class="user-chip-role" id="userRole" data-i18n="role.owner">OWNER</div>
         </div>
       </div>
 
-      <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+      <button type="button" class="btn btn-ghost btn-block btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+      <button class="btn btn-danger btn-block btn-sm" id="logoutBtn" data-i18n="nav.logout">
         Log out
       </button>
     </div>
@@ -80,17 +84,17 @@
   <main class="main-content">
     <div class="page-header">
       <div>
-        <span class="eyebrow">Owner Workspace</span>
-        <h1>Add Service 🛠️</h1>
-        <p>Create services for your business so clients can book appointments.</p>
+        <span class="eyebrow" data-i18n="dash.owner.actionsTitle">Owner Workspace</span>
+        <h1 data-i18n="addservice.heading">Add Service 🛠️</h1>
+        <p data-i18n="addservice.text">Create services for your business so clients can book appointments.</p>
       </div>
     </div>
 
     <section class="glass-card admin-section">
       <div class="admin-section-header">
         <div>
-          <h2>New Service</h2>
-          <p>Select one of your businesses and add a bookable service.</p>
+          <h2 data-i18n="addservice.new">New Service</h2>
+          <p data-i18n="addservice.newText">Select one of your businesses and add a bookable service.</p>
         </div>
       </div>
 
@@ -99,33 +103,33 @@
       <form id="serviceForm" class="form-grid">
 
         <div class="form-group">
-          <label for="businessId">Business</label>
+          <label for="businessId" data-i18n="common.business">Business</label>
           <select id="businessId" required>
-            <option value="">Loading your businesses...</option>
+            <option value="" data-i18n="ownerservices.loadingBusinesses">Loading your businesses...</option>
           </select>
         </div>
 
         <div class="form-group">
-          <label for="name">Service Name</label>
-          <input type="text" id="name" placeholder="Example: Haircut" required />
+          <label for="name" data-i18n="addservice.name">Service Name</label>
+          <input type="text" id="name" placeholder="Example: Haircut" data-i18n-attr="placeholder:addservice.namePlaceholder" required />
         </div>
 
         <div class="form-group">
-          <label for="description">Description</label>
-          <textarea id="description" placeholder="Describe the service..." required></textarea>
+          <label for="description" data-i18n="common.description">Description</label>
+          <textarea id="description" placeholder="Describe the service..." data-i18n-attr="placeholder:addservice.descPlaceholder" required></textarea>
         </div>
 
         <div class="form-group">
-          <label for="durationMinutes">Duration Minutes</label>
+          <label for="durationMinutes" data-i18n="addservice.duration">Duration Minutes</label>
           <input type="number" id="durationMinutes" placeholder="30" min="1" required />
         </div>
 
         <div class="form-group">
-          <label for="price">Price</label>
+          <label for="price" data-i18n="common.price">Price</label>
           <input type="number" id="price" placeholder="10" min="1" step="0.01" required />
         </div>
 
-        <button type="submit" class="btn btn-primary">
+        <button type="submit" class="btn btn-primary" data-i18n="menu.addService">
           Add Service
         </button>
 

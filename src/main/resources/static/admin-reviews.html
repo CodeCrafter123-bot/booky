@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Admin Reviews — Booky</title>
+  <title data-i18n="adminreviews.title">Admin Reviews — Booky</title>
   <meta name="description" content="Moderate reviews across Booky." />
   <meta name="robots" content="noindex, nofollow" />
 
@@ -15,6 +15,8 @@
   <meta name="theme-color" content="#7c5cff" />
 
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
   <link rel="stylesheet" href="/css/admin-reviews.css" />
@@ -24,25 +26,27 @@
 
   <header class="navbar">
     <div class="navbar-inner">
-      <a href="dashboard.html" class="logo" aria-label="Booky dashboard">
+      <a href="dashboard.html" class="logo" aria-label="Booky dashboard" data-i18n-attr="aria-label:ownerservices.logoLabel">
         <span class="logo-mark" aria-hidden="true">📅</span>
         <span>Booky</span>
       </a>
 
-      <nav class="nav-links" aria-label="Account navigation">
-        <a href="dashboard.html" class="btn btn-ghost btn-sm">
+      <nav class="nav-links" aria-label="Account navigation" data-i18n-attr="aria-label:adminreviews.navLabel">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">
           Dashboard
         </a>
 
-        <a href="admin-users.html" class="btn btn-ghost btn-sm">
+        <a href="admin-users.html" class="btn btn-ghost btn-sm" data-i18n="menu.usersShort">
           Users
         </a>
+
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
 
         <button
           id="logoutBtn"
           type="button"
           class="btn btn-danger btn-sm"
-        >
+        data-i18n="nav.logout">
           Log out
         </button>
       </nav>
@@ -51,9 +55,9 @@
 
   <main class="container reviews-main">
     <header class="reviews-heading">
-      <span class="eyebrow">Admin workspace</span>
-      <h1>Review Management</h1>
-      <p>Read customer feedback and remove inappropriate reviews.</p>
+      <span class="eyebrow" data-i18n="adminreviews.eyebrow">Admin workspace</span>
+      <h1 data-i18n="menu.reviewManagement">Review Management</h1>
+      <p data-i18n="adminreviews.text">Read customer feedback and remove inappropriate reviews.</p>
     </header>
 
     <div
@@ -70,25 +74,25 @@
     >
       <div class="reviews-toolbar">
         <div>
-          <h2 id="reviewsListTitle">Customer reviews</h2>
-          <p id="reviewCount" aria-live="polite">
+          <h2 id="reviewsListTitle" data-i18n="adminreviews.listTitle">Customer reviews</h2>
+          <p id="reviewCount" aria-live="polite" data-i18n="details.reviews.loading">
             Loading reviews...
           </p>
         </div>
 
         <div class="reviews-search">
-          <label for="searchInput">Search feedback</label>
+          <label for="searchInput" data-i18n="adminreviews.search">Search feedback</label>
 
           <input
             id="searchInput"
             type="search"
-            placeholder="Business, client or comment"
+            placeholder="Business, client or comment" data-i18n-attr="placeholder:adminreviews.searchPlaceholder"
             autocomplete="off"
             aria-controls="reviewsTableBody"
             aria-describedby="reviewsSearchHint"
           />
 
-          <p id="reviewsSearchHint">
+          <p id="reviewsSearchHint" data-i18n="adminreviews.searchHint">
             You can also search by service, email, rating, or review ID.
           </p>
         </div>
@@ -98,24 +102,24 @@
         <table
           class="admin-table reviews-table"
           role="table"
-          aria-label="Customer reviews"
+          aria-label="Customer reviews" data-i18n-attr="aria-label:adminreviews.listTitle"
         >
           <thead role="rowgroup">
             <tr role="row">
-              <th scope="col">ID</th>
-              <th scope="col">Business</th>
-              <th scope="col">Service</th>
-              <th scope="col">Client</th>
-              <th scope="col">Rating</th>
-              <th scope="col">Comment</th>
-              <th scope="col">Date</th>
-              <th scope="col">Action</th>
+              <th scope="col" data-i18n="common.id">ID</th>
+              <th scope="col" data-i18n="common.business">Business</th>
+              <th scope="col" data-i18n="common.serviceCol">Service</th>
+              <th scope="col" data-i18n="common.client">Client</th>
+              <th scope="col" data-i18n="common.rating">Rating</th>
+              <th scope="col" data-i18n="review.comment">Comment</th>
+              <th scope="col" data-i18n="common.date">Date</th>
+              <th scope="col" data-i18n="common.action">Action</th>
             </tr>
           </thead>
 
           <tbody id="reviewsTableBody" role="rowgroup">
             <tr>
-              <td colspan="8">Loading reviews...</td>
+              <td colspan="8" data-i18n="details.reviews.loading">Loading reviews...</td>
             </tr>
           </tbody>
         </table>

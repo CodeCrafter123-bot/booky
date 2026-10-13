@@ -17,7 +17,7 @@
   flex-shrink: 0;
   background: rgba(13, 18, 32, 0.78);
   backdrop-filter: blur(20px);
-  border-right: 1px solid var(--line);
+  border-inline-end: 1px solid var(--line);
   padding: var(--sp-5);
   display: flex;
   flex-direction: column;
@@ -37,7 +37,7 @@
   letter-spacing: 0.08em;
   color: var(--grey-500);
   margin: var(--sp-5) 0 var(--sp-2);
-  padding-left: var(--sp-3);
+  padding-inline-start: var(--sp-3);
 }
 
 .sidebar-nav {
@@ -459,7 +459,7 @@
 .profile-row span {
   color: var(--grey-300);
   font-weight: 700;
-  text-align: right;
+  text-align: end;
   overflow-wrap: anywhere;
 }
 
@@ -752,7 +752,7 @@
   }
 
   .profile-row span {
-    text-align: left;
+    text-align: start;
   }
 }
 
@@ -893,7 +893,7 @@
 .admin-table th,
 .admin-table td {
   padding: 15px 14px;
-  text-align: left;
+  text-align: start;
   border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
@@ -1265,7 +1265,7 @@
 
 .review-character-count {
   margin: 7px 0 0;
-  text-align: right;
+  text-align: end;
   color: #64748b;
   font-size: 0.82rem;
 }
@@ -1339,7 +1339,7 @@
   content: "";
   position: absolute;
   top: -80px;
-  right: -65px;
+  inset-inline-end: -65px;
   width: 220px;
   height: 220px;
   border-radius: 50%;
@@ -1826,7 +1826,7 @@
   justify-content: center;
   flex-direction: column;
   gap: 8px;
-  text-align: right;
+  text-align: end;
 }
 
 .recent-booking-time {
@@ -1997,7 +1997,7 @@
     align-items: flex-start;
     flex-direction: row;
     justify-content: space-between;
-    text-align: left;
+    text-align: start;
   }
 
   .popular-service-main {
@@ -2170,4 +2170,26 @@
   .analytics-stat-note {
     font-size: 0.72rem;
   }
+}
+
+/* ===================== LANGUAGE TOGGLE / RIGHT-TO-LEFT ===================== */
+
+.sidebar-footer .lang-toggle {
+  margin-bottom: var(--sp-2);
+}
+
+[dir="rtl"] .action-arrow {
+  transform: scaleX(-1);
+}
+
+[dir="rtl"] .action-card:hover .action-arrow {
+  transform: scaleX(-1) translateX(4px);
+}
+
+[dir="rtl"] :is(.sidebar-link, .analytics-panel-link):hover {
+  transform: translateX(-2px);
+}
+
+[dir="rtl"] .popular-service-row:hover {
+  transform: translateX(-3px);
 }

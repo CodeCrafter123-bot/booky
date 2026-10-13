@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Admin Users — Booky</title>
+  <title data-i18n="adminusers.title">Admin Users — Booky</title>
   <meta name="description" content="Manage user accounts on Booky." />
   <meta name="robots" content="noindex, nofollow" />
 
@@ -15,6 +15,8 @@
   <meta name="theme-color" content="#7c5cff" />
 
   <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="/css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 
@@ -26,21 +28,23 @@
 
   <header class="navbar">
     <div class="navbar-inner">
-      <a href="dashboard.html" class="logo" aria-label="Booky dashboard">
+      <a href="dashboard.html" class="logo" aria-label="Booky dashboard" data-i18n-attr="aria-label:ownerservices.logoLabel">
         <span class="logo-mark" aria-hidden="true">📅</span>
         <span>Booky</span>
       </a>
 
-      <nav class="nav-links" aria-label="Account navigation">
-        <a href="dashboard.html" class="btn btn-ghost btn-sm">
+      <nav class="nav-links" aria-label="Account navigation" data-i18n-attr="aria-label:adminreviews.navLabel">
+        <a href="dashboard.html" class="btn btn-ghost btn-sm" data-i18n="nav.dashboard">
           Dashboard
         </a>
+
+        <button type="button" class="btn btn-ghost btn-sm lang-toggle" data-lang-toggle>العربية</button>
 
         <button
           id="logoutBtn"
           type="button"
           class="btn btn-danger btn-sm"
-        >
+        data-i18n="nav.logout">
           Log out
         </button>
       </nav>
@@ -50,9 +54,9 @@
   <main class="container users-main">
 
     <header class="users-heading">
-      <span class="eyebrow">Admin workspace</span>
-      <h1>User Management</h1>
-      <p>Find accounts, update user details, and manage account access.</p>
+      <span class="eyebrow" data-i18n="adminreviews.eyebrow">Admin workspace</span>
+      <h1 data-i18n="adminusers.heading">User Management</h1>
+      <p data-i18n="adminusers.text">Find accounts, update user details, and manage account access.</p>
     </header>
 
     <div
@@ -69,24 +73,24 @@
     >
       <div class="admin-users-top">
         <div class="users-list-heading">
-          <h2 id="usersListTitle">All users</h2>
-          <p id="userCount" aria-live="polite">Loading users...</p>
+          <h2 id="usersListTitle" data-i18n="adminusers.all">All users</h2>
+          <p id="userCount" aria-live="polite" data-i18n="adminusers.loading">Loading users...</p>
         </div>
 
         <div class="users-search-field">
-          <label for="searchInput">Search accounts</label>
+          <label for="searchInput" data-i18n="adminusers.search">Search accounts</label>
 
           <input
             type="search"
             id="searchInput"
             class="admin-search"
-            placeholder="Name, email, phone or role"
+            placeholder="Name, email, phone or role" data-i18n-attr="placeholder:adminusers.searchPlaceholder"
             autocomplete="off"
             aria-controls="usersTableBody"
             aria-describedby="usersSearchHint"
           />
 
-          <p id="usersSearchHint">
+          <p id="usersSearchHint" data-i18n="adminusers.searchHint">
             You can also search by ID, active, or frozen.
           </p>
         </div>
@@ -96,24 +100,24 @@
         <table
           class="admin-table"
           role="table"
-          aria-label="Booky user accounts"
+          aria-label="Booky user accounts" data-i18n-attr="aria-label:adminusers.tableLabel"
         >
           <thead role="rowgroup">
             <tr role="row">
-              <th scope="col">ID</th>
-              <th scope="col">Full name</th>
-              <th scope="col">Email</th>
-              <th scope="col">Phone</th>
-              <th scope="col">Role</th>
-              <th scope="col">Status</th>
-              <th scope="col">Freeze reason</th>
-              <th scope="col">Actions</th>
+              <th scope="col" data-i18n="common.id">ID</th>
+              <th scope="col" data-i18n="auth.fullName">Full name</th>
+              <th scope="col" data-i18n="auth.email">Email</th>
+              <th scope="col" data-i18n="common.phone">Phone</th>
+              <th scope="col" data-i18n="dash.stat.role">Role</th>
+              <th scope="col" data-i18n="common.status">Status</th>
+              <th scope="col" data-i18n="adminusers.freezeReason">Freeze reason</th>
+              <th scope="col" data-i18n="common.actions">Actions</th>
             </tr>
           </thead>
 
           <tbody id="usersTableBody" role="rowgroup">
             <tr>
-              <td colspan="8">Loading users...</td>
+              <td colspan="8" data-i18n="adminusers.loading">Loading users...</td>
             </tr>
           </tbody>
         </table>
@@ -136,15 +140,15 @@
     >
       <div class="admin-modal-head">
         <div>
-          <span class="eyebrow">Account access</span>
-          <h2 id="freezeModalTitle">Freeze account</h2>
+          <span class="eyebrow" data-i18n="adminusers.modal.eyebrow">Account access</span>
+          <h2 id="freezeModalTitle" data-i18n="adminusers.modal.title">Freeze account</h2>
         </div>
 
         <button
           type="button"
           id="closeFreezeModalBtn"
           class="modal-close-btn"
-          aria-label="Close freeze account dialog"
+          aria-label="Close freeze account dialog" data-i18n-attr="aria-label:adminusers.modal.close"
         >
           ×
         </button>
@@ -152,7 +156,7 @@
 
       <p id="freezeUserText" class="modal-user-text"></p>
 
-      <label class="freeze-reason-label" for="freezeReason">
+      <label class="freeze-reason-label" for="freezeReason" data-i18n="adminusers.modal.reason">
         Reason for freezing
       </label>
 
@@ -163,10 +167,10 @@
         maxlength="500"
         required
         aria-describedby="freezeReasonHint"
-        placeholder="Explain why this account is being frozen..."
+        placeholder="Explain why this account is being frozen..." data-i18n-attr="placeholder:adminusers.modal.placeholder"
       ></textarea>
 
-      <p id="freezeReasonHint" class="freeze-reason-hint">
+      <p id="freezeReasonHint" class="freeze-reason-hint" data-i18n="adminusers.modal.hint">
         Enter a clear reason. Maximum 500 characters.
       </p>
 
@@ -175,7 +179,7 @@
           type="button"
           id="cancelFreezeBtn"
           class="btn btn-ghost"
-        >
+        data-i18n="common.cancel">
           Cancel
         </button>
 
@@ -183,7 +187,7 @@
           type="button"
           id="confirmFreezeBtn"
           class="btn btn-danger"
-        >
+        data-i18n="adminusers.modal.confirm">
           Freeze Account
         </button>
       </div>

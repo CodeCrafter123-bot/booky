@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const token = localStorage.getItem("booky_token");
@@ -22,7 +24,7 @@ if (!token || !user) {
 }
 
 if (user.role !== "OWNER" && user.role !== "ADMIN") {
-  alert("Access denied. Owners only.");
+  alert(t("owner.ownersOnly", "Access denied. Owners only."));
   location.href = "dashboard.html";
 }
 
@@ -49,7 +51,7 @@ function showMessage(text, type = "error") {
 
 async function loadBusinesses() {
   try {
-    showMessage("Loading businesses...", "success");
+    showMessage(t("browse.loading", "Loading businesses..."), "success");
 
     const response = await fetch(`${API_URL}/businesses`, {
       method: "GET",
@@ -62,7 +64,7 @@ async function loadBusinesses() {
     console.log("All businesses:", businesses);
 
     if (!response.ok) {
-      throw new Error("Could not load businesses.");
+      throw new Error(t("browse.loadError", "Could not load businesses."));
     }
 
 const myBusinesses = businesses.filter((business) => {
@@ -79,12 +81,12 @@ const myBusinesses = businesses.filter((business) => {
     businessSelect.innerHTML = "";
 
     if (myBusinesses.length === 0) {
-      businessSelect.innerHTML = `<option value="">No businesses found</option>`;
-      showMessage("You need to add a business first.");
+      businessSelect.innerHTML = `<option value="">${t("browse.empty.title", "No businesses found")}</option>`;
+      showMessage(t("hours.needBusiness", "You need to add a business first."));
       return;
     }
 
-    businessSelect.innerHTML = `<option value="">Select business</option>`;
+    businessSelect.innerHTML = `<option value="">${t("hours.select", "Select business")}</option>`;
 
     myBusinesses.forEach((business) => {
       const option = document.createElement("option");
@@ -95,7 +97,7 @@ const myBusinesses = businesses.filter((business) => {
 
     showMessage("");
   } catch (error) {
-    showMessage(error.message || "Could not load businesses.");
+    showMessage(error.message || t("browse.loadError", "Could not load businesses."));
   }
 }
 
@@ -105,7 +107,7 @@ function renderDays() {
   const businessId = businessSelect.value;
 
   if (!businessId) {
-    hoursList.innerHTML = `<p class="muted">Select a business to manage hours.</p>`;
+    hoursList.innerHTML = `<p class="muted">${t("hours.selectHint", "Select a business to manage hours.")}</p>`;
     return;
   }
 
@@ -121,14 +123,14 @@ function renderDays() {
 
       <label class="hours-closed">
         <input type="checkbox" class="closed-input" data-day="${day}">
-        Closed
+        ${t("common.closed", "Closed")}
       </label>
 
       <input type="time" class="form-input open-input" data-day="${day}" value="09:00">
       <input type="time" class="form-input close-input" data-day="${day}" value="18:00">
 
       <button type="button" class="btn btn-primary btn-sm save-hours-btn" data-day="${day}">
-        Save
+        ${t("common.save", "Save")}
       </button>
     `;
 
@@ -162,7 +164,7 @@ async function loadExistingHours() {
     const hours = await response.json();
 
     if (!response.ok) {
-      throw new Error("Could not load existing hours.");
+      throw new Error(t("hours.loadError", "Could not load existing hours."));
     }
 
     hours.forEach((item) => {
@@ -188,7 +190,7 @@ async function loadExistingHours() {
     });
 
   } catch (error) {
-    showMessage(error.message || "Could not load existing hours.");
+    showMessage(error.message || t("hours.loadError", "Could not load existing hours."));
   }
 }
 
@@ -196,7 +198,7 @@ async function saveDayHours(day) {
   const businessId = businessSelect.value;
 
   if (!businessId) {
-    showMessage("Please select a business first.");
+    showMessage(t("hours.pickFirst", "Please select a business first."));
     return;
   }
 
@@ -218,7 +220,7 @@ async function saveDayHours(day) {
   }
 
   try {
-    showMessage(`Saving ${formatDay(day)}...`, "success");
+    showMessage(t("hours.saving", "Saving {day}...", { day: formatDay(day) }), "success");
 
     const response = await fetch(`${API_URL}/business-hours/save`, {
       method: "POST",
@@ -229,13 +231,13 @@ async function saveDayHours(day) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.message || `Could not save ${formatDay(day)}.`);
+      throw new Error(bookyI18n.tm(data.message) || t("hours.saveError", "Could not save {day}.", { day: formatDay(day) }));
     }
 
-    showMessage(`${formatDay(day)} hours saved successfully.`, "success");
+    showMessage(t("hours.saved", "{day} hours saved successfully.", { day: formatDay(day) }), "success");
 
   } catch (error) {
-    showMessage(error.message || `Could not save ${formatDay(day)}.`);
+    showMessage(error.message || t("hours.saveError", "Could not save {day}.", { day: formatDay(day) }));
   }
 }
 
@@ -250,5 +252,5 @@ function toggleClosed(day, closed) {
 }
 
 function formatDay(day) {
-  return day.charAt(0) + day.slice(1).toLowerCase();
+  return t(`day.${day}`, day.charAt(0) + day.slice(1).toLowerCase());
 }

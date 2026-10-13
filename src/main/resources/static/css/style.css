@@ -3,7 +3,7 @@
    Global design system, base elements, shared components
    =========================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Cairo:wght@400;500;600;700;800&display=swap');
 
 :root {
   --navy-950: #090c16;
@@ -475,7 +475,7 @@ h4 {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b93b3' stroke-width='1.5' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 16px center;
-  padding-right: 40px;
+  padding-inline-end: 40px;
 }
 
 .password-field {
@@ -483,12 +483,12 @@ h4 {
 }
 
 .password-field .form-input {
-  padding-right: 72px;
+  padding-inline-end: 72px;
 }
 
 .password-toggle {
   position: absolute;
-  right: 14px;
+  inset-inline-end: 14px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--grey-400);
@@ -563,7 +563,7 @@ h4 {
 .toast {
   position: fixed;
   bottom: var(--sp-5);
-  right: var(--sp-5);
+  inset-inline-end: var(--sp-5);
   z-index: 1000;
   padding: var(--sp-3) var(--sp-5);
   border-radius: var(--r-sm);
@@ -673,6 +673,18 @@ h4 {
 
 .auth-back:hover {
   color: var(--white);
+}
+
+.auth-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-5);
+}
+
+.auth-top .auth-back {
+  margin-bottom: 0;
 }
 
 .auth-card {
@@ -1297,7 +1309,7 @@ h4 {
   justify-content: flex-start;
   gap: 10px;
   width: 100%;
-  text-align: left;
+  text-align: start;
 }
 
 #registerForm .checkbox-row input[type="checkbox"] {
@@ -1322,6 +1334,57 @@ h4 {
 /* Align the account notice with the form fields */
 #registerForm > .auth-subtitle {
   margin: 0;
-  text-align: left;
+  text-align: start;
   line-height: 1.6;
+}
+
+/* ===========================================================
+   ARABIC / RIGHT-TO-LEFT
+   Set by js/i18n.js via <html lang="ar" dir="rtl">
+   =========================================================== */
+
+:root[lang="ar"] {
+  --font-display: 'Cairo', 'Sora', sans-serif;
+  --font-body: 'Cairo', 'Inter', sans-serif;
+  --font-mono: 'JetBrains Mono', 'Cairo', monospace;
+}
+
+/* Names, descriptions and comments typed by users may be in either language;
+   let each one follow its own direction while staying aligned with the page. */
+[dir="rtl"] :is(
+  .item-card h3, .item-desc, .business-description, #businessName,
+  .reviewer-name, .review-comment, .service-information h3,
+  .service-information p, .submitted-review p, .user-chip-name,
+  .recent-booking-details > *, .booking-details span,
+  .popular-service-row strong, .review-business, .review-card h3,
+  .admin-item h3, .admin-item p, .admin-list-item h3, .admin-list-item p,
+  .admin-table td, .admin-review-comment, .freeze-reason-cell
+) {
+  unicode-bidi: plaintext;
+  text-align: right;
+}
+
+/* Letter spacing breaks the joins between Arabic letters. */
+:root[lang="ar"] * {
+  letter-spacing: 0 !important;
+}
+
+:root[lang="ar"] :is(h1, h2, h3, h4),
+:root[lang="ar"] .hero h1 {
+  line-height: 1.4;
+}
+
+[dir="rtl"] .form-select {
+  background-position: left 16px center;
+}
+
+/* Phone numbers read left to right but still sit on the right edge. */
+[dir="rtl"] input[type="tel"] {
+  direction: ltr;
+  text-align: right;
+}
+
+/* Hide the English markup until js/i18n.js has swapped in the Arabic text. */
+.i18n-pending body {
+  visibility: hidden;
 }

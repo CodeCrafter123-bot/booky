@@ -1,3 +1,5 @@
+const t = window.bookyI18n.start();
+
 const API_URL = "";
 
 const logoutBtn = document.getElementById("logoutBtn");
@@ -56,14 +58,16 @@ function loadProfile() {
   fullNameInput.value = fullName;
   emailInput.value = email;
   phoneInput.value = phone;
-  roleInput.value = role;
+  roleInput.value = t(`role.${role.toLowerCase()}`, role);
 
   summaryName.textContent = fullName || "-";
   summaryEmail.textContent = email || "-";
   summaryPhone.textContent = phone || "-";
-  summaryRole.textContent = role || "-";
+  summaryRole.textContent = role ? t(`role.${role.toLowerCase()}`, role) : "-";
 
-  profileTitle.textContent = fullName ? `Hello, ${fullName}` : "My Profile";
+  profileTitle.textContent = fullName
+    ? t("profile.hello", "Hello, {name}", { name: fullName })
+    : t("profile.heading", "My Profile");
   profileAvatar.textContent = fullName ? fullName.charAt(0).toUpperCase() : "U";
 
   showMessage("");
@@ -77,12 +81,12 @@ async function updateProfile(event) {
   const phone = phoneInput.value.trim();
 
   if (!fullName || !email || !phone) {
-    showMessage("Full name, email, and phone number are required.");
+    showMessage(t("profile.required", "Full name, email, and phone number are required."));
     return;
   }
 
   saveBtn.disabled = true;
-  saveBtn.textContent = "Saving...";
+  saveBtn.textContent = t("common.saving", "Saving...");
   showMessage("");
 
   try {
@@ -102,7 +106,7 @@ async function updateProfile(event) {
     const data = await response.json().catch(() => null);
 
     if (!response.ok) {
-      throw new Error(data?.message || "Failed to update profile.");
+      throw new Error(bookyI18n.tm(data?.message) || t("profile.updateError", "Failed to update profile."));
     }
 
     user = {
@@ -113,11 +117,11 @@ async function updateProfile(event) {
     localStorage.setItem("booky_user", JSON.stringify(user));
 
     loadProfile();
-    showMessage("Profile updated successfully.", "success");
+    showMessage(t("profile.updated", "Profile updated successfully."), "success");
   } catch (error) {
-    showMessage(error.message || "Something went wrong.");
+    showMessage(error.message || t("common.error", "Something went wrong."));
   } finally {
     saveBtn.disabled = false;
-    saveBtn.textContent = "Save Changes";
+    saveBtn.textContent = t("common.saveChanges", "Save Changes");
   }
 }

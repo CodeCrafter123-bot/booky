@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Panel — Booky</title>
+  <title data-i18n="admin.title">Admin Panel — Booky</title>
   <meta name="description" content="Booky admin panel." />
   <meta name="robots" content="noindex, nofollow" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -14,6 +14,8 @@
 
 
   <link rel="stylesheet" href="css/style.css" />
+  <script src="/js/i18n/ar.js"></script>
+  <script src="/js/i18n.js"></script>
   <link rel="stylesheet" href="css/dashboard.css" />
   <link rel="stylesheet" href="/css/responsive.css" />
 </head>
@@ -34,32 +36,32 @@
 
       <a href="dashboard.html" class="sidebar-link">
         <span class="ico">🏠</span>
-        <span>Dashboard</span>
+        <span data-i18n="nav.dashboard">Dashboard</span>
       </a>
 
       <a href="admin.html" class="sidebar-link active">
         <span class="ico">🛡️</span>
-        <span>Admin Panel</span>
+        <span data-i18n="menu.adminPanel">Admin Panel</span>
       </a>
 
       <a href="admin-add-business.html" class="sidebar-link">
         <span class="ico">➕</span>
-        <span>Add Business</span>
+        <span data-i18n="menu.addBusiness">Add Business</span>
       </a>
 
       <a href="admin-bookings.html" class="sidebar-link">
         <span class="ico">📅</span>
-        <span>All Bookings</span>
+        <span data-i18n="menu.allBookings">All Bookings</span>
       </a>
 
       <a href="browse.html" class="sidebar-link">
         <span class="ico">🏢</span>
-        <span>Businesses</span>
+        <span data-i18n="dash.stat.businesses">Businesses</span>
       </a>
 
       <a href="profile.html" class="sidebar-link">
         <span class="ico">👤</span>
-        <span>Profile</span>
+        <span data-i18n="menu.profile">Profile</span>
       </a>
 
     </nav>
@@ -71,11 +73,13 @@
 
         <div class="user-chip-info">
           <div class="user-chip-name" id="userName">Admin</div>
-          <div class="user-chip-role" id="userRole">ADMIN</div>
+          <div class="user-chip-role" id="userRole" data-i18n="role.admin">ADMIN</div>
         </div>
       </div>
 
-      <button class="btn btn-danger btn-block btn-sm" id="logoutBtn">
+      <button type="button" class="btn btn-ghost btn-block btn-sm lang-toggle" data-lang-toggle>العربية</button>
+
+      <button class="btn btn-danger btn-block btn-sm" id="logoutBtn" data-i18n="nav.logout">
         Log out
       </button>
 
@@ -88,16 +92,16 @@
     <div class="page-header">
 
       <div>
-        <span class="eyebrow">Booky Control Center</span>
+        <span class="eyebrow" data-i18n="admin.eyebrow">Booky Control Center</span>
 
-        <h1>Admin Panel 🛡️</h1>
+        <h1 data-i18n="admin.heading">Admin Panel 🛡️</h1>
 
-        <p>
+        <p data-i18n="admin.text">
           Monitor businesses, bookings and platform activity using your backend APIs.
         </p>
       </div>
 
-      <a href="admin-add-business.html" class="btn btn-primary btn-sm">
+      <a href="admin-add-business.html" class="btn btn-primary btn-sm" data-i18n="admin.addBusiness">
         + Add Business
       </a>
 
@@ -106,18 +110,18 @@
     <section class="stat-grid">
 
       <div class="glass-card stat-card">
-        <div class="stat-label">Total Businesses</div>
+        <div class="stat-label" data-i18n="admin.totalBusinesses">Total Businesses</div>
         <div class="stat-value accent" id="totalBusinesses">0</div>
       </div>
 
       <div class="glass-card stat-card">
-        <div class="stat-label">Connected API</div>
-        <div class="stat-value" id="apiStatus">Checking...</div>
+        <div class="stat-label" data-i18n="admin.api">Connected API</div>
+        <div class="stat-value" id="apiStatus" data-i18n="admin.checking">Checking...</div>
       </div>
 
       <div class="glass-card stat-card">
-        <div class="stat-label">Current Role</div>
-        <div class="stat-value" id="currentRole">ADMIN</div>
+        <div class="stat-label" data-i18n="admin.currentRole">Current Role</div>
+        <div class="stat-value" id="currentRole" data-i18n="role.admin">ADMIN</div>
       </div>
 
     </section>
@@ -126,12 +130,12 @@
 
       <div class="admin-section-header">
         <div>
-          <h2>Recent Businesses</h2>
+          <h2 data-i18n="admin.recent">Recent Businesses</h2>
            
-          <p>The latest businesses on the platform.</p>
+          <p data-i18n="admin.recentText">The latest businesses on the platform.</p>
         </div>
 
-        <button class="btn btn-ghost btn-sm" id="refreshBtn">
+        <button class="btn btn-ghost btn-sm" id="refreshBtn" data-i18n="common.refresh">
           Refresh
         </button>
 
@@ -154,8 +158,8 @@
   </div>
 
   <div>
-    <h3>Users Management</h3>
-    <p>View all users, edit profiles and manage roles.</p>
+    <h3 data-i18n="menu.users">Users Management</h3>
+    <p data-i18n="admin.usersDesc">View all users, edit profiles and manage roles.</p>
   </div>
 
 </a>
@@ -168,8 +172,8 @@
         </div>
 
         <div>
-          <h3>All Bookings</h3>
-          <p>Review, approve and decline client bookings.</p>
+          <h3 data-i18n="menu.allBookings">All Bookings</h3>
+          <p data-i18n="dash.admin.bookingsDesc">Review, approve and decline client bookings.</p>
         </div>
 
       </a>
@@ -182,8 +186,8 @@
         </div>
 
         <div>
-          <h3>Platform Statistics</h3>
-          <p>Coming soon.</p>
+          <h3 data-i18n="menu.platformStats">Platform Statistics</h3>
+          <p data-i18n="common.comingSoon">Coming soon.</p>
         </div>
 
       </div>
